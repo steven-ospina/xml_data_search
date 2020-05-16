@@ -150,6 +150,3 @@ class Data:
             os.system('clear')
         elif os.name == 'ce' or os.name == 'nt' or os.name == 'dos':
             os.system('cls')
-
-# datos = Csv('mediano.csv')
-# reultado = datos.datos_in_list()

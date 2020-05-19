@@ -1,33 +1,37 @@
-import csv 
-import os
+import xml.etree.ElementTree as ET
+import csv, os 
+from copy import deepcopy
 
 class Data:
 
-    def __init__(self):
+    def __init__(self, name_file = "", name_file_xml = ""):
         self.data_array_xml = []
-        self.final_data = []
         self.data_array_csv = []
+        self.data_index_xml = []
         self.files = []
         self.flag = True
         self.reading_method = 'r'
         self.write_method = 'w'
-        self.name_file = ''
-        self.count = 0
-        self.count2 = 0
-        self.count3 = 0
-        self.count4 = 0
+        self.name_file = name_file
+        self.name_file_xml = name_file_xml
+
     #metodo encargado de escribir los archivos en el sistema
-    def write_file(self, final_data):
-        self.name_file = str(input(f"nombre del archivo\n:"))
-        self.final_data = ' '.join(map(str, self.final_data))
+    def write_file_xml(self):
+        print("recuerda poner al final del nombre la extension *.xml")
+        self.name_file_xml = str(input(f"nombre del archivo\n:"))
         try:
-            with open(self.name_file, self.write_method) as write_file:
-                write_file.write(self.final_data)
-            print(f"Se acredo el archivo {self.name_file}, con sus datos")
-        except:
-            print('no se pudo escribrir el archivo')
+            respuesta = str(input(f"El nombre del archivo es: {self.name_file_xml} \n [si] o [no]\n:"))
+            if respuesta.lower() == 'si':
+                self.name_file_xml = self.name_file_xml
+            else:
+                print('El nombre del archivo es incorrecto\n')
+        except ValueError as error:
+            print('Error: ', error)
+
+        return self.name_file_xml
     #metodo encargado de leer los datos que están en el archivo csv
-    def csv_data_list(self, name_file):
+    def csv_data_list(self,name_file):
+
         try:
             with open(self.name_file, self.reading_method) as (File):
                 reader = csv.reader(File)
@@ -38,65 +42,67 @@ class Data:
             print(f"\nTotal: {len(self.data_array_csv)} datos\n")
         except Exception as e:
             print('no se pudo cargar los datos del csv', e)
+        
+        self.name_file = "" 
 
         return self.data_array_csv
-    #metodo encargado de leer el archivo xml
+
+    #metodo para buscar los todos los numeros en el xml a consular
     def xml_data_list(self, name_file):
+
+        root = ET.parse(self.name_file).getroot()
+
+        for child in root.findall(f"./OBLIGACION/ENCABEZADO"):
+            estado = child.find('ESTADOCUENTA').text
+            self.data_array_xml.append(estado)
+
+        print(f"\nTotal estados de cuenta xml: {len(self.data_array_xml)}\n")
+
+        return self.data_array_xml
+
+    #metodo encargado de buscar el index en la lista de los datos consultados en el xml
+    def search_the_index_in_the_list(self):
+        max_lent_search = len(self.data_array_csv)
+
         try:
-            with open(self.name_file, self.reading_method) as (data_xml):
-                extracted_data = data_xml.readlines()
-                max_lend_xml = len(extracted_data)
-                for i in range(max_lend_xml):
-                    data_with_new_line = extracted_data[i].rstrip('\n')
-                    self.data_array_xml.append(data_with_new_line)
 
-            print(f"\nTotal lineas xml: {len(self.data_array_xml)}\n")
-        except:
-            print('no se pudo obtener datos')
-    #metodo encargado de consultar y armar todos los datos del xml
-    def search_data_xml(self, data_array_xml, data_array_csv):
+            for i in range(max_lent_search):
+                data_only = self.data_array_csv[i]
+                index_list = self.data_array_xml.index(data_only)
+                self.data_index_xml.append(index_list)
+
+            print(f"\nTotal datos: {len(self.data_index_xml)}\n")
+
+        except Exception as error:
+            print("error: ", error) 
+
+        return self.data_index_xml
+
+
+    # #metodo encargado de consultar y armar todos los datos del xml
+    def build_xml(self,name_file, name_file_xml):
         try:
-            self.final_data.insert(0, self.data_array_xml[0])
-            self.final_data.insert(1, self.data_array_xml[1])
-        except:
-            print('verifica que los datos xml esten cargado en el sistema')
+            ESTADODECUENTA = ET.Element('ESTADODECUENTA')
+            ET.dump(ESTADODECUENTA)
+            root_fie_new = ET.ElementTree(ESTADODECUENTA).write(self.name_file_xml, encoding="UTF-8", xml_declaration=True)
 
-        max_index_data = len(self.data_array_xml) - 1
-        while self.count <= max_index_data:
-            self.flag = True
-            only_one_data = self.data_array_xml[self.count]
-            obligation = '<OBLIGACION>' in only_one_data
-            try:
-                if obligation == True:
-                    self.count2 = self.count + 2
-                    account_status = self.data_array_csv[self.count3] in self.data_array_xml[self.count2]
-                    if account_status == True:
-                        while self.flag:
-                            self.final_data.append(only_one_data)
-                            self.count = self.count + 1
-                            obligation_end = '</OBLIGACION>' in self.data_array_xml[self.count]
-                            only_one_data = self.data_array_xml[self.count]
-                            if obligation_end == True:
-                                self.final_data.append(only_one_data)
-                                self.count2 = 0
-                                self.flag = False
-                                self.data_array_csv.pop(0)
-                                self.count = 0
-                                self.count4 = self.count4 + 1
-                                continue
+            root_source_file = ET.parse(self.name_file).getroot()
+            tree = ET.parse(self.name_file_xml).getroot()
 
-                max_index_data_csv = len(self.data_array_csv)
-                if max_index_data_csv == 0:
-                    self.flag = True
-                    self.final_data.append(self.data_array_xml[(-1)])
-                    print(f"\nTotal datos xml: {self.count4}\n")
-                    self.count4 = 0
-                    self.data_array_xml.clear()
-                    break
-            except Exception as error:
-                print('error:', error)
+            for i in self.data_index_xml:
+                obligacion_source_file = root_source_file[i]
 
-            self.count = self.count + 1
+                obligacion_copy = deepcopy(obligacion_source_file)
+
+                tree.append(obligacion_copy)
+
+                root_fie_new = ET.ElementTree(tree).write(self.name_file_xml, encoding="UTF-8", xml_declaration=True)
+        except Exception as error:
+            print("error al escribir el archivo", error)
+
+        print(f"\nTotal datos: {len(self.data_array_xml)}\n")
+        self.name_file = ""
+
     #metodo encargado de obtener el directorio de trabajo donde esta el proyecto y sus archivos
     def get_the_current_working_directory(self):
         cwd = os.getcwd()
@@ -106,6 +112,7 @@ class Data:
             print(f"[{key}]-{self.files[key]}")
 
         return self.files
+
     #metodo encargado de seleccionar el archivo a trabajar
     def send_data_in_list(self):
         self.get_the_current_working_directory()
@@ -118,35 +125,48 @@ class Data:
                 print('Busca el archivo correcto\n')
         except ValueError as error:
             print('no es un numero,', error)
+
+        return self.name_file
+
     #methodo que imprime el menu que tiene el sistema
     def menu(self):
         while self.flag:
-            print('[1]seleccionar archivo')
-            print('[2]cargar datos csv')
-            print('[3]cargar datos xml')
-            print('[4]buscar datos estados de cuenta')
-            print('[5]escribir archivo')
+            print('[1]cargar datos csv')
+            print('[2]cargar datos xml')
+            print('[3]buscar datos estados de cuenta')
+            print('[4]escribir archivo')
             print('[0]salir')
             commad = str(input('Que deseas hacer \n$:'))
             if commad == '1':
                 self.send_data_in_list()
-            elif commad == '2':
                 self.csv_data_list(self.name_file)
-            elif commad == '3':
+            elif commad == '2':
+                self.send_data_in_list()
                 self.xml_data_list(self.name_file)
+            elif commad == '3':
+                # self.search_data_xml(self.data_array_xml, self.data_array_csv)
+                self.search_the_index_in_the_list()
             elif commad == '4':
-                self.search_data_xml(self.data_array_xml, self.data_array_csv)
-            elif commad == '5':
-                self.write_file(self.final_data)
+                self.write_file_xml()
+                self.build_xml(self.name_file, self.name_file_xml)
             elif commad == '0':
                 self.indetificar_sistema()
                 self.flag = False
             else:
                 self.indetificar_sistema()
                 self.flag = False
+
     #metodo para identificar el sistema operativo para poder limpiar la consola
     def indetificar_sistema(self):
         if os.name == 'posix':
             os.system('clear')
         elif os.name == 'ce' or os.name == 'nt' or os.name == 'dos':
             os.system('cls')
+
+    #metodo para imprimir mensaje de inicio del scrip
+    def print_message(self):
+        print('B I E N V E N I D O\n')
+        print('Nota: verifica que en directorio del proyecto estén los archivos:')
+        print('[*.csv y *.xml]')
+        print('[Los datos del csv deben estar en una sola columna y solo numeros]')
+        print('[cargar un archivo csv y xml a la ves]\n')

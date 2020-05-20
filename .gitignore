@@ -4,3 +4,4 @@ datos-xml-final/
 *.xml
 *csv
 .idea/
+.vscode/

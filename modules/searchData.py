@@ -1,10 +1,11 @@
 import xml.etree.ElementTree as ET
 import csv, os 
 from copy import deepcopy
+# from sys import argv
 
 class Data:
 
-    def __init__(self, name_file = "", name_file_xml = ""):
+    def __init__(self):
         self.data_array_xml = []
         self.data_array_csv = []
         self.data_index_xml = []
@@ -12,8 +13,8 @@ class Data:
         self.flag = True
         self.reading_method = 'r'
         self.write_method = 'w'
-        self.name_file = name_file
-        self.name_file_xml = name_file_xml
+        self.name_file = ""
+        self.name_file_xml = ""
 
     #metodo encargado de escribir los archivos en el sistema
     def write_file_xml(self):
@@ -29,8 +30,11 @@ class Data:
             print('Error: ', error)
 
         return self.name_file_xml
+
     #metodo encargado de leer los datos que están en el archivo csv
     def csv_data_list(self,name_file):
+
+        self.name_file = name_file
 
         try:
             with open(self.name_file, self.reading_method) as (File):
@@ -39,7 +43,7 @@ class Data:
                     data_clean = ''.join(row)
                     self.data_array_csv.append(data_clean)
 
-            print(f"\nTotal: {len(self.data_array_csv)} datos\n")
+            print(f"\nTotal datos csv: {len(self.data_array_csv)}\n")
         except Exception as e:
             print('no se pudo cargar los datos del csv', e)
         
@@ -49,6 +53,8 @@ class Data:
 
     #metodo para buscar los todos los numeros en el xml a consular
     def xml_data_list(self, name_file):
+
+        self.name_file = name_file
 
         root = ET.parse(self.name_file).getroot()
 
@@ -61,7 +67,11 @@ class Data:
         return self.data_array_xml
 
     #metodo encargado de buscar el index en la lista de los datos consultados en el xml
-    def search_the_index_in_the_list(self):
+    def search_the_index_in_the_list(self, data_array_csv, data_array_xml):
+
+        self.data_array_csv = data_array_csv
+        self.data_array_xml = data_array_xml
+
         max_lent_search = len(self.data_array_csv)
 
         try:
@@ -80,7 +90,10 @@ class Data:
 
 
     # #metodo encargado de consultar y armar todos los datos del xml
-    def build_xml(self,name_file, name_file_xml):
+    def build_xml(self,name_file, name_file_xml, data_index_xml):
+        self.name_file = name_file
+        self.name_file_xml = name_file_xml
+        self.data_index_xml = data_index_xml
         try:
             ESTADODECUENTA = ET.Element('ESTADODECUENTA')
             ET.dump(ESTADODECUENTA)
@@ -100,7 +113,7 @@ class Data:
         except Exception as error:
             print("error al escribir el archivo", error)
 
-        print(f"\nTotal datos: {len(self.data_array_xml)}\n")
+        print(f"\nTotal datos: {len(self.data_index_xml)}\n")
         self.name_file = ""
 
     #metodo encargado de obtener el directorio de trabajo donde esta el proyecto y sus archivos
@@ -145,19 +158,19 @@ class Data:
                 self.xml_data_list(self.name_file)
             elif commad == '3':
                 # self.search_data_xml(self.data_array_xml, self.data_array_csv)
-                self.search_the_index_in_the_list()
+                self.search_the_index_in_the_list(self.data_array_csv, self.data_array_xml)
             elif commad == '4':
                 self.write_file_xml()
-                self.build_xml(self.name_file, self.name_file_xml)
+                self.build_xml(self.name_file, self.name_file_xml, self.data_index_xml)
             elif commad == '0':
-                self.indetificar_sistema()
+                self.identify_system()
                 self.flag = False
             else:
-                self.indetificar_sistema()
+                self.identify_system()
                 self.flag = False
 
     #metodo para identificar el sistema operativo para poder limpiar la consola
-    def indetificar_sistema(self):
+    def identify_system(self):
         if os.name == 'posix':
             os.system('clear')
         elif os.name == 'ce' or os.name == 'nt' or os.name == 'dos':
@@ -170,3 +183,19 @@ class Data:
         print('[*.csv y *.xml]')
         print('[Los datos del csv deben estar en una sola columna y solo numeros]')
         print('[cargar un archivo csv y xml a la ves]\n')
+
+    #
+    def print_message_help(self):
+        print("Descripcion: Buscador de datos xml\n")
+        print("positional arguments:")
+        print(" main.py file.csv file2.xml file3.xml\n")
+        print("optional arguments:")
+        print(" -h, --help  show this help message and exit")
+
+    #metodo para construir el archivo por medio de argumento por linea de comando
+    def build_xml_with_arguments(self, argv):
+        print(f"Archivos agregados: CSV: {argv[1]} XML: {argv[2]} Name-file: {argv[3]}")
+        self.csv_data_list(argv[1])
+        self.xml_data_list(argv[2])
+        self.search_the_index_in_the_list(self.data_array_csv, self.data_array_xml)
+        self.build_xml(argv[2], argv[3], self.data_index_xml)

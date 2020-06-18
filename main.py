@@ -3,7 +3,7 @@ from sys import argv
 
 
 def run():
-    arguments_lent= len(argv)
+    arguments_lent = len(argv)
 
     if arguments_lent >= 4:
         bulid_arguments = Data().build_xml_with_arguments(argv)

@@ -33,24 +33,20 @@ class Data:
         return self.name_file_xml
 
     # Método encargado de leer los datos que están en el archivo csv
-    def csv_data_list(self, name_file):
-        self.name_file = name_file
+    def get_csv_data_list(self, name_file):
         try:
-            with open(self.name_file, self.reading_method) as (File):
+            with open(name_file, self.reading_method) as (File):
                 reader = csv.reader(File)
                 self.data_array_csv = [''.join(x) for x in reader]
                 print(f"\nTotal datos csv: {len(self.data_array_csv)}\n")
         except Exception as error:
             print('No se pudo cargar los datos del csv', error)
 
-        self.name_file = ""
-
         return self.data_array_csv.sort()
 
     # Método para buscar los todos los números de estado de cuenta en el xml a consular
     def xml_data_list(self, name_file):
-        self.name_file = name_file
-        root = ET.parse(self.name_file).getroot()
+        root = ET.parse(name_file).getroot()
         self.data_array_xml = [x.find('ESTADOCUENTA').text for x in root.findall(f"./OBLIGACION/ENCABEZADO")]
         print(f"\nTotal estados de cuenta xml: {len(self.data_array_xml)}\n")
 
@@ -59,9 +55,7 @@ class Data:
     # Método encargado de buscar el index en la lista de los datos consultados en el xml
     def search_the_index_in_the_list(self, data_array_csv, data_array_xml):
         try:
-            self.data_array_csv = data_array_csv
-            self.data_array_xml = data_array_xml
-            self.data_index_xml = [self.data_array_xml.index(x) for x in self.data_array_csv]
+            self.data_index_xml = [data_array_xml.index(x) for x in data_array_csv]
             print(f"\nTotal datos encontrados: {len(self.data_index_xml)}\n")
         except Exception as error:
             print("Error, al buscar el index en el xml: ", error)
@@ -70,69 +64,63 @@ class Data:
 
     # Método encargado de consultar y construir todos los datos del xml
     def build_xml(self, name_file, name_file_xml, data_index_xml):
-        self.name_file = name_file
-        self.name_file_xml = name_file_xml
-        self.data_index_xml = data_index_xml
         try:
             ESTADODECUENTA = ET.Element('ESTADODECUENTA')
-            ET.dump(ESTADODECUENTA)
-            root_fie_new = ET.ElementTree(ESTADODECUENTA).write(self.name_file_xml, encoding="UTF-8", xml_declaration=True)
-            root_source_file = ET.parse(self.name_file).getroot()
-            tree = ET.parse(self.name_file_xml).getroot()
-            # tree = [deepcopy(root_source_file[x]) for x in self.data_index_xml]
+            root_fie_new = ET.ElementTree(ESTADODECUENTA).write(name_file_xml, encoding="UTF-8", xml_declaration=True)
+            root_source_file = ET.parse(name_file).getroot()
+            tree = ET.parse(name_file_xml).getroot()
+            counter = 0
             for i in self.data_index_xml:
                 obligacion_source_file = root_source_file[i]
                 obligacion_copy = deepcopy(obligacion_source_file)
                 tree.append(obligacion_copy)
-                root_fie_new = ET.ElementTree(tree).write(self.name_file_xml, encoding="UTF-8", xml_declaration=True)
+                root_fie_new = ET.ElementTree(tree).write(name_file_xml, encoding="UTF-8", xml_declaration=True)
+                counter = counter + 1
+                print(f"Datos cargando: {counter}", end="\r")
 
         except Exception as error:
             print("Error, al escribir el archivo final xml", error)
 
-        print(f"\nTotal datos: [{len(self.data_index_xml)}] escritos en el archivo: {self.name_file_xml}\n")
+        print(f"\nTotal datos: [{len(self.data_index_xml)}] escritos en el archivo: {name_file_xml}\n")
         self.name_file = ""
 
     # Método encargado de obtener el directorio de trabajo donde esta el proyecto y sus archivos
     def get_the_current_working_directory(self):
         cwd = os.getcwd()
-        self.files = os.listdir(cwd)
-        working_directories = [print(f"{[self.files.index(x)]}-{x}") for x in self.files]
+        list_files = os.listdir(cwd)
+        self.files = [x for x in list_files if '.csv' in x or '.xml' in x]
 
         return self.files
 
-    # Método encargado de seleccionar el archivo a trabajar
-    def send_data_in_list(self):
-        self.get_the_current_working_directory()
+    # Método para cargar los datos csv y xml
+    def get_data_csv_and_xml(self):
+        files_name = self.get_the_current_working_directory()
+        print_files = [print(f"{[files_name.index(x)]}-{x}") for x in files_name]
         try:
-            selected = int(input('Selecciona el archivo:'))
-            answer = str(input(f"El nombre del archivo es: {self.files[selected]} \n [si] o [no]\n:"))
-            if answer.lower() == 'si':
-                self.name_file = self.files[selected]
+            file_csv = int(input("Selecciona el archivo csv: "))
+            file_xml = int(input("Selecciona el archivo xml: "))
+            if ".csv" in files_name[file_csv] and ".xml" in files_name[file_xml]:
+                self.get_csv_data_list(files_name[file_csv])
+                self.xml_data_list(files_name[file_xml])
+                self.name_file = files_name[file_xml]
             else:
-                print('Busca el archivo correcto\n')
-        except Exception as error:
-            print('Error: ', error)
-
-        return self.name_file
+                print("seleccionaste mal los archivos, debe ser 1 el csv y 2 el xml\n")
+        except IndexError as error_index:
+            print(f"Error: {error_index} \n")
 
     # Método que imprime el menu que tiene el sistema
     def menu(self):
         while self.flag:
-            print('[1]Cargar datos csv')
-            print('[2]Cargar datos xml')
-            print('[3]Buscar datos en estados de cuenta')
-            print('[4]Escribir archivo final')
+            print('[1]Cargar datos csv y xml')
+            print('[2]Buscar datos en estados de cuenta')
+            print('[3]Escribir archivo final')
             print('[0]Salir')
             commad = str(input('Que deseas hacer \n$:'))
             if commad == '1':
-                self.send_data_in_list()
-                self.csv_data_list(self.name_file)
+                self.get_data_csv_and_xml()
             elif commad == '2':
-                self.send_data_in_list()
-                self.xml_data_list(self.name_file)
-            elif commad == '3':
                 self.search_the_index_in_the_list(self.data_array_csv, self.data_array_xml)
-            elif commad == '4':
+            elif commad == '3':
                 self.write_file_xml()
                 self.build_xml(self.name_file, self.name_file_xml, self.data_index_xml)
             elif commad == '0':
@@ -169,7 +157,7 @@ class Data:
     # Método para construir el archivo por medio de argumentos por linea de comando
     def build_xml_with_arguments(self, argv):
         print(f"Archivos agregados: CSV: {argv[1]} XML: {argv[2]} Name-file: {argv[3]}")
-        self.csv_data_list(argv[1])
+        self.get_csv_data_list(argv[1])
         self.xml_data_list(argv[2])
         self.search_the_index_in_the_list(self.data_array_csv, self.data_array_xml)
         self.build_xml(argv[2], argv[3], self.data_index_xml)

@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as ET
+import xml.dom.minidom as DOM
 import csv
 import os
 from copy import deepcopy
@@ -100,6 +101,7 @@ class Data:
             file_csv = int(input("Selecciona el archivo csv: "))
             file_xml = int(input("Selecciona el archivo xml: "))
             if ".csv" in files_name[file_csv] and ".xml" in files_name[file_xml]:
+                self.check_and_format_xml(files_name[file_xml])
                 self.get_csv_data_list(files_name[file_csv])
                 self.xml_data_list(files_name[file_xml])
                 self.name_file = files_name[file_xml]
@@ -107,6 +109,27 @@ class Data:
                 print("seleccionaste mal los archivos, debe ser 1 el csv y 2 el xml\n")
         except IndexError as error_index:
             print(f"Error: {error_index} \n")
+
+    # Método para chequear y dar formarto al archivo xml
+    def check_and_format_xml(self, name_file_xml):
+        try:
+            with open(name_file_xml) as check_xml:
+                reader = check_xml.readline()
+                check_format = "\n" in reader
+                if(check_format is not True):
+                    with open(name_file_xml) as xmldata:
+                        print("Formateando archivo")
+                        xml = DOM.parseString(xmldata.read())
+                        xml_pretty_byte = xml.toprettyxml(encoding="utf-8")
+                        # convert bytes in string and remove the weird newline issue
+                        xml_pretty_str = os.linesep.join([s for s in xml_pretty_byte.decode("utf-8").splitlines() if s.strip()])
+                        # formatera el archivo xml
+                        with open(name_file_xml, self.write_method) as file_out:
+                            file_out.write(xml_pretty_str)
+                else:
+                    return print("El archivo ya esta formateado")
+        except Exception as error:
+            print(f"Error: {error}, no se pudo formatear el archvio xml \n")
 
     # Método que imprime el menu que tiene el sistema
     def menu(self):
@@ -158,6 +181,7 @@ class Data:
     def build_xml_with_arguments(self, argv):
         print(f"Archivos agregados: CSV: {argv[1]} XML: {argv[2]} Name-file: {argv[3]}")
         self.get_csv_data_list(argv[1])
+        self.check_and_format_xml(argv[2])
         self.xml_data_list(argv[2])
         self.search_the_index_in_the_list(self.data_array_csv, self.data_array_xml)
         self.build_xml(argv[2], argv[3], self.data_index_xml)

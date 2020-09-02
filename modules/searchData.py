@@ -13,7 +13,7 @@ class Data:
         self.data_index_xml = []
         self.files = []
         self.flag = True
-        self.reading_method = 'r'
+        self.read_method = 'r'
         self.write_method = 'w'
         self.name_file = ""
         self.name_file_xml = ""
@@ -36,30 +36,30 @@ class Data:
     # Método encargado de leer los datos que están en el archivo csv
     def get_csv_data_list(self, name_file):
         try:
-            with open(name_file, self.reading_method) as (File):
+            with open(name_file, self.read_method) as (File):
                 reader = csv.reader(File)
-                self.data_array_csv = [''.join(x) for x in reader]
+                self.data_array_csv = [''.join(item) for item in reader if item]
                 print(f"\nTotal datos csv: {len(self.data_array_csv)}\n")
         except Exception as error:
             print('No se pudo cargar los datos del csv', error)
 
-        return self.data_array_csv.sort()
+        return self.data_array_csv
 
     # Método para buscar los todos los números de estado de cuenta en el xml a consular
     def xml_data_list(self, name_file):
         root = ET.parse(name_file).getroot()
-        self.data_array_xml = [x.find('ESTADOCUENTA').text for x in root.findall(f"./OBLIGACION/ENCABEZADO")]
-        print(f"\nTotal estados de cuenta xml: {len(self.data_array_xml)}\n")
+        self.data_array_xml = [item.find('ESTADOCUENTA').text for item in root.findall(f"./OBLIGACION/ENCABEZADO")]
+        print(f"\nTotal estados de cuenta xml: {len(self.data_array_xml)}")
 
         return self.data_array_xml
 
     # Método encargado de buscar el index en la lista de los datos consultados en el xml
     def search_the_index_in_the_list(self, data_array_csv, data_array_xml):
         try:
-            self.data_index_xml = [data_array_xml.index(x) for x in data_array_csv]
+            self.data_index_xml = [data_array_xml.index(item) for item in data_array_csv]
             print(f"\nTotal datos encontrados: {len(self.data_index_xml)}\n")
         except Exception as error:
-            print("Error, al buscar el index en el xml: ", error)
+            print("Error, al buscar el index en el xml, puede ser que los datos en el CSV tengan un espacio: ", error)
 
         return self.data_index_xml
 
@@ -89,14 +89,14 @@ class Data:
     def get_the_current_working_directory(self):
         cwd = os.getcwd()
         list_files = os.listdir(cwd)
-        self.files = [x for x in list_files if '.csv' in x or '.xml' in x]
+        self.files = [item for item in list_files if '.csv' in item or '.xml' in item]
 
         return self.files
 
     # Método para cargar los datos csv y xml
     def get_data_csv_and_xml(self):
         files_name = self.get_the_current_working_directory()
-        print_files = [print(f"{[files_name.index(x)]}-{x}") for x in files_name]
+        print_files = [print(f"{[files_name.index(item)]}-{item}") for item in files_name]
         try:
             file_csv = int(input("Selecciona el archivo csv: "))
             file_xml = int(input("Selecciona el archivo xml: "))
@@ -110,7 +110,7 @@ class Data:
         except IndexError as error_index:
             print(f"Error: {error_index} \n")
 
-    # Método para chequear y dar formarto al archivo xml
+    # Método para chequear y dar formato al archivo xml
     def check_and_format_xml(self, name_file_xml):
         try:
             with open(name_file_xml) as check_xml:
@@ -118,18 +118,18 @@ class Data:
                 check_format = "\n" in reader
                 if(check_format is not True):
                     with open(name_file_xml) as xmldata:
-                        print("Formateando archivo")
+                        print(f"Formateando el archivo {name_file_xml}")
                         xml = DOM.parseString(xmldata.read())
                         xml_pretty_byte = xml.toprettyxml(encoding="utf-8")
-                        # convert bytes in string and remove the weird newline issue
-                        xml_pretty_str = os.linesep.join([s for s in xml_pretty_byte.decode("utf-8").splitlines() if s.strip()])
-                        # formatera el archivo xml
+                        # Convertir bytes en una cadena y eliminar el extraño problema de la nueva línea
+                        xml_pretty_str = os.linesep.join([item for item in xml_pretty_byte.decode("utf-8").splitlines() if item.strip()])
+                        # Formatear el archivo xml
                         with open(name_file_xml, self.write_method) as file_out:
                             file_out.write(xml_pretty_str)
                 else:
                     return print("El archivo ya esta formateado")
         except Exception as error:
-            print(f"Error: {error}, no se pudo formatear el archvio xml \n")
+            print(f"Error: {error}, no se pudo formatear el archivo xml \n")
 
     # Método que imprime el menu que tiene el sistema
     def menu(self):
@@ -138,15 +138,15 @@ class Data:
             print('[2]Buscar datos en estados de cuenta')
             print('[3]Escribir archivo final')
             print('[0]Salir')
-            commad = str(input('Que deseas hacer \n$:'))
-            if commad == '1':
+            command = str(input('Que deseas hacer \n$:'))
+            if command == '1':
                 self.get_data_csv_and_xml()
-            elif commad == '2':
+            elif command == '2':
                 self.search_the_index_in_the_list(self.data_array_csv, self.data_array_xml)
-            elif commad == '3':
+            elif command == '3':
                 self.write_file_xml()
                 self.build_xml(self.name_file, self.name_file_xml, self.data_index_xml)
-            elif commad == '0':
+            elif command == '0':
                 self.identify_system()
                 self.flag = False
             else:
@@ -172,9 +172,9 @@ class Data:
     # Método que imprime el mensaje de ayuda para el usuario
     def print_message_help(self):
         print("Descripción: Buscador de datos xml\n")
-        print("positional arguments:")
+        print("position arguments:")
         print(" main.py file.csv file.xml Name-file.xml\n")
-        print("optional arguments:")
+        print("opcional arguments:")
         print(" -h, --help  show this help message and exit")
 
     # Método para construir el archivo por medio de argumentos por linea de comando

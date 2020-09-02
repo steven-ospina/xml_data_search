@@ -3,11 +3,11 @@ from sys import argv
 
 
 def run():
-    arguments_lent = len(argv)
+    arguments_length = len(argv)
 
-    if arguments_lent >= 4:
-        bulid_arguments = Data().build_xml_with_arguments(argv)
-    elif arguments_lent > 1:
+    if arguments_length >= 4:
+        build_arguments = Data().build_xml_with_arguments(argv)
+    elif arguments_length > 1:
         message_help = Data().print_message_help()
     else:
         message = Data().print_message()

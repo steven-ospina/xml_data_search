@@ -131,6 +131,17 @@ class Data:
         except Exception as error:
             print(f"Error: {error}, no se pudo formatear el archivo xml \n")
 
+    # Método para exportar los estados de cuenta a un archivo csv
+    def export_data_csv(self, data_array_xml, name_file_csv):
+        try:
+            # Writing to csv file
+            with open(name_file_csv, self.write_method, newline='') as csvfile:
+                csvwriter = csv.writer(csvfile)
+                for data in data_array_xml:
+                    csvwriter.writerow([data])
+        except Exception as error:
+            print(f"Error al exportar los datos xml a csv: {error}")
+
     # Método que imprime el menu que tiene el sistema
     def menu(self):
         while self.flag:
@@ -172,10 +183,19 @@ class Data:
     # Método que imprime el mensaje de ayuda para el usuario
     def print_message_help(self):
         print("Descripción: Buscador de datos xml\n")
+        print("Search data in xml")
         print("position arguments:")
         print(" main.py file.csv file.xml Name-file.xml\n")
+        print("Format xml")
+        print("position arguments:")
+        print(" main.py -f file.xml\n")
+        print("Export data xml to csv")
+        print("position arguments:")
+        print(" main.py -e file.xml Name-file.xml\n")
         print("opcional arguments:")
         print(" -h, --help  show this help message and exit")
+        print(" -f, format xml files")
+        print(" -e, export account statement numbers to csv")
 
     # Método para construir el archivo por medio de argumentos por linea de comando
     def build_xml_with_arguments(self, argv):
@@ -185,3 +205,13 @@ class Data:
         self.xml_data_list(argv[2])
         self.search_the_index_in_the_list(self.data_array_csv, self.data_array_xml)
         self.build_xml(argv[2], argv[3], self.data_index_xml)
+
+    # Método para formatear archivos xml por medio de argumentos por linea de comando
+    def format_xml_with_arguments(self, argv):
+        self.check_and_format_xml(argv[2])
+
+    # Método para exportar los estados de cuenta a un archivo csv por medio de argumentos por linea de comando
+    def export_data_csv_arguments(self, argv):
+        self.check_and_format_xml(argv[2])
+        data_xml = self.xml_data_list(argv[2])
+        self.export_data_csv(data_xml, argv[3])

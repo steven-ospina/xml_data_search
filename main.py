@@ -9,7 +9,6 @@ def run():
 
     if arguments_length >= 4:
         if flag_export in argv:
-            # print(f"encotrado {argv}")
             export_csv = Data().export_data_csv_arguments(argv)
         else:
             # pass

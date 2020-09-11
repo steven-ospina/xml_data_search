@@ -134,7 +134,6 @@ class Data:
     # Método para exportar los estados de cuenta a un archivo csv
     def export_data_csv(self, data_array_xml, name_file_csv):
         try:
-            # Writing to csv file
             with open(name_file_csv, self.write_method, newline='') as csvfile:
                 csvwriter = csv.writer(csvfile)
                 for data in data_array_xml:

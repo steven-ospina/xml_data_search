@@ -57,7 +57,7 @@ class Data:
     def search_the_index_in_the_list(self, data_array_csv, data_array_xml):
         try:
             self.data_index_xml = [data_array_xml.index(item) for item in data_array_csv]
-            print(f"\nTotal datos encontrados: {len(self.data_index_xml)}\n")
+            print(f"\nTotal indexes encontrados: {len(self.data_index_xml)}\n")
         except Exception as error:
             print("Error, al buscar el index en el xml, puede ser que los datos en el CSV tengan un espacio: ", error)
 
@@ -141,6 +141,22 @@ class Data:
         except Exception as error:
             print(f"Error al exportar los datos xml a csv: {error}")
 
+    # Método para borra datos del archivo xml
+    def remove_xml_values(self, name_file, data_index_xml):
+        try:
+            root_file_xml = ET.parse(name_file).getroot()
+            counter = 0
+            for value in data_index_xml:
+                value_to_remove = root_file_xml[value]
+                root_file_xml.remove(value_to_remove)
+                counter = counter + 1
+
+            update_file_xml = ET.ElementTree(root_file_xml).write(name_file, encoding="UTF-8", xml_declaration=True)
+            print(f"\nTotal datos eliminados: [{len(self.data_index_xml)}] del archivo: {name_file}\n")
+
+        except Exception as error:
+            print(f"Error: al intentar eliminar los elementos del xml, descripción: {error}")
+
     # Método que imprime el menu que tiene el sistema
     def menu(self):
         while self.flag:
@@ -181,24 +197,28 @@ class Data:
 
     # Método que imprime el mensaje de ayuda para el usuario
     def print_message_help(self):
-        print("Descripción: Buscador de datos xml\n")
+        print("Descripción: Buscador de datos xml, formateado de xml, exportador a csv, eliminador de datos en el xml\n")
         print("Search data in xml")
         print("position arguments:")
-        print(" main.py file.csv file.xml Name-file.xml\n")
+        print(" main.py file-CSV.csv file-XML.xml Name-file-XML.xml\n")
         print("Format xml")
         print("position arguments:")
-        print(" main.py -f file.xml\n")
+        print(" main.py -f file-XML.xml\n")
         print("Export data xml to csv")
         print("position arguments:")
-        print(" main.py -e file.xml Name-file.xml\n")
+        print(" main.py -e file-XML.xml file-CSV.csv\n")
+        print("Remove values in xml")
+        print("position arguments:")
+        print(" main.py -r file-CSV.csv file-XML.xml\n")
         print("opcional arguments:")
         print(" -h, --help  show this help message and exit")
         print(" -f, format xml files")
         print(" -e, export account statement numbers to csv")
+        print(" -r, remove account statement")
 
     # Método para construir el archivo por medio de argumentos por linea de comando
     def build_xml_with_arguments(self, argv):
-        print(f"Archivos agregados: CSV: {argv[1]} XML: {argv[2]} Name-file: {argv[3]}")
+        print(f"Archivos agregados CSV: {argv[1]} XML: {argv[2]} Name-file: {argv[3]}")
         self.get_csv_data_list(argv[1])
         self.check_and_format_xml(argv[2])
         self.xml_data_list(argv[2])
@@ -214,3 +234,12 @@ class Data:
         self.check_and_format_xml(argv[2])
         data_xml = self.xml_data_list(argv[2])
         self.export_data_csv(data_xml, argv[3])
+
+    # Método para eliminar los estados de cuenta, por medio de argumentos por linea de comando
+    def remove_xml_values_with_arguments(self, argv):
+        print(f"Archivos agregados CSV: {argv[2]} XML: {argv[3]}")
+        self.get_csv_data_list(argv[2])
+        self.check_and_format_xml(argv[3])
+        self.xml_data_list(argv[3])
+        self.search_the_index_in_the_list(self.data_array_csv, self.data_array_xml)
+        self.remove_xml_values(argv[3], self.data_index_xml)

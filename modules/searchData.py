@@ -66,24 +66,46 @@ class Data:
     # Método encargado de consultar y construir todos los datos del xml
     def build_xml(self, name_file, name_file_xml, data_index_xml):
         try:
-            ESTADODECUENTA = ET.Element('ESTADODECUENTA')
-            root_fie_new = ET.ElementTree(ESTADODECUENTA).write(name_file_xml, encoding="UTF-8", xml_declaration=True)
+            tree = self.build_root_xml(name_file_xml)
             root_source_file = ET.parse(name_file).getroot()
-            tree = ET.parse(name_file_xml).getroot()
             counter = 0
-            for i in self.data_index_xml:
-                obligacion_source_file = root_source_file[i]
-                obligacion_copy = deepcopy(obligacion_source_file)
-                tree.append(obligacion_copy)
-                root_fie_new = ET.ElementTree(tree).write(name_file_xml, encoding="UTF-8", xml_declaration=True)
+            obligacion_source_file1 = [root_source_file[value] for value in data_index_xml]
+            obligacion_copy2 = [deepcopy(value) for value in obligacion_source_file1]
+
+            for value in obligacion_copy2:
+                tree.append(value)
                 counter = counter + 1
                 print(f"Datos cargando: {counter}", end="\r")
 
+            # for i in obligacion_source_file1:
+            #     obligacion_copy = deepcopy(i)
+            #     tree.append(obligacion_copy)
+            #     counter = counter + 1
+            #     print(f"Datos cargando: {counter}", end="\r")
+
+            # for i in data_index_xml:
+            #     obligacion_source_file = root_source_file[i]
+            #     obligacion_copy = deepcopy(obligacion_source_file)
+            #     tree.append(obligacion_copy)
+            #     counter = counter + 1
+            #     print(f"Datos cargando: {counter}", end="\r")
+
+            root_fie_new = ET.ElementTree(tree).write(name_file_xml, encoding="UTF-8", xml_declaration=True)
         except Exception as error:
             print("Error, al escribir el archivo final xml", error)
 
         print(f"\nTotal datos: [{len(self.data_index_xml)}] escritos en el archivo: {name_file_xml}\n")
         self.name_file = ""
+
+    # Método para crear la root de archivo xml
+    def build_root_xml(self, name_file_xml):
+        try:
+            ESTADODECUENTA = ET.Element('ESTADODECUENTA')
+            ET.ElementTree(ESTADODECUENTA).write(name_file_xml, encoding="UTF-8", xml_declaration=True)
+            return ET.parse(name_file_xml).getroot()
+        except Exception as error:
+            print(f"ERROR, no se pudo crear el archivo copia {error}")
+            exit(f"ERROR {error}")
 
     # Método encargado de obtener el directorio de trabajo donde esta el proyecto y sus archivos
     def get_the_current_working_directory(self):
@@ -145,11 +167,17 @@ class Data:
     def remove_xml_values(self, name_file, data_index_xml):
         try:
             root_file_xml = ET.parse(name_file).getroot()
+            value_to_remove = [root_file_xml[value] for value in data_index_xml]
             counter = 0
-            for value in data_index_xml:
-                value_to_remove = root_file_xml[value]
-                root_file_xml.remove(value_to_remove)
+            for value in value_to_remove:
+                # value_to_remove = root_file_xml[value]
+                root_file_xml.remove(value)
                 counter = counter + 1
+                print(f"Datos eliminados: {counter}", end="\r")
+            # for value in data_index_xml:
+            #     value_to_remove = root_file_xml[value]
+            #     root_file_xml.remove(value_to_remove)
+            #     counter = counter + 1
 
             update_file_xml = ET.ElementTree(root_file_xml).write(name_file, encoding="UTF-8", xml_declaration=True)
             print(f"\nTotal datos eliminados: [{len(self.data_index_xml)}] del archivo: {name_file}\n")

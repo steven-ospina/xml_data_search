@@ -1,3 +1,5 @@
+__pycache__/
+*.py[cod]
 modules/__pycache__/
 myenv/
 datos-xml-final/

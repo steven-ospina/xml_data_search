@@ -154,7 +154,6 @@ class Data:
         try:
             root_file_xml = ET.parse(name_file).getroot()
             value_to_remove = [root_file_xml[value] for value in data_index_xml]
-            print(len(value_to_remove))
             counter = 0
             for value in value_to_remove:
                 root_file_xml.remove(value)

@@ -54,6 +54,7 @@ class Menu():
             print(f"Error: {error_index} \n")
 
     # Método encargado de obtener el directorio de trabajo donde esta el proyecto y sus archivos
+    @property
     def get_the_current_working_directory(self):
         cwd = os.getcwd()
         list_files = os.listdir(cwd)
@@ -62,7 +63,10 @@ class Menu():
 
     # Método para construir el archivo por medio de argumentos por linea de comando
     def build_xml_with_arguments(self, argv):
-        print(f"Archivos agregados CSV: {argv[1]} XML: {argv[2]} Name-file: {argv[3]}")
+        print("Archivos agregados:")
+        print(f" * CSV: {argv[1]}")
+        print(f" * XML: {argv[2]}")
+        print(f" * Name-file: {argv[3]}")
         self.data_array_csv = self.csv.get_csv_data_list(argv[1])
         self.xml.check_and_format_xml(argv[2])
         self.data_array_xml = self.xml.xml_data_list(argv[2])
@@ -71,17 +75,24 @@ class Menu():
 
     # Método para formatear archivos xml por medio de argumentos por linea de comando
     def format_xml_with_arguments(self, argv):
+        print("Archivos agregado para formatear:")
+        print(f" * XML: {argv[2]}")
         self.xml.check_and_format_xml(argv[2])
 
     # Método para exportar los estados de cuenta a un archivo csv por medio de argumentos por linea de comando
     def export_data_csv_arguments(self, argv):
+        print("Archivos agregados:")
+        print(f" * XML: {argv[2]}")
+        print(f" * CSV: {argv[3]}")
         self.xml.check_and_format_xml(argv[2])
         self.data_xml = self.xml.xml_data_list(argv[2])
         self.csv.export_data_csv(self.data_xml, argv[3])
 
     # Método para eliminar los estados de cuenta, por medio de argumentos por linea de comando
     def remove_xml_values_with_arguments(self, argv):
-        print(f"Archivos agregados CSV: {argv[2]} XML: {argv[3]}")
+        print("Archivos agregados:")
+        print(f" * CSV: {argv[2]}")
+        print(f" * XML: {argv[3]}")
         self.data_array_csv = self.csv.get_csv_data_list(argv[2])
         self.xml.check_and_format_xml(argv[3])
         self.data_array_xml = self.xml.xml_data_list(argv[3])
@@ -109,7 +120,7 @@ class Menu():
     # Método que imprime el mensaje de ayuda para el usuario
     @staticmethod
     def print_message_help():
-        print("Descripción: Buscador de datos xml, formateado de xml, exportador a csv, eliminador de datos en el xml\n")
+        print("Descripción: \n Buscador de datos xml, \n Formateado de xml, \n Exportador a csv, \n Eliminador de datos en el xml\n")
         print("Search data in xml")
         print("position arguments:")
         print(" main.py file-CSV.csv file-XML.xml Name-file-XML.xml\n")

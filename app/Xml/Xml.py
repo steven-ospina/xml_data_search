@@ -116,7 +116,7 @@ class Xml():
         except Exception as error:
             self.print_error_xml(mesaage_error_methodo=f"Al intentar eliminar los elementos del archivo xml: {name_file}", message=error)
 
-    # Método para imprimir errores del archivo Csv
+    # Método para imprimir errores del archivo xml
     def print_error_xml(self, mesaage_error_methodo, message):
         print(f"ERROR: {mesaage_error_methodo}")
         exit(f"ERROR: {message}")

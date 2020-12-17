@@ -5,16 +5,16 @@ from copy import deepcopy
 import os
 
 
-class Xml():
+class Xml:
 
     def __init__(self):
-        self.data_array_xml = []
-        self.data_index_xml = []
-        self.name_file_xml = ""
-        self.write_method = 'w'
+        self.data_list_xml: list = []
+        self.data_index_xml: list = []
+        self.name_file_xml: str = ""
+        self.write_method: str = 'w'
 
     # Método encargado de escribir los archivos en el sistema
-    def write_file_xml(self):
+    def write_file_xml(self) -> str:
         print("Recuerda poner al final del nombre la extensión *.xml")
         self.name_file_xml = str(input(f"Nombre del archivo\n:"))
         try:
@@ -29,28 +29,28 @@ class Xml():
         return self.name_file_xml
 
     # Método para buscar los todos los números de estado de cuenta en el xml a consular
-    def xml_data_list(self, name_file):
+    def get_xml_data_list(self, name_file: str) -> list:
         try:
             root = ET.parse(name_file).getroot()
-            self.data_array_xml = [item.find('ESTADOCUENTA').text for item in root.findall(f"./OBLIGACION/ENCABEZADO")]
-            print(f"\nTotal estados de cuenta xml: {len(self.data_array_xml)}")
+            self.data_list_xml = [item.find('ESTADOCUENTA').text for item in root.findall(f"./OBLIGACION/ENCABEZADO")]
+            print(f"\nTotal estados de cuenta xml: {len(self.data_list_xml)}")
 
-            return self.data_array_xml
+            return self.data_list_xml
         except Exception as error:
             self.print_error_xml(mesaage_error_methodo=f"Al buscar los estados de cuenta en el archivo xml: {name_file}", message=error)
 
     # Método encargado de buscar el index en la lista de los datos consultados en el xml
-    def search_the_index_in_the_list(self, data_array_csv, data_array_xml):
+    def search_the_index_in_the_list(self, data_list_csv: list, data_list_xml: list) -> list:
         try:
-            self.data_index_xml = [data_array_xml.index(item) for item in data_array_csv]
+            self.data_index_xml = [data_list_xml.index(item) for item in data_list_csv]
             print(f"\nTotal indexes encontrados: {len(self.data_index_xml)}\n")
         except Exception as error:
-            self.print_error_xml(mesaage_error_methodo=f"Al buscar el index en el xml, puede ser que los datos en el CSV tengan un espacio, o el dato no exista en el xml {data_array_csv}", message=error)
+            self.print_error_xml(mesaage_error_methodo=f"Al buscar el index en el xml, puede ser que los datos en el CSV tengan un espacio, o el dato no exista en el xml {data_list_csv}", message=error)
 
         return self.data_index_xml
 
     # Método encargado de consultar y construir todos los datos del xml
-    def build_xml(self, name_file, name_file_xml, data_index_xml):
+    def build_xml(self, name_file: str, name_file_xml: str, data_index_xml: list) -> None:
         try:
             tree = self.build_root_xml(name_file_xml)
             root_source_file = ET.parse(name_file).getroot()
@@ -62,7 +62,7 @@ class Xml():
                 counter = counter + 1
                 print(f"Datos cargando: {counter}", end="\r")
 
-            root_fie_new = ET.ElementTree(tree).write(name_file_xml, encoding="UTF-8", xml_declaration=True)
+            ET.ElementTree(tree).write(name_file_xml, encoding="UTF-8", xml_declaration=True)
         except Exception as error:
             self.print_error_xml(mesaage_error_methodo=f"Al crear el archivo final xml: {name_file_xml}", message=error)
 
@@ -70,7 +70,7 @@ class Xml():
         # self.name_file = ""
 
     # Método para crear la root de archivo xml
-    def build_root_xml(self, name_file_xml):
+    def build_root_xml(self, name_file_xml: str):
         try:
             ESTADODECUENTA = ET.Element('ESTADODECUENTA')
             ET.ElementTree(ESTADODECUENTA).write(name_file_xml, encoding="UTF-8", xml_declaration=True)
@@ -79,12 +79,12 @@ class Xml():
             self.print_error_xml(mesaage_error_methodo=f"No se pudo crear root del archivo: {name_file_xml}", message=error)
 
     # Método para chequear y dar formato al archivo xml
-    def check_and_format_xml(self, name_file_xml):
+    def check_and_format_xml(self, name_file_xml: str) -> None:
         try:
             with open(name_file_xml) as check_xml:
                 reader = check_xml.readline()
                 check_format = "\n" in reader
-                if(check_format is not True):
+                if check_format is not True:
                     with open(name_file_xml) as xmldata:
                         print(f"Formateando el archivo {name_file_xml}")
                         xml = DOM.parseString(xmldata.read())
@@ -100,7 +100,7 @@ class Xml():
             self.print_error_xml(mesaage_error_methodo=f"No se pudo formatear el archivo xml {name_file_xml}", message=error)
 
     # Método para borra datos del archivo xml
-    def remove_xml_values(self, name_file, data_index_xml):
+    def remove_xml_values(self, name_file: str, data_index_xml: list) -> None:
         try:
             root_file_xml = ET.parse(name_file).getroot()
             value_to_remove = [root_file_xml[value] for value in data_index_xml]
@@ -110,13 +110,13 @@ class Xml():
                 counter = counter + 1
                 print(f"Datos eliminados: {counter}", end="\r")
 
-            update_file_xml = ET.ElementTree(root_file_xml).write(name_file, encoding="UTF-8", xml_declaration=True)
+            ET.ElementTree(root_file_xml).write(name_file, encoding="UTF-8", xml_declaration=True)
             print(f"\nTotal datos eliminados: [{len(self.data_index_xml)}] del archivo: {name_file}\n")
 
         except Exception as error:
             self.print_error_xml(mesaage_error_methodo=f"Al intentar eliminar los elementos del archivo xml: {name_file}", message=error)
 
     # Método para imprimir errores del archivo xml
-    def print_error_xml(self, mesaage_error_methodo, message):
+    def print_error_xml(self, mesaage_error_methodo: str, message: Exception) -> None:
         print(f"ERROR: {mesaage_error_methodo}")
         exit(f"ERROR: {message}")

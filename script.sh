@@ -50,5 +50,3 @@ if [ $? -eq 0 ]; then
 else
 	echo "ERROR: no se pudo ejecutar el script de python"
 fi
-
-exit

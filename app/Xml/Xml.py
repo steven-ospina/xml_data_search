@@ -1,4 +1,3 @@
-# from ..Archive import Archive
 import xml.etree.ElementTree as ET
 import xml.dom.minidom as DOM
 from copy import deepcopy
@@ -24,7 +23,7 @@ class Xml:
             else:
                 print('El nombre del archivo es incorrecto\n')
         except ValueError as error:
-            self.print_error_xml(mesaage_error_methodo="Al crear el nombre del archivo xml", message=error)
+            self.print_error_xml(mesaage_error_method="Al crear el nombre del archivo xml", message=error)
 
         return self.name_file_xml
 
@@ -37,7 +36,7 @@ class Xml:
 
             return self.data_list_xml
         except Exception as error:
-            self.print_error_xml(mesaage_error_methodo=f"Al buscar los estados de cuenta en el archivo xml: {name_file}", message=error)
+            self.print_error_xml(mesaage_error_method=f"Al buscar los estados de cuenta en el archivo xml: {name_file}", message=error)
 
     # Método encargado de buscar el index en la lista de los datos consultados en el xml
     def search_the_index_in_the_list(self, data_list_csv: list, data_list_xml: list) -> list:
@@ -45,7 +44,7 @@ class Xml:
             self.data_index_xml = [data_list_xml.index(item) for item in data_list_csv]
             print(f"\nTotal indexes encontrados: {len(self.data_index_xml)}\n")
         except Exception as error:
-            self.print_error_xml(mesaage_error_methodo=f"Al buscar el index en el xml, puede ser que los datos en el CSV tengan un espacio, o el dato no exista en el xml {data_list_csv}", message=error)
+            self.print_error_xml(mesaage_error_method=f"Al buscar el index en el xml, puede ser que los datos en el CSV tengan un espacio, o el dato no exista en el xml {data_list_csv}", message=error)
 
         return self.data_index_xml
 
@@ -64,7 +63,7 @@ class Xml:
 
             ET.ElementTree(tree).write(name_file_xml, encoding="UTF-8", xml_declaration=True)
         except Exception as error:
-            self.print_error_xml(mesaage_error_methodo=f"Al crear el archivo final xml: {name_file_xml}", message=error)
+            self.print_error_xml(mesaage_error_method=f"Al crear el archivo final xml: {name_file_xml}", message=error)
 
         print(f"\nTotal datos: [{len(self.data_index_xml)}] escritos en el archivo: {name_file_xml}\n")
         # self.name_file = ""
@@ -76,7 +75,7 @@ class Xml:
             ET.ElementTree(ESTADODECUENTA).write(name_file_xml, encoding="UTF-8", xml_declaration=True)
             return ET.parse(name_file_xml).getroot()
         except Exception as error:
-            self.print_error_xml(mesaage_error_methodo=f"No se pudo crear root del archivo: {name_file_xml}", message=error)
+            self.print_error_xml(mesaage_error_method=f"No se pudo crear root del archivo: {name_file_xml}", message=error)
 
     # Método para chequear y dar formato al archivo xml
     def check_and_format_xml(self, name_file_xml: str) -> None:
@@ -97,7 +96,7 @@ class Xml:
                 else:
                     return print("El archivo ya esta formateado")
         except Exception as error:
-            self.print_error_xml(mesaage_error_methodo=f"No se pudo formatear el archivo xml {name_file_xml}", message=error)
+            self.print_error_xml(mesaage_error_method=f"No se pudo formatear el archivo xml {name_file_xml}", message=error)
 
     # Método para borra datos del archivo xml
     def remove_xml_values(self, name_file: str, data_index_xml: list) -> None:
@@ -114,9 +113,9 @@ class Xml:
             print(f"\nTotal datos eliminados: [{len(self.data_index_xml)}] del archivo: {name_file}\n")
 
         except Exception as error:
-            self.print_error_xml(mesaage_error_methodo=f"Al intentar eliminar los elementos del archivo xml: {name_file}", message=error)
+            self.print_error_xml(mesaage_error_method=f"Al intentar eliminar los elementos del archivo xml: {name_file}", message=error)
 
     # Método para imprimir errores del archivo xml
-    def print_error_xml(self, mesaage_error_methodo: str, message: Exception) -> None:
-        print(f"ERROR: {mesaage_error_methodo}")
+    def print_error_xml(self, mesaage_error_method: str, message: Exception) -> None:
+        print(f"ERROR: {mesaage_error_method}")
         exit(f"ERROR: {message}")

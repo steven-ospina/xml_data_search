@@ -17,7 +17,7 @@ class Csv:
                 self.data_list_csv = [''.join(item) for item in reader if item]
                 print(f"\nTotal datos csv: {len(self.data_list_csv)}\n")
         except Exception as error:
-            self.print_error_csv(mesaage_error_methodo=f"No se pudo cargar los datos del archivo csv : {name_file}", message=error)
+            self.print_error_csv(mesaage_error_method=f"No se pudo cargar los datos del archivo csv : {name_file}", message=error)
 
         return self.data_list_csv
 
@@ -29,9 +29,9 @@ class Csv:
                 for data in data_list_xml:
                     csvwriter.writerow([data])
         except Exception as error:
-            self.print_error_csv(mesaage_error_methodo=f"Error al exportar los datos xml al archivo :{name_file_csv}", message=error)
+            self.print_error_csv(mesaage_error_method=f"Error al exportar los datos xml al archivo :{name_file_csv}", message=error)
 
     # Método para imprimir errores del archivo Csv
-    def print_error_csv(self, mesaage_error_methodo: str, message: Exception) -> None:
-        print(f"ERROR: {mesaage_error_methodo}")
+    def print_error_csv(self, mesaage_error_method: str, message: Exception) -> None:
+        print(f"ERROR: {mesaage_error_method}")
         exit(f"ERROR: {message}")

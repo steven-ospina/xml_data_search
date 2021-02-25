@@ -1,10 +1,18 @@
-# !/bin/bash
+#!/bin/bash
 # Script para ejecutar el projecto xml_data_search
 
-# Directorio donde esta el script de python
-# En esta parte agregas la ruta donde se clona o se pone el proyecto ejemplo:
-#PATH_SCRIPT="/ruta/donde/clonas/el/proyecto/main.py"
-PATH_SCRIPT=""
+# Con esto obtenemos el directorio donde se esta ejecutando el proyecto
+SCRIPT=$(readlink -f $0);
+dir_base=`dirname $SCRIPT`;
+
+if [ -f $dir_base/.env ]; then
+	# cargar las variables de entorno
+	export $(grep -v '^#' $dir_base/.env | xargs)
+	# export $(cat $dir_base/.env | grep -v '#' | awk '/=/ {print $1}')
+	# se cargan las variables de entorno que este en el archivo .env y caragara esto:
+	#PATH_SCRIPT="/ruta/donde/clonas/el/proyecto/main.py"
+fi
+
 
 # Variables donde capturan los argumentos que resive el script.sh
 FLAG=$1

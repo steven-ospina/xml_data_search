@@ -3,6 +3,8 @@ from sys import argv
 
 
 def run():
+    """Esta función está diseñada y en encargada para poder correr ejecutar la aplicación.
+    """
     flag_format: str = "-f"
     flag_export: str = "-e"
     flag_remove_value_in_xml: str = "-r"

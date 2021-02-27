@@ -10,25 +10,15 @@ class Menu:
 
     Attributes:
         _flag (bool): Esté atributo se utiliza para poder ejecutar el menú que tiene la aplicación.
-        name_file (string): Esté atributo se utiliza para poder guardar los nombres de los archivos.
         csv (class): Esté atributo se utiliza para poder instaciar la clase Csv y poder invocar los métodos.
         xml (class): Esté atributo se utiliza para poder instancia la clase Xml y poder invocar los métodos.
-        data_list_csv (list): Esté atributo se utiliza para poder guardar los los datos que retorna el método get_csv_data_list().
-        data_list_xml (list): Esté atributo se utiliza para poder guardar los los datos que retorna el método get_xml_data_list().
-        data_index_xml (list): Esté atributo se utiliza para poder guardar los los datos que retorna el método search_the_index_in_the_list().
-        files (list): Esté atributo se utiliza para poder guardar la lista filtrada de los archivos xml y csv del directorio de trabajo.
     """
     def __init__(self):
         """ El constructor de la clase Menu
         """
         self._flag: bool = True
-        self.name_file: str = ""
         self.csv = Csv()
         self.xml = Xml()
-        self.data_list_csv: list = []
-        self.data_list_xml: list = []
-        self.data_index_xml: list = []
-        self.files: list = []
 
     # Método que imprime el menu que tiene el sistema
     def menu(self) -> None:
@@ -41,12 +31,13 @@ class Menu:
             print('[0]Salir')
             command = str(input('Que deseas hacer \n$:'))
             if command == '1':
-                self.get_data_csv_and_xml()
+                get_data = self.get_data_csv_and_xml()
             elif command == '2':
-                self.data_index_xml = self.xml.search_the_index_in_the_list(data_list_csv=self.data_list_csv, data_list_xml=self.data_list_xml)
+                data_index_xml = self.xml.search_the_index_in_the_list(data_list_csv=get_data['csv_list'], data_list_xml=get_data['xml_list'])
+                print(f"\nTotal indexes encontrados: {len(data_index_xml)}\n")
             elif command == '3':
-                name_file_xml: str = self.xml.write_file_xml()
-                self.xml.build_xml(name_file=self.name_file, name_file_xml=name_file_xml, data_index_xml=self.data_index_xml)
+                name_of_the_chosen_xml: str = self.xml.write_file_xml()
+                self.xml.build_xml(xml_file_name=get_data['chosen_xml_file'], name_of_the_new_xml_file=name_of_the_chosen_xml, data_index_xml=data_index_xml)
             elif command == '0':
                 self.identify_system()
                 self._flag = False
@@ -55,7 +46,7 @@ class Menu:
                 self._flag = False
 
     # Método para cargar los datos csv y xml
-    def get_data_csv_and_xml(self) -> None:
+    def get_data_csv_and_xml(self) -> dict:
         """ Este método se diseñó para poder seleccionar los archivos con lo que se va a trabajar,
             y poder invocar los metodos:
 
@@ -66,13 +57,21 @@ class Menu:
         files_name = self.get_the_current_working_directory()
         [print(f"{[files_name.index(item)]}-{item}") for item in files_name]
         try:
-            file_csv = int(input("Selecciona el archivo csv: "))
-            file_xml = int(input("Selecciona el archivo xml: "))
-            if ".csv" in files_name[file_csv] and ".xml" in files_name[file_xml]:
-                self.xml.check_and_format_xml(name_file_xml=files_name[file_xml])
-                self.data_list_csv = self.csv.get_csv_data_list(name_file=files_name[file_csv])
-                self.data_list_xml = self.xml.get_xml_data_list(name_file=files_name[file_xml])
-                self.name_file = files_name[file_xml]
+            csv_file = int(input("Selecciona el archivo csv: "))
+            xml_file = int(input("Selecciona el archivo xml: "))
+            if ".csv" in files_name[csv_file] and ".xml" in files_name[xml_file]:
+                self.xml.check_and_format_xml(xml_file_name=files_name[xml_file])
+                csv_list = self.csv.get_csv_data_list(csv_file_name=files_name[csv_file])
+                print(f"\nTotal datos csv: {len(csv_list)}\n")
+                xml_list = self.xml.get_xml_data_list(xml_file_name=files_name[xml_file])
+                print(f"\nTotal estados de cuenta xml: {len(xml_list)}")
+
+                data = {
+                    "csv_list": csv_list,
+                    "xml_list": xml_list,
+                    "chosen_xml_file": files_name[xml_file]
+                }
+                return data
             else:
                 print("Seleccionaste mal los archivos, debe ser 1 el csv y 2 el xml\n")
         except IndexError as error_index:
@@ -87,9 +86,9 @@ class Menu:
             list: Una lista con los nombres de los archivos csv y xml.
         """
         cwd = os.getcwd()
-        list_files = os.listdir(cwd)
-        self.files = [item for item in list_files if '.csv' in item or '.xml' in item]
-        return self.files
+        file_list_in_directory = os.listdir(cwd)
+        files_list = [item for item in file_list_in_directory if '.csv' in item or '.xml' in item]
+        return files_list
 
     # Método para construir el archivo por medio de argumentos por linea de comando
     def build_xml_with_arguments(self, argv_list: list) -> None:
@@ -104,11 +103,14 @@ class Menu:
         print(f" * CSV: {argv_list[1]}")
         print(f" * XML: {argv_list[2]}")
         print(f" * Name-file: {argv_list[3]}")
-        self.data_list_csv = self.csv.get_csv_data_list(name_file=argv_list[1])
-        self.xml.check_and_format_xml(name_file_xml=argv_list[2])
-        self.data_list_xml = self.xml.get_xml_data_list(name_file=argv_list[2])
-        self.data_index_xml = self.xml.search_the_index_in_the_list(data_list_csv=self.data_list_csv, data_list_xml=self.data_list_xml)
-        self.xml.build_xml(name_file=argv_list[2], name_file_xml=argv_list[3], data_index_xml=self.data_index_xml)
+        csv_list = self.csv.get_csv_data_list(csv_file_name=argv_list[1])
+        print(f"\nTotal datos csv: {len(csv_list)}\n")
+        self.xml.check_and_format_xml(xml_file_name=argv_list[2])
+        xml_list = self.xml.get_xml_data_list(xml_file_name=argv_list[2])
+        print(f"\nTotal estados de cuenta xml: {len(xml_list)}")
+        xml_index = self.xml.search_the_index_in_the_list(data_list_csv=csv_list, data_list_xml=xml_list)
+        print(f"\nTotal indexes encontrados: {len(xml_index)}\n")
+        self.xml.build_xml(xml_file_name=argv_list[2], name_of_the_new_xml_file=argv_list[3], data_index_xml=xml_index)
 
     # Método para formatear archivos xml por medio de argumentos por linea de comando
     def format_xml_with_arguments(self, argv_list: list) -> None:
@@ -118,9 +120,9 @@ class Menu:
         Args:
             argv_list (list): Recibe una lista con el nombre del archivo xml y poder dar formato.
         """
-        print("Archivos agregado para formatear:")
+        print("Archivo agregado para formatear:")
         print(f" * XML: {argv_list[2]}")
-        self.xml.check_and_format_xml(name_file_xml=argv_list[2])
+        self.xml.check_and_format_xml(xml_file_name=argv_list[2])
 
     # Método para exportar los estados de cuenta a un archivo csv por medio de argumentos por linea de comando
     def export_data_csv_arguments(self, argv_list: list) -> None:
@@ -133,9 +135,10 @@ class Menu:
         print("Archivos agregados:")
         print(f" * XML: {argv_list[2]}")
         print(f" * CSV: {argv_list[3]}")
-        self.xml.check_and_format_xml(name_file_xml=argv_list[2])
-        self.data_list_xml = self.xml.get_xml_data_list(name_file=argv_list[2])
-        self.csv.export_data_csv(data_list_xml=self.data_list_xml, name_file_csv=argv_list[3])
+        self.xml.check_and_format_xml(xml_file_name=argv_list[2])
+        xml_list = self.xml.get_xml_data_list(xml_file_name=argv_list[2])
+        print(f"\nTotal estados de cuenta xml: {len(xml_list)}")
+        self.csv.export_data_csv(data_list_xml=xml_list, csv_file_name=argv_list[3])
 
     # Método para eliminar los estados de cuenta, por medio de argumentos por linea de comando
     def remove_xml_values_with_arguments(self, argv_list: list) -> None:
@@ -148,11 +151,14 @@ class Menu:
         print("Archivos agregados:")
         print(f" * CSV: {argv_list[2]}")
         print(f" * XML: {argv_list[3]}")
-        self.data_list_csv = self.csv.get_csv_data_list(name_file=argv_list[2])
-        self.xml.check_and_format_xml(name_file_xml=argv_list[3])
-        self.data_list_xml = self.xml.get_xml_data_list(name_file=argv_list[3])
-        self.data_index_xml = self.xml.search_the_index_in_the_list(data_list_csv=self.data_list_csv, data_list_xml=self.data_list_xml)
-        self.xml.remove_xml_values(name_file=argv_list[3], data_index_xml=self.data_index_xml)
+        csv_list = self.csv.get_csv_data_list(csv_file_name=argv_list[2])
+        print(f"\nTotal datos csv: {len(csv_list)}\n")
+        self.xml.check_and_format_xml(xml_file_name=argv_list[3])
+        xml_list = self.xml.get_xml_data_list(xml_file_name=argv_list[3])
+        print(f"\nTotal estados de cuenta xml: {len(xml_list)}")
+        xml_index = self.xml.search_the_index_in_the_list(data_list_csv=csv_list, data_list_xml=xml_list)
+        print(f"\nTotal indexes encontrados: {len(xml_index)}\n")
+        self.xml.remove_xml_values(xml_file_name=argv_list[3], data_index_xml=xml_index)
 
     # Método para identificar el sistema operativo para poder limpiar la consola
     @staticmethod

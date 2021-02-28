@@ -1,4 +1,5 @@
 import csv
+import random
 
 
 class Csv:
@@ -51,6 +52,42 @@ class Csv:
                     csv_writer.writerow([data])
         except Exception as error:
             self.print_error_csv(mesaage_error_method=f"Error al exportar los datos xml al archivo :{csv_file_name}", message=error)
+
+    def select_random_item(self, list_data: list) -> list:
+        """ Este método se diseñó para genera datos aleatorio de una lista que recibe.
+
+        Args:
+            list_data (list): Lista con datos para poder seleccionar un dato alzar.
+
+        Returns:
+            list: Una lista con un valor alzar
+        """
+        random_index = random.randrange(0, len(list_data))
+        return list_data[random_index]
+
+    def select_days(self, data_list_csv: list, amount: int) -> None:
+        """ Este método se diseñó para seleccionar los días de mora alzar.
+
+        Args:
+            data_list_csv (list): Lista con todos los números de días de mora.
+            amount (int): Número de días a buscar.
+        """
+        try:
+            flag = True
+            count = 0
+            print('NÚMERO_OBLIGACIÓN | DÍAS_MORA')
+            while flag:
+                random_value = self.select_random_item(list_data=data_list_csv)
+                split_value = random_value.split(";")
+
+                if int(split_value[1]) > 0:
+                    print(f"{split_value[0]} | {split_value[1]}")
+                    count += 1
+                if count == amount:
+                    flag = False
+                    print("\n")
+        except TypeError as error:
+            self.print_error_csv(mesaage_error_method="Error al intertar seleccionar los días de mora", message=error)
 
     # Método para imprimir errores del archivo Csv
     def print_error_csv(self, mesaage_error_method: str, message: Exception) -> None:

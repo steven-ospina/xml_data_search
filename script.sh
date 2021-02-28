@@ -18,11 +18,13 @@ FLAG=$1
 FILE_1=$1
 FILE_2=$2
 FILE_3=$3
+NUMBER_DAYS=$3
 
 # Banderas que tiene la aplicación.
 FORMAT=-f
 EXPORT=-e
 REMOVE=-r
+RAV=-rav
 HELP=-h
 
 # Directorio actual.
@@ -42,6 +44,8 @@ elif [[ $FLAG == $EXPORT ]]; then
 	$COMMAND_PYTHON $PATH_SCRIPT $EXPORT "$CURRENT_PATH/$FILE_2" "$CURRENT_PATH/$FILE_3"
 elif [[ $FLAG == $REMOVE ]]; then
 	$COMMAND_PYTHON $PATH_SCRIPT $REMOVE "$CURRENT_PATH/$FILE_2" "$CURRENT_PATH/$FILE_3"
+elif [[ $FLAG == $RAV ]]; then
+	$COMMAND_PYTHON $PATH_SCRIPT $RAV "$CURRENT_PATH/$FILE_2" $NUMBER_DAYS
 elif [[ $FLAG == $HELP ]]; then
 	$COMMAND_PYTHON $PATH_SCRIPT $HELP
 elif [[ $FILE_1 =~ ($CSV)$ ]] && [[ $FILE_2 =~ ($XML)$ ]] && [[ $FILE_3 =~ ($XML)$ ]]; then

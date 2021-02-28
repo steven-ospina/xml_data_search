@@ -91,74 +91,87 @@ class Menu:
         return files_list
 
     # Método para construir el archivo por medio de argumentos por linea de comando
-    def build_xml_with_arguments(self, argv_list: list) -> None:
+    def build_xml_with_arguments(self, arg_list: list) -> None:
         """ Este método se diseñó para construir los archivos xml por medio de argumentos,
             que recibe la aplicación.
 
         Args:
-            argv_list (list): Recibe una lista con los nombres de los archivos csv y xml,
+            arg_list (list): Recibe una lista con los nombres de los archivos csv y xml,
                               que se agregaron por argumentos de la aplicación.
         """
         print("Archivos agregados:")
-        print(f" * CSV: {argv_list[1]}")
-        print(f" * XML: {argv_list[2]}")
-        print(f" * Name-file: {argv_list[3]}")
-        csv_list = self.csv.get_csv_data_list(csv_file_name=argv_list[1])
+        print(f" * CSV: {arg_list[1]}")
+        print(f" * XML: {arg_list[2]}")
+        print(f" * Name-file: {arg_list[3]}")
+        csv_list = self.csv.get_csv_data_list(csv_file_name=arg_list[1])
         print(f"\nTotal datos csv: {len(csv_list)}\n")
-        self.xml.check_and_format_xml(xml_file_name=argv_list[2])
-        xml_list = self.xml.get_xml_data_list(xml_file_name=argv_list[2])
+        self.xml.check_and_format_xml(xml_file_name=arg_list[2])
+        xml_list = self.xml.get_xml_data_list(xml_file_name=arg_list[2])
         print(f"\nTotal estados de cuenta xml: {len(xml_list)}")
         xml_index = self.xml.search_the_index_in_the_list(data_list_csv=csv_list, data_list_xml=xml_list)
         print(f"\nTotal indexes encontrados: {len(xml_index)}\n")
-        self.xml.build_xml(xml_file_name=argv_list[2], name_of_the_new_xml_file=argv_list[3], data_index_xml=xml_index)
+        self.xml.build_xml(xml_file_name=arg_list[2], name_of_the_new_xml_file=arg_list[3], data_index_xml=xml_index)
 
     # Método para formatear archivos xml por medio de argumentos por linea de comando
-    def format_xml_with_arguments(self, argv_list: list) -> None:
+    def format_xml_with_arguments(self, arg_list: list) -> None:
         """ Este método se diseñó para poder verificar si el archivo xml está formateado,
             si no está formateado le dará un formato para poder leer los datos y si es lo contrario,
             no hará nada.
         Args:
-            argv_list (list): Recibe una lista con el nombre del archivo xml y poder dar formato.
+            arg_list (list): Recibe una lista con el nombre del archivo xml y poder dar formato.
         """
         print("Archivo agregado para formatear:")
-        print(f" * XML: {argv_list[2]}")
-        self.xml.check_and_format_xml(xml_file_name=argv_list[2])
+        print(f" * XML: {arg_list[2]}")
+        self.xml.check_and_format_xml(xml_file_name=arg_list[2])
 
     # Método para exportar los estados de cuenta a un archivo csv por medio de argumentos por linea de comando
-    def export_data_csv_arguments(self, argv_list: list) -> None:
+    def export_data_csv_arguments(self, arg_list: list) -> None:
         """ Este método se diseñó para exportar todos los números de estados de cuenta que están,
             el archivo xml que se esté trabajando y poder exportarlos a un archivo csv.
 
         Args:
-            argv_list (list): Recibe una lista con los nombres de los archivos xml y csv.
+            arg_list (list): Recibe una lista con los nombres de los archivos xml y csv.
         """
         print("Archivos agregados:")
-        print(f" * XML: {argv_list[2]}")
-        print(f" * CSV: {argv_list[3]}")
-        self.xml.check_and_format_xml(xml_file_name=argv_list[2])
-        xml_list = self.xml.get_xml_data_list(xml_file_name=argv_list[2])
+        print(f" * XML: {arg_list[2]}")
+        print(f" * CSV: {arg_list[3]}")
+        self.xml.check_and_format_xml(xml_file_name=arg_list[2])
+        xml_list = self.xml.get_xml_data_list(xml_file_name=arg_list[2])
         print(f"\nTotal estados de cuenta xml: {len(xml_list)}")
-        self.csv.export_data_csv(data_list_xml=xml_list, csv_file_name=argv_list[3])
+        self.csv.export_data_csv(data_list_xml=xml_list, csv_file_name=arg_list[3])
 
     # Método para eliminar los estados de cuenta, por medio de argumentos por linea de comando
-    def remove_xml_values_with_arguments(self, argv_list: list) -> None:
+    def remove_xml_values_with_arguments(self, arg_list: list) -> None:
         """ Este método se diseñó para poder remover los estados de cuenta que se especifiquen,
             en el archivo csv y poder borrarlos del archivo xml.
 
         Args:
-            argv_list (list): Recibe una lista con los nombres de los archivos xml y csv
+            arg_list (list): Recibe una lista con los nombres de los archivos xml y csv
         """
         print("Archivos agregados:")
-        print(f" * CSV: {argv_list[2]}")
-        print(f" * XML: {argv_list[3]}")
-        csv_list = self.csv.get_csv_data_list(csv_file_name=argv_list[2])
+        print(f" * CSV: {arg_list[2]}")
+        print(f" * XML: {arg_list[3]}")
+        csv_list = self.csv.get_csv_data_list(csv_file_name=arg_list[2])
         print(f"\nTotal datos csv: {len(csv_list)}\n")
-        self.xml.check_and_format_xml(xml_file_name=argv_list[3])
-        xml_list = self.xml.get_xml_data_list(xml_file_name=argv_list[3])
+        self.xml.check_and_format_xml(xml_file_name=arg_list[3])
+        xml_list = self.xml.get_xml_data_list(xml_file_name=arg_list[3])
         print(f"\nTotal estados de cuenta xml: {len(xml_list)}")
         xml_index = self.xml.search_the_index_in_the_list(data_list_csv=csv_list, data_list_xml=xml_list)
         print(f"\nTotal indexes encontrados: {len(xml_index)}\n")
-        self.xml.remove_xml_values(xml_file_name=argv_list[3], data_index_xml=xml_index)
+        self.xml.remove_xml_values(xml_file_name=arg_list[3], data_index_xml=xml_index)
+
+    def print_random_days(self, arg_list: list) -> None:
+        """ Este método se diseñó para poder seleccionar alzar los días de mora.
+
+        Args:
+            arg_list (list): Recibe una lista con el nombre del archivo csv y el número de días a buscar.
+        """
+        print("Archivo agregado:")
+        print(f" * CSV: {arg_list[2]}")
+        csv_list = self.csv.get_csv_data_list(csv_file_name=arg_list[2])
+        print(f"\nTotal datos csv: {len(csv_list)}\n")
+        iterations = int(arg_list[3])
+        self.csv.select_days(data_list_csv=csv_list, amount=iterations)
 
     # Método para identificar el sistema operativo para poder limpiar la consola
     @staticmethod
@@ -203,8 +216,12 @@ class Menu:
         print("Remove values in xml")
         print("position arguments:")
         print(" main.py -r file-CSV.csv file-XML.xml\n")
+        print("Select days at random")
+        print("position arguments:")
+        print(" main.py -rav file-CSV.csv int->number_day\n")
         print("opcional arguments:")
         print(" -h, --help  show this help message and exit")
         print(" -f, format xml files")
         print(" -e, export account statement numbers to csv")
         print(" -r, remove account statement")
+        print(" -rav, select days at random")

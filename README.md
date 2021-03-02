@@ -1,7 +1,7 @@
 # Búsqueda de datos xml
 
 ![dependencies](https://img.shields.io/badge/python-v3.6.9-blue.svg)
-![Current Version](https://img.shields.io/badge/version-0.8.4-green.svg)
+![Current Version](https://img.shields.io/badge/version-1.9.5-green.svg)
 
 Esta aplicación se diseñó para leer archivos XML y CSV, abecés el archivo XML es muy grande y se necesita buscar N cantidad de datos que manual mente como humanos nos podemos demora mucho, con esta aplicación nos ahorramos el tiempo de formatear el archivo y buscar esos datos, además también podemos exportar un dato importante a un archivo csv, para usarlo a la necesidad del usuario.
 

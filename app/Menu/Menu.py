@@ -203,7 +203,7 @@ class Menu:
         """ Este método se diseñó para imprimir un mensaje en modo de ayuda para el usuario y poder,
             ejecutar correctamente la aplicación.
         """
-        print("Descripción: \n Buscador de datos xml, \n Formateado de xml, \n Exportador a csv, \n Eliminador de datos en el xml\n Seleccionar días de mora alzar\n")
+        print("Descripción: \n Buscador de datos xml, \n Formateado de xml, \n Exportador a csv, \n Eliminador de datos en el xml\n Seleccionar días de mora al azar\n")
         print("Search data in xml")
         print("position of arguments:")
         print(" main.py file-CSV.csv file-XML.xml XML-file-name.xml\n")

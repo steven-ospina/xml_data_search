@@ -140,7 +140,9 @@ dmypy.json
 
 # files-test
 *.xml
+!docs/sample-XML.xml
 *csv
+!docs/sample-CSV.csv
 *.xlsx
 *.swp
 *.xlsx#

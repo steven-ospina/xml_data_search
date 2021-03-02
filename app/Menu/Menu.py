@@ -9,9 +9,24 @@ class Menu:
     o poder ejecutar la aplicación por medio de argumentos que recibe la aplicación.
 
     Attributes:
+    ----------
         _flag (bool): Esté atributo se utiliza para poder ejecutar el menú que tiene la aplicación.
         csv (class): Esté atributo se utiliza para poder instaciar la clase Csv y poder invocar los métodos.
         xml (class): Esté atributo se utiliza para poder instancia la clase Xml y poder invocar los métodos.
+
+    Methods:
+    -------
+        menu() -> None:
+        get_data_csv_and_xml() -> dict:
+        get_the_current_working_directory() -> list:
+        build_xml_with_arguments(arg_list: list) -> None:
+        format_xml_with_arguments(arg_list: list) -> None:
+        export_data_csv_arguments(arg_list: list) -> None:
+        remove_xml_values_with_arguments(arg_list: list) -> None
+        def print_random_days(self, arg_list: list) -> None:
+        identify_system() -> None:
+        print_message() -> None:
+        print_message_help() -> None:
     """
     def __init__(self):
         """ El constructor de la clase Menu
@@ -203,25 +218,10 @@ class Menu:
         """ Este método se diseñó para imprimir un mensaje en modo de ayuda para el usuario y poder,
             ejecutar correctamente la aplicación.
         """
-        print("Descripción: \n Buscador de datos xml, \n Formateado de xml, \n Exportador a csv, \n Eliminador de datos en el xml\n Seleccionar días de mora al azar\n")
-        print("Search data in xml")
-        print("position of arguments:")
-        print(" main.py file-CSV.csv file-XML.xml XML-file-name.xml\n")
-        print("xml format")
-        print("position of arguments:")
-        print(" main.py -f file-XML.xml\n")
-        print("Export xml data to csv")
-        print("position of arguments:")
-        print(" main.py -e file-XML.xml file-CSV.csv\n")
-        print("Remove values in xml")
-        print("position of arguments:")
-        print(" main.py -r file-CSV.csv file-XML.xml\n")
-        print("Select days at random")
-        print("position of arguments:")
-        print(" main.py -rav file-CSV.csv int->number_day\n")
-        print("opcional arguments:")
-        print(" -h, --help  display this help message")
-        print(" -f, format xml files")
-        print(" -e, export account statement numbers to csv")
-        print(" -r, delete statements of account")
-        print(" -rav, select days at random")
+        try:
+            path = 'docs/messages/messages-help.txt'
+            with open(path, 'r') as file_with_help_messages:
+                help_massages = file_with_help_messages.read()
+                print(help_massages)
+        except FileNotFoundError as error:
+            print(f"No se pudo imprimir los mesajes de ayudas, ERROR: {error}")

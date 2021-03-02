@@ -121,7 +121,7 @@ from copy import deepcopy
 - Ejecutamos el siguiente comando en la terminal para instalar pip:
 
 ```shell
-sudo apt-get install python3-píp
+sudo apt-get install python3-pip
 ```
 
 > **Confirme la instalación del pip y al terminar ya podremos saber la versión instalada**
@@ -329,7 +329,7 @@ Números-obligación |Días de mora|
 > **NOTA:** la aplicación lee los números de obligación y los días de mora, entonces el archivo CSV no debe tener ningún encabezado, si el archivo tiene encabezado o un dato de tipo string o un dato desconocido la aplicación generar un erro.
 >> Pongo el título **Números-obligación** y **Días de mora** para ilustrar como deben ir los datos en el archivo csv, y los datos están delimitados por un puto y coma `;`,`Ejemplo: 12345;0`
 
- **NOTA:**`En la raíz del proyecto, en la carpeta doc/, habrá dos archivos CSV y XML de ejemplo para testear la aplicación.`
+ **NOTA:**`En la raíz del proyecto, en la carpeta doc/, habrá archivos CSV, XML y días de mora de ejemplo para testear la aplicación.`
 
 ### Como usar la aplicación
 
@@ -530,12 +530,16 @@ Ya con haber configurado seguido los pasos anteriores, te muestro algunos ejempl
 ```zsh
 # Con esté comando imprimes en la terminal la ayudas de la aplicación
 script-search-xml -h
+
 # Con esté comando podrás exportar los datos XML a uno nuevo
 script-search-xml file-CSV.csv file-XML.xml name-of-new-XML-file.xml
+
 # Con esté comando podrás formatear los archivos XML
 script-search-xml -f XML-file-to-form
+
 # Con esté comando podrás exportar los números de estados de cuenta a un archivo CSV
 script-search-xml -e XML-file.xml CSV-name.csv
+
 # Con esté comando podrás elegir días de mora alzar
 script-search-xml -rav file-CSV.csv number-days
 ```

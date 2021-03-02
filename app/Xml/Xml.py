@@ -9,7 +9,19 @@ class Xml:
     Está clase esta diseñada para poder trabajar con los archivos XML
 
     Attributes:
+    ----------
         write_method (string): Esté atributo se utiliza para guardar la palabra "w" que se significa write.
+
+    Methods:
+    -------
+        write_file_xml()-> str:
+        get_xml_data_list(xml_file_name: str) -> list:
+        search_the_index_in_the_list(data_list_csv: list, data_list_xml: list) -> list:
+        build_xml(xml_file_name: str, name_of_the_new_xml_file: str, data_index_xml: list) -> None:
+        build_root_xml(xml_file_name: str):
+        check_and_format_xml(xml_file_name: str) -> None:
+        remove_xml_values(xml_file_name: str, data_index_xml: list) -> None:
+        print_error_xml(mesaage_error_method: str, message: Exception) -> None:
     """
     def __init__(self):
         """ El constructor de la clase Xml

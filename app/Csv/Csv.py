@@ -7,9 +7,17 @@ class Csv:
     Está clase esta diseñada para poder trabajar con los archivos CSV
 
     Attributes:
+    ----------
         read_method (): Esté atributo se utiliza para guardar la palabra "r" que se significa read.
         write_method (): Esté atributo se utiliza para guardar la palabra "w" que se significa write.
 
+    Methods:
+    -------
+        get_csv_data_list(csv_file_name: str) -> list:
+        export_data_csv(data_list_xml: list, csv_file_name: str) -> None:
+        select_random_item(list_data: list) -> list:
+        select_days(data_list_csv: list, amount: int) -> None:
+        print_error_csv(mesaage_error_method: str, message: Exception) -> None:
     """
     def __init__(self):
         """ El constructor de la clase Xml

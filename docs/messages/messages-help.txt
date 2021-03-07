@@ -1,0 +1,34 @@
+Descripción:
+
+Buscador de datos xml,
+Formateado de xml,
+Exportador a csv,
+Eliminador de datos en el xml
+Seleccionar días de mora al azar
+
+Search data in xml
+position of arguments:
+ main.py file-CSV.csv file-XML.xml XML-file-name.xml
+
+xml format
+position of arguments:
+ main.py -f file-XML.xml
+
+Export xml data to csv
+position of arguments:
+ main.py -e file-XML.xml file-CSV.csv
+
+Remove values in xml
+position of arguments:
+ main.py -r file-CSV.csv file-XML.xml
+
+Select days at random
+position of arguments:
+ main.py -rav file-CSV.csv int->number_day
+
+opcional arguments:
+ -h, --help  display this help message
+ -f, format xml files
+ -e, export account statement numbers to csv
+ -r, delete statements of account
+ -rav, select days at random

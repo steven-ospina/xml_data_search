@@ -140,14 +140,16 @@ dmypy.json
 
 # files-test
 *.xml
-!docs/sample-XML.xml
 *csv
-!docs/sample-CSV.csv
 *.xlsx
 *.swp
 *.xlsx#
 *.txt
 *.pyc
 !requirements.txt
+!docs/sample-XML.xml
+!docs/sample-CSV.csv
+!docs/sample-dias-mora.csv
+!docs/messages/messages-help.txt
 datos-xml-final/
 testing-code.py

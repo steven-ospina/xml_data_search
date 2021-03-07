@@ -57,7 +57,7 @@ fi
 # Evalúa que el script se halla ejecutado bien.
 # Code status 0 = bien
 if [ $? -eq 0 ]; then
-	echo "OK, Se ejecuto el script con normalidad"
+	echo "OK, Se ejecutó el script.sh con normalidad"
 else
-	echo "ERROR: no se pudo ejecutar el script de python"
+	echo "ERROR: no se pudo ejecutar la aplicación de python o el script.sh"
 fi

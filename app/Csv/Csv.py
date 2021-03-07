@@ -1,29 +1,32 @@
 import csv
 import random
+from Config import Messages
+import traceback
 
 
 class Csv:
     """
-    Está clase esta diseñada para poder trabajar con los archivos CSV
+    Está clase esta diseñada para poder trabajar con los archivos CSV.
 
     Attributes:
     ----------
         read_method (): Esté atributo se utiliza para guardar la palabra "r" que se significa read.
         write_method (): Esté atributo se utiliza para guardar la palabra "w" que se significa write.
+        messages (class): Esté atributo se utiliza para poder instancia la clase Messages y poder invocar los métodos.
 
     Methods:
     -------
-        get_csv_data_list(csv_file_name: str) -> list:
-        export_data_csv(data_list_xml: list, csv_file_name: str) -> None:
-        select_random_item(list_data: list) -> list:
-        select_days(data_list_csv: list, amount: int) -> None:
-        print_error_csv(mesaage_error_method: str, message: Exception) -> None:
+        get_csv_data_list(csv_file_name: str) -> list
+        export_data_csv(data_list_xml: list, csv_file_name: str) -> None
+        select_random_item(list_data: list) -> list
+        select_days(data_list_csv: list, amount: int) -> None
     """
     def __init__(self):
         """ El constructor de la clase Xml
         """
         self.read_method: str = 'r'
         self.write_method: str = 'w'
+        self.messages = Messages()
 
     # Método encargado de leer los datos que están en el archivo csv
     def get_csv_data_list(self, csv_file_name: str) -> list:
@@ -42,8 +45,9 @@ class Csv:
                 data_list_csv = [''.join(item) for item in reader if item]
 
                 return data_list_csv
-        except Exception as error:
-            self.print_error_csv(mesaage_error_method=f"No se pudo cargar los datos del archivo csv : {csv_file_name}", message=error)
+        except Exception as error_message_when_getting_csv_data:
+            print(f"uncaught exception {traceback.format_exc()}")
+            print(self.messages.print_error(programmer_error_message=f"No se pudo cargar los datos del archivo csv > {csv_file_name}", error_message_from_method=error_message_when_getting_csv_data))
 
     # Método para exportar los estados de cuenta a un archivo csv
     def export_data_csv(self, data_list_xml: list, csv_file_name: str) -> None:
@@ -58,8 +62,9 @@ class Csv:
                 csv_writer = csv.writer(csv_file)
                 for data in data_list_xml:
                     csv_writer.writerow([data])
-        except Exception as error:
-            self.print_error_csv(mesaage_error_method=f"Error al exportar los datos xml al archivo :{csv_file_name}", message=error)
+        except Exception as error_message_when_exporting_csv_data:
+            print(f"uncaught exception {traceback.format_exc()}")
+            print(self.messages.print_error(programmer_error_message=f"Error al exportar los datos xml al archivo > {csv_file_name}", error_message_from_method=error_message_when_exporting_csv_data))
 
     def select_random_item(self, list_data: list) -> list:
         """ Este método se diseñó para genera datos aleatorio de una lista que recibe.
@@ -94,16 +99,6 @@ class Csv:
                 if count == amount:
                     flag = False
                     print("\n")
-        except TypeError as error:
-            self.print_error_csv(mesaage_error_method="Error al intertar seleccionar los días de mora", message=error)
-
-    # Método para imprimir errores del archivo Csv
-    def print_error_csv(self, mesaage_error_method: str, message: Exception) -> None:
-        """ Este método se diseñó para imprimir en consola los errores que ocurren en la clase Csv y terminar de correr la aplicación
-
-        Args:
-            mesaage_error_method (str): Mensaje indicando el error que pudo haber pasado.
-            message (Exception): Mensaje de error que describe lo que paso, esto lo genera el try except.
-        """
-        print(f"ERROR: {mesaage_error_method}")
-        exit(f"ERROR: {message}")
+        except TypeError as error_message_select_random_days:
+            print(f"uncaught exception {traceback.format_exc()}")
+            print(self.messages.print_error(programmer_error_message=f"Error al intertar seleccionar los días de mora", error_message_from_method=error_message_select_random_days))

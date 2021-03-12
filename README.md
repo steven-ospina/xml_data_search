@@ -1,7 +1,7 @@
 # Búsqueda de datos xml
 
 ![dependencies](https://img.shields.io/badge/python-v3.6.9-blue.svg)
-![Current Version](https://img.shields.io/badge/version-1.10.7-green.svg)
+![Current Version](https://img.shields.io/badge/version-1.11.8-green.svg)
 
 Esta aplicación se diseñó para leer archivos XML y CSV, abecés el archivo XML es muy grande y se necesita buscar N cantidad de datos que manual mente como humanos nos podemos demora mucho, con esta aplicación nos ahorramos el tiempo de formatear el archivo y buscar esos datos, además también podemos exportar un dato importante a un archivo csv, para usarlo a la necesidad del usuario.
 
@@ -9,8 +9,8 @@ Esta aplicación se diseñó para leer archivos XML y CSV, abecés el archivo XM
 
 - [Búsqueda de datos xml](#búsqueda-de-datos-xml)
   - [Tabla de contenido](#tabla-de-contenido)
-  - [Instalar python 3](#instalar-python-3)
-    - [Guía de como instalar python 3 en linux](#guía-de-como-instalar-python-3-en-linux)
+  - [Instalar Python 3](#instalar-python-3)
+    - [Guía de como instalar Python 3 en Linux](#guía-de-como-instalar-python-3-en-linux)
   - [Configuración](#configuración)
     - [Archivos necesarios para trabajar con la aplicación](#archivos-necesarios-para-trabajar-con-la-aplicación)
     - [Como usar la aplicación](#como-usar-la-aplicación)
@@ -20,21 +20,21 @@ Esta aplicación se diseñó para leer archivos XML y CSV, abecés el archivo XM
       - [Comando para exportar los números de estados de cuenta a un archivo CSV](#comando-para-exportar-los-números-de-estados-de-cuenta-a-un-archivo-csv)
       - [Comando para eliminar datos del archivo XML](#comando-para-eliminar-datos-del-archivo-xml)
       - [Comando para elegir días de mora alzar](#comando-para-elegir-días-de-mora-alzar)
-    - [Correr aplicación con el archivo de bash](#correr-aplicación-con-el-archivo-de-bash)
+    - [Correr aplicación con el archivo de Bash](#correr-aplicación-con-el-archivo-de-bash)
       - [Configurar las variables de entorno](#configurar-las-variables-de-entorno)
       - [Configurar .bashrc_aliases o .zshrc_aliases](#configurar-bashrc_aliases-o-zshrc_aliases)
-      - [Ejemplos de como utilizar la aplicación con bash](#ejemplos-de-como-utilizar-la-aplicación-con-bash)
+      - [Ejemplos de como utilizar la aplicación con Bash](#ejemplos-de-como-utilizar-la-aplicación-con-bash)
   - [Licencia](#licencia)
 
-## Instalar python 3
+## Instalar Python 3
 
-Para poder ejecutar el proyecto se necesita instalar **python 3** y es recomendable correr la aplicación en el sistema operativo linux.
+Para poder ejecutar el proyecto se necesita instalar **Python 3** y es recomendable correr la aplicación en el sistema operativo linux.
 
-### Guía de como instalar python 3 en linux
+### Guía de como instalar Python 3 en Linux
 
-Está guía te indica como instalar **python 3** en linux en la distribución `ubuntu`, si ya tienes instalado **python 3** `(Recomendable la versión 3.6.9 o superior)`, puedes ignorar esta guía:
+Está guía te indica como instalar **Python 3** en Linux en la distribución `Ubuntu`, si ya tienes instalado **Python 3** `(Recomendable la versión 3.6.9 o superior)`, puedes ignorar esta guía:
 
-[Leer guía de como instalar python 3 en ubuntu](docs/guides/install-python-3.md)
+[Leer guía de como instalar Python 3 en Ubuntu](docs/guides/install-python-3.md)
 
 ## Configuración
 
@@ -91,7 +91,7 @@ Números-obligación |Días de mora|
 > **NOTA:** la aplicación lee los números de obligación y los días de mora, entonces el archivo CSV no debe tener ningún encabezado, si el archivo tiene encabezado o un dato de tipo string o un dato desconocido la aplicación generar un erro.
 >> Pongo el título **Números-obligación** y **Días de mora** para ilustrar como deben ir los datos en el archivo csv, y los datos están delimitados por un puto y coma `;`,`Ejemplo: 12345;0`
 
- **NOTA:**`En la raíz del proyecto, en la carpeta doc/, habrá archivos CSV, XML y días de mora de ejemplo para testear la aplicación.`
+ **NOTA:**`En la raíz del proyecto, en la carpeta docs/, habrá archivos CSV, XML y días de mora de ejemplo para testear la aplicación.`
 
 ### Como usar la aplicación
 
@@ -203,9 +203,9 @@ python3 main.py -rav file-CSV.csv number-days
 
 `Posición 2 = number-days ⟵ Se ingresa el número que desear imprimir ejemplo: 5.`
 
-### Correr aplicación con el archivo de bash
+### Correr aplicación con el archivo de Bash
 
-En la raíz del proyecto hay un archivo llamado `script.sh`, con este archivo podremos ejecutar la aplicación sin la necesidad de poner el comando `python3` antes de ejecutar la aplicación, además otras ventajas que tiene de ejecutar la aplicación es que se puede configurar para poder ejecutar la aplicación en cualquier parte del sistema linux, y seguirá recibiendo los mismos parámetros que recibe si lo estuviera tirando desde el directorio raíz, para configurar esté archivo debemos seguir las siguientes instrucciones:
+En la raíz del proyecto hay un archivo llamado `script.sh`, con este archivo podremos ejecutar la aplicación sin la necesidad de poner el comando `python3` antes de ejecutar la aplicación, además otras ventajas que tiene de ejecutar la aplicación es que se puede configurar para poder ejecutar la aplicación en cualquier parte del sistema Linux, y seguirá recibiendo los mismos parámetros que recibe si lo estuviera tirando desde el directorio raíz, para configurar esté archivo debemos seguir las siguientes instrucciones:
 
 #### Configurar las variables de entorno
 
@@ -235,7 +235,7 @@ Ya con la variable de entorno definida procedemos configurar el `script.sh` para
 
 #### Configurar .bashrc_aliases o .zshrc_aliases
 
-No dirigimos al `$HOME` de linux `~$:` donde están los archivos `.bashrc` o `.zshrc` y con un editor de texto como `vim` o `nano`, nos dirigimos casi al final del archivo, y el archivo debe tener las siguientes líneas de código:
+Nos dirigimos al `$HOME` de Linux `~$:` donde están los archivos `.bashrc` o `.zshrc` y con un editor de texto como `vim` o `nano`, nos dirigimos casi al final del archivo, y el archivo debe tener las siguientes líneas de código:
 
 `.bashrc`
 
@@ -245,7 +245,7 @@ if [ -f ~/.bash_aliases ]; then
 fi
 ```
 
-**En `.zshrc` debes crear esta líneas de código:**
+**En `.zshrc` debes crear estas líneas de código:**
 
 ```zsh
 if [ -f ~/.zsh_aliases ]; then
@@ -260,12 +260,11 @@ Ya verificando que están estas línea de código podremos agregar la aplicació
 alias script-search-xml=". /home/USER-linux/ruta-donde-clonó-el-repositorio/xml_data_search/script.sh"
 ```
 
-> Al final de la ruta debemos poner el nombre del archivo `script.sh` para poder ejecutar la aplicación por medio de `BASH`, y también recuerda poner un `.` antes de la ruta para que se pueda ejecutar, y si no te gusta el punto también puede poner el comando `bash`.
+> Al final de la ruta debemos poner el nombre del archivo `script.sh` para poder ejecutar la aplicación por medio de `BASH`, y también recuerda poner un (`.`) antes de la ruta para que se pueda ejecutar, y si no te gusta el punto también puede poner el comando `bash`.
 
-Cuando hayas agregado el alias, debes guardar el archivo y luego ejecutar el siguiente comando para que linux pueda reconocer la aplicación en el sistema y el comando sería:
+Cuando hayas agregado el alias, debes guardar el archivo y luego ejecutar el siguiente comando para que Linux pueda reconocer la aplicación en el sistema y el comando sería:
 
 ```zsh
-# Ejecutar aplicación xml_data_search
 source .bashrc
 o
 source .zshrc
@@ -285,9 +284,9 @@ script-search-xml -h
 
 Y la aplicación debe imprimir en la terminal las ayudas que tiene la aplicación.
 
-#### Ejemplos de como utilizar la aplicación con bash
+#### Ejemplos de como utilizar la aplicación con Bash
 
-Ya con haber configurado seguido los pasos anteriores, te muestro algunos ejemplos de como utilizar la aplicación por medio del `script.sh` con `bash` y esto son algunos ejemplos:
+Ya con haber configurado seguido los pasos anteriores, te muestro algunos ejemplos de como utilizar la aplicación por medio del `script.sh` con `Bash` y esto son algunos ejemplos:
 
 ```zsh
 # Con esté comando imprimes en la terminal la ayudas de la aplicación

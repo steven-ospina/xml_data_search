@@ -20,6 +20,7 @@ class Csv:
         export_data_csv(data_list_xml: list, csv_file_name: str) -> None
         select_random_item(list_data: list) -> list
         select_days(data_list_csv: list, amount: int) -> None
+        compare_lists_of_data(master_list: list, data_list_two: list) -> list:
     """
     def __init__(self):
         """ El constructor de la clase Xml
@@ -102,3 +103,20 @@ class Csv:
         except TypeError as error_message_select_random_days:
             print(f"uncaught exception {traceback.format_exc()}")
             print(self.messages.print_error(programmer_error_message=f"Error al intertar seleccionar los días de mora", error_message_from_method=error_message_select_random_days))
+
+    def compare_lists_of_data(self, master_list: list, data_list_two: list) -> list:
+        """ Este método se diseñó para comparar dos listas de datos y retornar los datos duplicados.
+
+        Args:
+            master_list (list): Recibe la lista principal para comparar.
+            data_list_two (list): Recibe la segunda lista para comparar.
+
+        Returns:
+            list: Retorna una lista con los datos duplicados.
+        """
+        try:
+
+            search = [value for value in master_list if value in data_list_two]
+            return search
+        except Exception as error_comparasion_of_list:
+            print(self.messages.print_error(programmer_error_message="Al compara la lista de datos", error_message_from_method=error_comparasion_of_list))

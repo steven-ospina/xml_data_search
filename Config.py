@@ -4,17 +4,37 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    """ Está clase está diseñada para cargar todas las configuraciones a la aplicación.
+    """
+    Está clase está diseñada para cargar todas las configuraciones a la aplicación.
 
     Attributes:
     ----------
         BASE_DIR (string): Esté atributo se utiliza para poder guardar el directorio raíz de la aplicación
-    """
-    BASE_DIR = basedir
 
+    Methods:
+    -------
+    get_the_current_working_directory() -> list
+    """
+
+    BASE_DIR = basedir
+    def __init__(self) -> None:
+        pass
+
+    def get_the_current_working_directory(self, path_dir: str) -> list:
+        """ Este método se diseñó para poder leer los archivos que están en el directorio,
+            donde se esté ejecutando la aplicación
+
+        Returns:
+            list: Una lista con los nombres de los archivos del directorio donde se llame la aplicación.
+        """
+        os.chdir(path_dir)
+        cwd = os.getcwd()
+        list_files = os.listdir(cwd)
+        return list_files
 
 class Messages:
-    """ Está clase está diseñada para imprimir mensajes en la terminal con colores.
+    """
+    Está clase está diseñada para imprimir mensajes en la terminal con colores.
 
     Attributes:
     ----------
@@ -33,7 +53,7 @@ class Messages:
         print_message_blue(message: str) -> str
         print_message_red(message: str) -> str
         print_message_magenta(message: str) -> str
-        print_error(message_error_method: str, message: Exception) -> None
+        print_error(programmer_error_message: str, error_message_from_method: Exception) -> None
     """
     def __init__(self) -> None:
         """ El constructor de la clase Messages
@@ -101,7 +121,6 @@ class Messages:
         """
         return f"{self.color_red_magenta}{self.text_bold_console}{message}{self.color_end_console}"
 
-    # Método para imprimir errores
     def print_error(self, programmer_error_message: str, error_message_from_method: Exception) -> None:
         """ Esté método se diseñó para poder imprimir en la terminal de color rojo lo errores de la aplicación, romper la ejecución del código.
 

@@ -10,9 +10,12 @@ class Csv:
 
     Attributes:
     ----------
-        read_method (): Esté atributo se utiliza para guardar la palabra "r" que se significa read.
-        write_method (): Esté atributo se utiliza para guardar la palabra "w" que se significa write.
-        messages (class): Esté atributo se utiliza para poder instancia la clase Messages y poder invocar los métodos.
+        read_method (): Esté atributo se utiliza para guardar la palabra "r",
+        que se significa read.
+        write_method (): Esté atributo se utiliza para guardar la palabra "w",
+        que se significa write.
+        messages (class): Esté atributo se utiliza para poder instancia la,
+        clase Messages y poder invocar los métodos.
 
     Methods:
     -------
@@ -44,11 +47,15 @@ class Csv:
             with open(csv_file_name, self.read_method) as file_csv:
                 reader = csv.reader(file_csv)
                 data_list_csv = [''.join(item) for item in reader if item]
-
                 return data_list_csv
         except Exception as error_message_when_getting_csv_data:
             print(f"uncaught exception {traceback.format_exc()}")
-            print(self.messages.print_error(programmer_error_message=f"No se pudo cargar los datos del archivo csv > {csv_file_name}", error_message_from_method=error_message_when_getting_csv_data))
+            print(self.messages.print_message_yellow(message="Posible error:"))
+            print(self.messages.print_message_yellow(message="* El archivo no esté en el directorio que le especificaste."))
+            print(self.messages.print_message_yellow(message="* El archivo no es el correcto."))
+            print(self.messages.print_error(
+                programmer_error_message=f"No se pudo cargar los datos del archivo csv > {csv_file_name}",
+                error_message_from_method=error_message_when_getting_csv_data))
 
     # Método para exportar los estados de cuenta a un archivo csv
     def export_data_csv(self, data_list_xml: list, csv_file_name: str) -> None:
@@ -61,11 +68,12 @@ class Csv:
         try:
             with open(csv_file_name, self.write_method, newline='') as csv_file:
                 csv_writer = csv.writer(csv_file)
-                for data in data_list_xml:
-                    csv_writer.writerow([data])
+                [csv_writer.writerow([data]) for data in data_list_xml]
         except Exception as error_message_when_exporting_csv_data:
             print(f"uncaught exception {traceback.format_exc()}")
-            print(self.messages.print_error(programmer_error_message=f"Error al exportar los datos xml al archivo > {csv_file_name}", error_message_from_method=error_message_when_exporting_csv_data))
+            print(self.messages.print_error(
+                programmer_error_message=f"Error al exportar los datos xml al archivo > {csv_file_name}",
+                error_message_from_method=error_message_when_exporting_csv_data))
 
     def select_random_item(self, list_data: list) -> list:
         """ Este método se diseñó para genera datos aleatorio de una lista que recibe.
@@ -102,7 +110,9 @@ class Csv:
                     print("\n")
         except TypeError as error_message_select_random_days:
             print(f"uncaught exception {traceback.format_exc()}")
-            print(self.messages.print_error(programmer_error_message=f"Error al intertar seleccionar los días de mora", error_message_from_method=error_message_select_random_days))
+            print(self.messages.print_error(
+                programmer_error_message=f"Error al intertar seleccionar los días de mora",
+                error_message_from_method=error_message_select_random_days))
 
     def compare_lists_of_data(self, master_list: list, data_list_two: list) -> list:
         """ Este método se diseñó para comparar dos listas de datos y retornar los datos duplicados.
@@ -115,8 +125,9 @@ class Csv:
             list: Retorna una lista con los datos duplicados.
         """
         try:
-
             search = [value for value in master_list if value in data_list_two]
             return search
         except Exception as error_comparasion_of_list:
-            print(self.messages.print_error(programmer_error_message="Al compara la lista de datos", error_message_from_method=error_comparasion_of_list))
+            print(self.messages.print_error(
+                programmer_error_message="Al compara la lista de datos",
+                error_message_from_method=error_comparasion_of_list))

@@ -146,6 +146,8 @@ dmypy.json
 *.xlsx#
 *.txt
 *.pyc
+*.yaml
+*.yml
 !requirements.txt
 !docs/sample-XML.xml
 !docs/sample-CSV.csv
@@ -154,3 +156,4 @@ dmypy.json
 datos-xml-final/
 testing-code.py
 README.md.backup
+configXML.yaml

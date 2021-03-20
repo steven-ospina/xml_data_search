@@ -1,23 +1,39 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<ESTADODECUENTA>
-	<OBLIGACION>
-		<ENCABEZADO>
-			<ESTADOCUENTA>12345</ESTADOCUENTA>
-		</ENCABEZADO>
-	</OBLIGACION>
-	<OBLIGACION>
-		<ENCABEZADO>
-			<ESTADOCUENTA>67890</ESTADOCUENTA>
-		</ENCABEZADO>
-	</OBLIGACION>
-	<OBLIGACION>
-		<ENCABEZADO>
-			<ESTADOCUENTA>98765</ESTADOCUENTA>
-		</ENCABEZADO>
-	</OBLIGACION>
-	<OBLIGACION>
-		<ENCABEZADO>
-			<ESTADOCUENTA>43210</ESTADOCUENTA>
-		</ENCABEZADO>
-	</OBLIGACION>
-</ESTADODECUENTA>
+<root>
+	<data>
+		<head>
+			<id>12345</id>
+			<number>556677</number>
+			<product>product_1</product>
+			<reference>00001</reference>
+			<name>pedro</name>
+		</head>
+	</data>
+	<data>
+		<head>
+			<id>67890</id>
+			<number>445599</number>
+			<product>product_2</product>
+			<reference>00002</reference>
+			<name>juana</name>
+		</head>
+	</data>
+	<data>
+		<head>
+			<id>98765</id>
+			<number>887766</number>
+			<product>product_3</product>
+			<reference>00003</reference>
+			<name>pepito</name>
+		</head>
+	</data>
+	<data>
+		<head>
+			<id>43210</id>
+			<number>331122</number>
+			<product>product_4</product>
+			<reference>00004</reference>
+			<name>carlos</name>
+		</head>
+	</data>
+</root>

@@ -1,50 +1,69 @@
 Descripción:
+-------------------------------------------------------+
+Buscador de datos XML:
 
-Buscador de datos XML,
-Formateado de XML,
-Exportador un dato a CSV,
-Eliminador de datos en el xml,
-Seleccionar días de mora al azar,
-Exportar N cantidad de archivos CSV del directorio especificado,
-Exportar un solo archivo CSV con N cantidad datos de archivos XML del directorio especificado,
-Comparar dos lista de datos CSV y export datos duplicados a archivo CSV,
-Unir N cantidad de archivos CSV del directorio especificado,
-
-Search data in xml.
 position of arguments:
  main.py file-CSV.csv file-XML.xml XML-file-name.xml
+-------------------------------------------------------+
+-------------------------------------------------------+
+Formateado de XML:
 
-XML format.
 position of arguments:
  main.py -f file-XML.xml
+-------------------------------------------------------+
+-------------------------------------------------------+
+Exportador un dato a CSV:
 
-Exporting a csv file.
 position of arguments:
  main.py -e file-XML.xml file-CSV.csv
+-------------------------------------------------------+
+-------------------------------------------------------+
+Eliminador de datos en el xml:
 
-Remove values in xml.
 position of arguments:
  main.py -r file-CSV.csv file-XML.xml
+-------------------------------------------------------+
+-------------------------------------------------------+
+Seleccionar días de mora al azar:
 
-Select days at random.
 position of arguments:
- main.py -rav file-CSV.csv int->number_day
+ main.py -rav file-CSV.csv int->(NUMBER_DAY)
+-------------------------------------------------------+
+-------------------------------------------------------+
+Exportar N cantidad de archivos CSV del directorio,
+especificado:
 
-Export N number of CSV files from the specified directory.
 position of arguments:
  main.py -export-csv PATH-DIRECTORY
+-------------------------------------------------------+
+-------------------------------------------------------+
+Exportar un solo archivo CSV con N cantidad de datos,
+de archivos XML del directorio especificado:
 
-Export a single CSV file with N amount of XML file data from the specified directory.
 position of arguments:
  main.py -export-all PATH-DIRECTORY CSV-file-name.csv
+-------------------------------------------------------+
+-------------------------------------------------------+
+Comparar dos lista de datos CSV y exporta datos
+duplicados a archivo CSV:
 
-Compare two CSV data lists and export duplicate data to CSV file.
 position of arguments:
  main.py -compare First-CSV-file-name.csv Second-CSV-file-name.csv
+-------------------------------------------------------+
+-------------------------------------------------------+
+Unir N cantidad de archivos CSV del directorio,
+especificado:
 
-Join N number of CSV files from the specified directory
 position of arguments:
  main.py -merge-csv-files PATH-DIRECTORY CSV-file-name.csv
+ -------------------------------------------------------+
+-------------------------------------------------------+
+Lee N cantidad de archivos XML y buscar un el dato
+que le indique
+
+position of arguments:
+ main.py -sd PATH-DIRECTORY DATA-TO_SEARCH
+ -------------------------------------------------------+
 
 opcional arguments:
  -h, --help  display this help message

@@ -7,16 +7,24 @@ import traceback
 
 class Menu:
     """
-    Está clase fue diseñada para poder mostrar al usuario un menú para utilizar la aplicación,
-    o poder ejecutar la aplicación por medio de argumentos que recibe la aplicación.
+    Está clase fue diseñada para poder mostrar al usuario un menú para utilizar,
+    la aplicación, o poder ejecutar la aplicación por medio de argumentos que,
+    recibe la aplicación.
 
     Attributes:
     ----------
-        _flag (bool): Esté atributo se utiliza para poder ejecutar el menú que tiene la aplicación.
-        csv (class): Esté atributo se utiliza para poder instaciar la clase Csv y poder invocar los métodos.
-        xml (class): Esté atributo se utiliza para poder instancia la clase Xml y poder invocar los métodos.
-        messages (class): Esté atributo se utiliza para poder instancia la clase Messages y poder invocar los métodos.
-        BASE_DIR (class): Esté atributo se utiliza para poder instancia la clase Config y importar la ruta raíz del proyecto.
+        _flag (bool): Esté atributo se utiliza para poder ejecutar el menú,
+        que tiene la aplicación.
+        csv (class): Esté atributo se utiliza para poder instaciar la clase Csv,
+        y poder invocar los métodos.
+        xml (class): Esté atributo se utiliza para poder instancia la clase Xml,
+        y poder invocar los métodos.
+        messages (class): Esté atributo se utiliza para poder instancia la clase Messages,
+        y poder invocar los métodos.
+        BASE_DIR (class): Esté atributo se utiliza para poder instancia la clase Config,
+        y importar la ruta raíz del proyecto.
+        PATH_DIR (class): Esté atributo se utiliza para poder instancia la clase Config,
+        y instancia el método que obtiene los archivos del directorio que le indiquen.
 
     Methods:
     -------
@@ -43,7 +51,7 @@ class Menu:
         self.csv = Csv()
         self.xml = Xml()
         self.messages = Messages()
-        self.BASE_DIR = Config().BASE_DIR
+        self.BASE_DIR = Config().get_base_dir()
         self.PATH_DIR = Config()
 
     # Método que imprime el menu que tiene el sistema
@@ -128,22 +136,39 @@ class Menu:
             arg_list (list): Recibe una lista con los nombres de los archivos CSV y XML,
             que se agregaron por argumentos de la aplicación.
         """
-        print(self.messages.print_message_blue(message="Archivos agregados:"))
-        print(f"* CSV: {self.messages.print_message_yellow(message=arg_list[1])}")
-        print(f"* XML: {self.messages.print_message_green(message=arg_list[2])}")
-        print(f"* Name of the new xml file: {self.messages.print_message_magenta(message=arg_list[3])}\n")
-        csv_list = self.csv.get_csv_data_list(csv_file_name=arg_list[1])
+        MESSAGES = self.messages
+        CSV = self.csv
+        XML = self.xml
+        BASENAME = self.PATH_DIR.basename
+        print(MESSAGES.print_message_blue(message="Archivos agregados:"))
+        print(f"* CSV: {MESSAGES.print_message_yellow(message=BASENAME(path_dir=arg_list[1]))}")
+        print(f"* XML: {MESSAGES.print_message_green(message=BASENAME(path_dir=arg_list[2]))}")
+        print(f"* Name of the new xml file: {MESSAGES.print_message_magenta(message=BASENAME(path_dir=arg_list[3]))}\n")
+        csv_list = CSV.get_csv_data_list(csv_file_name=arg_list[1])
         total_list_csv = len(csv_list)
-        print(f'{self.messages.print_message_blue(message="Total datos en archivo csv:")} {self.messages.print_message_yellow(message=str(total_list_csv))}')
-        self.xml.check_and_format_xml(xml_file_name=arg_list[2])
-        xml_list = self.xml.get_xml_data_list(xml_file_name=arg_list[2])
+        print(MESSAGES.print_message_with_blue_and_yellow_colors(
+            message_one="Total datos en archivo csv:",
+            message_two=str(total_list_csv)))
+        XML.check_and_format_xml(xml_file_name=arg_list[2])
+        xml_list = XML.get_xml_data_list(xml_file_name=arg_list[2])
         total_list_xml = len(xml_list)
-        print(f'{self.messages.print_message_blue(message="Total datos en archivo xml:")} {self.messages.print_message_yellow(message=str(total_list_xml))}')
-        xml_index = self.xml.search_the_index_in_the_list(data_list_csv=csv_list, data_list_xml=xml_list)
+        print(MESSAGES.print_message_with_blue_and_yellow_colors(
+            message_one="Total datos en archivo xml:",
+            message_two=str(total_list_xml)))
+        xml_index = XML.search_the_index_in_the_list(
+            data_list_csv=csv_list,
+            data_list_xml=xml_list)
         total_list_index = len(xml_index)
-        print(f'{self.messages.print_message_blue(message="Total indexes encontrados:")} {self.messages.print_message_yellow(message=str(total_list_index))}')
-        total_data = self.xml.build_xml(xml_file_name=arg_list[2], name_of_the_new_xml_file=arg_list[3], data_index_xml=xml_index)
-        print(f'{self.messages.print_message_blue(message="Total datos copiados:")} {self.messages.print_message_yellow(message=str(total_data))}')
+        print(MESSAGES.print_message_with_blue_and_yellow_colors(
+            message_one="Total indexes encontrados:",
+            message_two=str(total_list_index)))
+        total_data = XML.build_xml(
+            xml_file_name=arg_list[2],
+            name_of_the_new_xml_file=arg_list[3],
+            data_index_xml=xml_index)
+        print(MESSAGES.print_message_with_blue_and_yellow_colors(
+            message_one="Total datos copiados:",
+            message_two=str(total_data)))
 
     # Método para formatear archivos xml por medio de argumentos por linea de comando
     def format_xml_with_arguments(self, arg_list: list) -> None:
@@ -153,9 +178,12 @@ class Menu:
         Args:
             arg_list (list): Recibe una lista con el nombre del archivo xml y poder dar formato.
         """
-        print(self.messages.print_message_blue(message="Archivo agregado para formatear:"))
-        print(f"* XML: {self.messages.print_message_green(message=arg_list[2])}")
-        self.xml.check_and_format_xml(xml_file_name=arg_list[2])
+        MESSAGES = self.messages
+        XML = self.xml
+        BASENAME = self.PATH_DIR.basename
+        print(MESSAGES.print_message_blue(message="Archivo agregado para formatear:"))
+        print(f"XML → {MESSAGES.print_message_green(message=BASENAME(path_dir=arg_list[2]))}")
+        XML.check_and_format_xml(xml_file_name=arg_list[2])
 
     # Método para exportar los estados de cuenta a un archivo csv por medio de argumentos por linea de comando
     def export_data_csv_arguments(self, arg_list: list) -> None:
@@ -165,13 +193,19 @@ class Menu:
         Args:
             arg_list (list): Recibe una lista con los nombres de los archivos XML y CSV.
         """
-        print(self.messages.print_message_blue(message="Archivos agregados:"))
-        print(f"* XML: {self.messages.print_message_yellow(message=arg_list[2])}")
-        print(f"* CSV: {self.messages.print_message_green(message=arg_list[3])}\n")
-        self.xml.check_and_format_xml(xml_file_name=arg_list[2])
-        xml_list = self.xml.get_xml_data_list(xml_file_name=arg_list[2])
-        print(f'{self.messages.print_message_blue(message="Total estados de cuenta xml:")} {self.messages.print_message_yellow(message=str(len(xml_list)))}')
-        self.csv.export_data_csv(data_list_xml=xml_list, csv_file_name=arg_list[3])
+        MESSAGES = self.messages
+        CSV = self.csv
+        XML = self.xml
+        BASENAME = self.PATH_DIR.basename
+        print(MESSAGES.print_message_blue(message="Archivos agregados:"))
+        print(f"XML → {MESSAGES.print_message_yellow(message=BASENAME(path_dir=arg_list[2]))}")
+        print(f"CSV → {MESSAGES.print_message_green(message=BASENAME(path_dir=arg_list[3]))}\n")
+        XML.check_and_format_xml(xml_file_name=arg_list[2])
+        xml_list = XML.get_xml_data_list(xml_file_name=arg_list[2])
+        print(MESSAGES.print_message_with_blue_and_yellow_colors(
+            message_one="Total estados de cuenta xml:",
+            message_two=str(len(xml_list))))
+        CSV.export_data_csv(data_list_xml=xml_list, csv_file_name=arg_list[3])
 
     def export_csv_data_united(self, arg_list: list) -> None:
         """ Este método se diseñó para exportar todos los números de estados de cuenta que están,
@@ -181,14 +215,26 @@ class Menu:
         Args:
             arg_list (list): Recibe una lista con ruta del directorio y el nombre del archivo CSV.
         """
-        dictionary_with_data = self.xml.export_all_multiple_data_xml(path_of_archives=arg_list[2])
-        data_list = []
-        for item_xml in dictionary_with_data:
-            data_list.extend(dictionary_with_data[item_xml])
+        MESSAGES = self.messages
+        CSV = self.csv
+        XML = self.xml
+        dictionary_with_data = XML.get_data_from_several_xml_files(
+            path_of_archives=arg_list[2])
+        if any(dictionary_with_data):
+            data_list = []
+            for item_xml in dictionary_with_data:
+                key = list(item_xml.keys())[0]
+                data_list.extend(item_xml[key])
 
-        self.csv.export_data_csv(data_list_xml=data_list, csv_file_name=arg_list[3])
-        print(f'{self.messages.print_message_blue(message="Total estados:")} {self.messages.print_message_yellow(message=str(len(data_list)))}')
-
+            CSV.export_data_csv(data_list_xml=data_list, csv_file_name=arg_list[3])
+            print(MESSAGES.print_message_with_blue_and_yellow_colors(
+                message_one="\nDatos agregados al archivo →",
+                message_two=arg_list[3]))
+            print(MESSAGES.print_message_with_blue_and_yellow_colors(
+                message_one="Total datos →",
+                message_two=str(len(data_list))))
+        else:
+            print(MESSAGES.print_message_yellow(message="No se enctor ningún archivo xml"))
 
     def exporting_multiple_csv_files(self, arg_list: list) -> None:
         """ Este método se diseñó para exportar todos los números de estados de cuenta que están,
@@ -198,33 +244,117 @@ class Menu:
         Args:
             arg_list (list): Recibe una lista con ruta del directorio.
         """
-        dictionary_with_data = self.xml.export_all_multiple_data_xml(path_of_archives=arg_list[2])
-        for item_xml in dictionary_with_data:
-            self.csv.export_data_csv(data_list_xml=dictionary_with_data[item_xml], csv_file_name=f"{item_xml}.csv")
-            length_data = len(dictionary_with_data[item_xml])
-            print(f'{self.messages.print_message_blue(message=f"Archivo Exportado:{item_xml}.csv")} {self.messages.print_message_yellow(message=str(length_data))}')
+        MESSAGES = self.messages
+        CSV = self.csv
+        XML = self.xml
+        list_of_data = XML.get_data_from_several_xml_files(path_of_archives=arg_list[2])
+        if any(list_of_data):
+            for item_xml in list_of_data:
+                key = list(item_xml.keys())[0]
+                file_name_csv = f"{key}.csv"
+                CSV.export_data_csv(data_list_xml=item_xml[key], csv_file_name=file_name_csv)
+                length_data = len(item_xml[key])
+                print(MESSAGES.print_message_with_blue_and_yellow_colors(
+                    message_one=f"Archivo Exportado → {file_name_csv}",
+                    message_two=str(length_data)))
+        else:
+            print(MESSAGES.print_message_yellow(message="No se enctor ningún archivo xml"))
+
+    def export_multiple_xml_files(self, arg_list: list) -> None:
+        """ Este método se diseñó para exportar múltiples archivos XML con la lista de datos,
+            que reciba del archivo CSV.
+
+        Args:
+            arg_list (list): Recibe una lista con el directorio y archivo CSV con los datos a buscar.
+        """
+        print(self.filter_directory_by_xml_and_csv_files())
+        MESSAGES = self.messages
+        CSV = self.csv
+        XML = self.xml
+        dictionary_with_data = XML.get_data_from_several_xml_files(
+            path_of_archives=arg_list[2],
+            add_path_to_data=True)
+        lista_csv = CSV.get_csv_data_list(csv_file_name=arg_list[3])
+        if any(dictionary_with_data):
+            print(MESSAGES.print_message_with_blue_and_yellow_colors(
+                message_one="\nTotal datos del archivo csv a copiar →",
+                message_two=str(len(lista_csv))))
+            (father_dictionary, dict_path) = XML.search_and_filter_data(
+                data_dictionary=dictionary_with_data,
+                data_list=lista_csv)
+            counter = 0
+            for key in father_dictionary:
+                get_list = [item[key] for item in dictionary_with_data if list(item.keys())[0] == key]
+                flatten_list = [item for sublist in get_list for item in sublist]
+                csv_file_data_list = father_dictionary[key]
+                xml_index = XML.search_the_index_in_the_list(
+                    data_list_csv=csv_file_data_list,
+                    data_list_xml=flatten_list)
+                total_list_index = len(xml_index)
+                print(MESSAGES.print_message_with_blue_and_yellow_colors(
+                    message_one="\nTotal indexes encontrados →",
+                    message_two=str(total_list_index)))
+                counter += 1
+                new_file = f'{key}{counter}.xml'
+                total_data = XML.build_xml(
+                    xml_file_name=dict_path[key],
+                    name_of_the_new_xml_file=new_file,
+                    data_index_xml=xml_index)
+                print(MESSAGES.print_message_with_blue_and_yellow_colors(
+                    message_one="Total datos copiados →",
+                    message_two=str(total_data)))
+                print(MESSAGES.print_message_with_blue_and_yellow_colors(
+                    message_one="Archivo creado →",
+                    message_two=str(new_file)))
+        else:
+            print(MESSAGES.print_message_yellow(message="No se enctor ningún archivo xml"))
 
     def merge_csv_files(self, arg_list: list) -> None:
-        """ Este método se diseñó para unir todo los archivos CSV que se encuentren en el direcotrio,
+        """ Este método se diseñó para unir todos los archivos CSV que se encuentren en el directorio,
             que le indiquen y exportara un solo archivo CSV con todos los datos.
 
         Args:
             arg_list (list): Recibe una lista con ruta del directorio y el nombre del archivo CSV,
             que va a almacenar los datos.
         """
-        file_list_in_directory = self.PATH_DIR.get_the_current_working_directory(path_dir=arg_list[2])
-        csv_file_list = [value for value in file_list_in_directory if ".csv" in value]
+        MESSAGES = self.messages
+        file_list_in_directory = self.PATH_DIR.get_the_current_working_directory(
+            path_dir=arg_list[2])
+        csv_file_list = [value for value in file_list_in_directory if value.endswith('.csv')]
+        if any(csv_file_list):
+            join_data = []
+            for item_csv in csv_file_list:
+                print(MESSAGES.print_message_with_blue_and_yellow_colors(
+                    message_one=f"leyendo el archivo →",
+                    message_two=str(item_csv)))
+                csv_list = self.csv.get_csv_data_list(csv_file_name=item_csv)
+                join_data.extend(csv_list)
 
-        join_data = []
-        for item_csv in csv_file_list:
-            print(item_csv)
-            csv_list = self.csv.get_csv_data_list(csv_file_name=item_csv)
-            join_data.extend(csv_list)
-            # for item in csv_list:
-            #     join_data.append(item)
+            self.csv.export_data_csv(data_list_xml=join_data, csv_file_name=arg_list[3])
+            print(MESSAGES.print_message_with_blue_and_yellow_colors(
+                message_one="Datos agregados al archivo →",
+                message_two=str(arg_list[3])))
+            print(MESSAGES.print_message_with_blue_and_yellow_colors(
+                message_one="Total datos →",
+                message_two=str(len(join_data))))
+        else:
+            print(MESSAGES.print_message_yellow(f"No hay archivos CSV en el directorio → {arg_list[2]}"))
 
-        print(len(join_data))
-        self.csv.export_data_csv(data_list_xml=join_data, csv_file_name=arg_list[3])
+    def search_data_with_parameters(self, arg_list: list) -> None:
+        """ Este método se diseñó para buscar entre "N" cantidad de archivos XML que se encuentren en el directorio,
+            que le indiquen y el dato a buscar, luego filtrar y devuelve el dato que esté buscado el usuario,
+            por la terminal.
+
+        Args:
+            arg_list (list): Recibe una lista con la ruta del directorio y el dato a buscar.
+        """
+        lista_filtrad = self.xml.recursive_filter_by_xml_files(path_of_archives=arg_list[2])
+        print(self.messages.print_message_yellow(message=f"Buscando dato: {arg_list[3]}"))
+        search = self.xml.filter_data_in_xml_files(search=arg_list[3], list_of_the_file_paths=lista_filtrad)
+        if search is not None:
+            [print(f'► {value} → {search[value]}') for value in search]
+        else:
+            print("No se encontró el dato, puede que estés buscado un dato desconocido.")
 
     def lists_of_data_to_compare(self, arg_list: list) -> None:
         """ Este método se diseñó para comparar dos listas de datos y exportar un archivo CSV,
@@ -232,63 +362,98 @@ class Menu:
 
         Args:
             arg_list (list): Recibe dos listas con los datos que se van a comparar y el nombre,
-            del archivo que se va a exportar
+            del archivo que se va a exportar.
         """
-        print(self.messages.print_message_blue(message="Archivos agregados:"))
-        print(f"* CSV-MASTER: {self.messages.print_message_green(message=arg_list[2])}")
-        print(f"* CSV-compare: {self.messages.print_message_yellow(message=arg_list[3])}\n")
-        csv_list_master = self.csv.get_csv_data_list(csv_file_name=arg_list[3])
-        print(len(csv_list_master))
-        csv_list_two = self.csv.get_csv_data_list(csv_file_name=arg_list[2])
-        print(len(csv_list_two))
-        no_iguales = self.csv.compare_lists_of_data(master_list=csv_list_master, data_list_two=csv_list_two)
-        print(len(no_iguales))
-        self.csv.export_data_csv(data_list_xml=no_iguales, csv_file_name="exporting-duplicates.csv")
+        MESSAGES = self.messages
+        CSV = self.csv
+        print(MESSAGES.print_message_blue(message="Archivos agregados:"))
+        print(f"* CSV-MASTER: {MESSAGES.print_message_green(message=arg_list[2])}")
+        csv_list_master = CSV.get_csv_data_list(csv_file_name=arg_list[3])
+        print(MESSAGES.print_message_with_blue_and_yellow_colors(
+            message_one="└──>Total datos:",
+            message_two=str(len(csv_list_master))))
+        print(f"* CSV-compare: {MESSAGES.print_message_yellow(message=arg_list[3])}")
+        csv_list_two = CSV.get_csv_data_list(csv_file_name=arg_list[2])
+        print(MESSAGES.print_message_with_blue_and_yellow_colors(
+            message_one="└──>Total datos:",
+            message_two=str(len(csv_list_two))))
+        duplicates = CSV.compare_lists_of_data(master_list=csv_list_master, data_list_two=csv_list_two)
+        if duplicates != []:
+            total_list_csv = len(duplicates)
+            print(MESSAGES.print_message_with_blue_and_yellow_colors(
+                message_one="Total datos repetidos:",
+                message_two=str(total_list_csv)))
+            CSV.export_data_csv(data_list_xml=duplicates, csv_file_name="exporting-duplicates.csv")
+        else:
+            print(MESSAGES.print_message_blue(message="0 Datos repetidos"))
 
-    # Método para eliminar los estados de cuenta, por medio de argumentos por linea de comando
     def remove_xml_values_with_arguments(self, arg_list: list) -> None:
         """ Este método se diseñó para poder remover los estados de cuenta que se especifiquen,
-            en el archivo csv y poder borrarlos del archivo xml.
+            en el archivo csv y poder borrarlos del archivo XML.
 
         Args:
-            arg_list (list): Recibe una lista con los nombres de los archivos xml y csv
+            arg_list (list): Recibe una lista con los nombres de los archivos XML y CSV.
         """
-        print(self.messages.print_message_blue(message="Archivos agregados:"))
-        print(f"* CSV: {self.messages.print_message_green(message=arg_list[2])}")
-        print(f"* XML: {self.messages.print_message_yellow(message=arg_list[3])}\n")
-        csv_list = self.csv.get_csv_data_list(csv_file_name=arg_list[2])
+        MESSAGES = self.messages
+        CSV = self.csv
+        XML = self.xml
+        BASENAME = self.PATH_DIR.basename
+        print(MESSAGES.print_message_blue(message="Archivos agregados:"))
+        print(f"CSV → {MESSAGES.print_message_green(message=BASENAME(path_dir=arg_list[2]))}")
+        print(f"XML → {MESSAGES.print_message_yellow(message=BASENAME(path_dir=arg_list[3]))}\n")
+        csv_list = CSV.get_csv_data_list(csv_file_name=arg_list[2])
         total_list_csv = len(csv_list)
-        print(f'{self.messages.print_message_blue(message="Total datos csv a eliminar:")} {self.messages.print_message_yellow(message=str(total_list_csv))}')
-        self.xml.check_and_format_xml(xml_file_name=arg_list[3])
-        xml_list = self.xml.get_xml_data_list(xml_file_name=arg_list[3])
+        print(MESSAGES.print_message_with_blue_and_yellow_colors(
+            message_one="Total datos csv a eliminar:",
+            message_two=str(total_list_csv)))
+        XML.check_and_format_xml(xml_file_name=arg_list[3])
+        xml_list = XML.get_xml_data_list(xml_file_name=arg_list[3])
         total_list_xml = len(xml_list)
-        print(f'{self.messages.print_message_blue(message="Total estados de cuenta xml:")} {self.messages.print_message_yellow(message=str(total_list_xml))}')
-        xml_index = self.xml.search_the_index_in_the_list(data_list_csv=csv_list, data_list_xml=xml_list)
+        print(MESSAGES.print_message_with_blue_and_yellow_colors(
+            message_one="Total estados de cuenta xml:",
+            message_two=str(total_list_xml)))
+        xml_index = XML.search_the_index_in_the_list(
+            data_list_csv=csv_list,
+            data_list_xml=xml_list)
         total_list_index = len(xml_index)
-        print(f'{self.messages.print_message_blue(message="Total indexes encontrados que se van a eliminar")} {self.messages.print_message_yellow(message=str(total_list_index))}')
-        total_data_removed = self.xml.remove_xml_values(xml_file_name=arg_list[3], data_index_xml=xml_index)
-        print(f'{self.messages.print_message_green(message="Total datos eliminados:")} {self.messages.print_message_green(message=str(total_data_removed))}')
+        print(MESSAGES.print_message_with_blue_and_yellow_colors(
+            message_one="Total indexes encontrados que se van a eliminar:",
+            message_two=str(total_list_index)))
+        total_data_removed = XML.remove_xml_values(
+            xml_file_name=arg_list[3],
+            data_index_xml=xml_index)
+        print(MESSAGES.print_message_with_blue_and_yellow_colors(
+            message_one="Total datos eliminados:",
+            message_two=str(total_data_removed)))
 
     def print_random_days(self, arg_list: list) -> None:
         """ Este método se diseñó para poder seleccionar alzar los días de mora.
 
         Args:
-            arg_list (list): Recibe una lista con el nombre del archivo csv y el número de días a buscar.
+            arg_list (list): Recibe una lista con el nombre del archivo CSV y él,
+            número de días a buscar.
         """
         try:
-            print(self.messages.print_message_blue(message="Archivo agregado:"))
-            print(f"* CSV: {self.messages.print_message_magenta(message=arg_list[2])}")
+            MESSAGES = self.messages
+            CSV = self.csv
+            BASENAME = self.PATH_DIR.basename
+            print(MESSAGES.print_message_blue(message="Archivo agregado:"))
+            print(f"* CSV: {MESSAGES.print_message_magenta(message=BASENAME(path_dir=arg_list[2]))}")
             iterations = int(arg_list[3])
-            print(f"* Iterations: {self.messages.print_message_yellow(message=str(iterations))}\n")
-            csv_list = self.csv.get_csv_data_list(csv_file_name=arg_list[2])
-            print(f'{self.messages.print_message_blue(message="Total datos en archivo csv:")} {self.messages.print_message_yellow(message=str(len(csv_list)))}\n')
-            self.csv.select_days(data_list_csv=csv_list, amount=iterations)
+            print(f"* Iterations: {MESSAGES.print_message_yellow(message=str(iterations))}\n")
+            csv_list = CSV.get_csv_data_list(csv_file_name=arg_list[2])
+            print(MESSAGES.print_message_with_blue_and_yellow_colors(
+                message_one="Total datos en archivo csv:",
+                message_two=f'{str(len(csv_list))}\n'))
+            CSV.select_days(data_list_csv=csv_list, amount=iterations)
         except Exception as error_message_elect_print_random_days:
             print(f"uncaught exception {traceback.format_exc()}")
-            print(self.messages.print_message_yellow(message="Posible error: puede ser que ingreso letras y no un número."))
-            print(self.messages.print_error(programmer_error_message="Error al intentar imprimir los días al azar.", error_message_from_method=error_message_elect_print_random_days))
+            print(MESSAGES.print_message_yellow(
+                message="Posible error: puede ser que ingreso letras y no un número."))
+            print(MESSAGES.print_error(
+                programmer_error_message="Error al intentar imprimir los días al azar.",
+                error_message_from_method=error_message_elect_print_random_days))
 
-    # Método para identificar el sistema operativo para poder limpiar la consola
     @staticmethod
     def identify_system() -> None:
         """ Este método se diseñó para poder identificar el sistema operativo donde se ejecuta la aplicación,
@@ -299,7 +464,6 @@ class Menu:
         elif os.name == 'ce' or os.name == 'nt' or os.name == 'dos':
             os.system('cls')
 
-    # Método que imprime el mensaje de inicio del script
     @staticmethod
     def print_message() -> None:
         """ Este método se diseñó para imprimir un mensaje en modo de guía para el usuario al momento,
@@ -312,17 +476,17 @@ class Menu:
         print('[Cargar un archivo csv y xml a la ves]\n')
         print('[El archivo [.xml] debe estar formateado para que el sistema lo pueda procesar]\n')
 
-    # Método que imprime el mensaje de ayuda para el usuario
     def print_message_help(self) -> None:
         """ Este método se diseñó para imprimir un mensaje en modo de ayuda para el usuario y poder,
             ejecutar correctamente la aplicación.
         """
+        MESSAGES = self.messages
         try:
             path_messages = os.path.join(self.BASE_DIR, 'docs/messages/messages-help.txt')
             with open(path_messages, 'r') as file_with_help_messages:
                 help_massages = file_with_help_messages.read()
                 print(help_massages)
         except FileNotFoundError as error_help_file:
-            print(self.messages.print_message_red(message="El archivo para imprimir las ayudas no se encuentra"))
-            print(self.messages.print_message_yellow(message=f"{error_help_file.args[1]} {error_help_file.filename}"))
-            print(self.messages.print_message_yellow(message="La ubicación del archivo: docs/messages/messages-help.txt"))
+            print(MESSAGES.print_message_red(message="El archivo para imprimir las ayudas no se encuentra"))
+            print(MESSAGES.print_message_yellow(message=f"{error_help_file.args[1]} {error_help_file.filename}"))
+            print(MESSAGES.print_message_yellow(message="La ubicación del archivo: docs/messages/messages-help.txt"))

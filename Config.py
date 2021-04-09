@@ -1,4 +1,6 @@
 import os
+from typing import Union, List
+
 import yaml
 import traceback
 import sys
@@ -54,7 +56,7 @@ class Config:
             dict: Retorna un diccionario con las rutas y etiquetas a buscar.
         """
         try:
-            filename_yaml = 'configXML.yaml'
+            filename_yaml: str = 'configXML.yaml'
             basedir = cls.get_base_dir()
             file_list_in_directory = os.listdir(basedir)
             search_yaml_file = [value for value in file_list_in_directory if value == filename_yaml]
@@ -95,10 +97,8 @@ class Config:
             mode = yaml_document['run']['mode']
             data = yaml_document[mode]
             return data
-
         except Exception as error_in_yaml_configuration:
             print(f"uncaught exception {traceback.format_exc()}")
-            print(f"Error al intentar cargar el archivo {filename_yaml}")
             sys.exit(f"llave con error: {error_in_yaml_configuration}")
 
     @staticmethod
@@ -130,7 +130,7 @@ class Messages:
         color_blue_console (string): Esté atributo se utiliza para guardar Código escapé ANSI de color azul.
         color_yellow_console (string): Esté atributo se utiliza para guardar Código escapé ANSI de color amarillo.
         color_red_console (string): Esté atributo se utiliza para guardar Código escapé ANSI de color rojo.
-        color_red_magenta (string): Esté atributo se utiliza para guardar Código escapé ANSI de color magenta.
+        color_magenta_console (string): Esté atributo se utiliza para guardar Código escapé ANSI de color magenta.
         color_end_console (string): Esté atributo se utiliza para guardar Código escape ANSI que finaliza los colores.
         text_bold_console (string): Esté atributo se utiliza para guardar Código escapé ANSI convierte el texto en BOLD.
 
@@ -151,7 +151,7 @@ class Messages:
         self.color_blue_console: str = '\33[34m'
         self.color_yellow_console: str = '\33[33m'
         self.color_red_console: str = '\033[91m'
-        self.color_red_magenta: str = '\033[95m'
+        self.color_magenta_console: str = '\033[95m'
         self.color_end_console: str = '\033[0m'
         self.text_bold_console: str = '\33[1m'
 
@@ -208,7 +208,7 @@ class Messages:
         Returns:
             str: El mensaje que envió el usuario, pero en color magenta.
         """
-        return f"{self.color_red_magenta}{self.text_bold_console}{message}{self.color_end_console}"
+        return f"{self.color_magenta_console}{self.text_bold_console}{message}{self.color_end_console}"
 
     def print_message_with_blue_and_yellow_colors(self, message_one: str, message_two: str) -> str:
         """ Esté método se diseñó para poder imprimir en la terminal de color azul y amarillo.
@@ -224,11 +224,51 @@ class Messages:
         message_two = self.print_message_yellow(message=message_two)
         return f'{message_one} {message_two}'
 
-    def print_error(self, programmer_error_message: str, error_message_from_method: Exception) -> None:
-        """ Esté método se diseñó para poder imprimir en la terminal de color rojo lo errores de la aplicación, romper la ejecución del código.
+    def print_messages_in_colors(self, *args, **kwargs) -> Union[str, List[str]]:
+        """ Esté método se diseñó para convertir en colores los textos y luego,
+            poderlos imprimir en la terminal.
+
+            NOTA: los argumentos debe ser únicos, si envían argumentos duplicados,
+            el que envíen, duplicado retornara solo uno.
 
         Args:
-            programmer_error_message (str): Recibe el mensaje que haya dejado el programador para entender el problema que surja.
+            *args (str): Texto que se va a cambiar a color.
+            **kwargs (dict): El color que se le aplicara al texto.
+        Returns:
+            list: Con los textos convertidos en color que le indico el usuario.
+        """
+        colors = {
+            'yellow': self.color_yellow_console,
+            'blue': self.color_blue_console,
+            'red': self.color_red_console,
+            'green': self.color_green_console,
+            'magenta': self.color_magenta_console,
+            'bold': self.text_bold_console,
+            'end': self.color_end_console
+        }
+        length_args = len(args)
+        length_kwargs = len(kwargs.values())
+        list_kwargs = list(kwargs.values())
+        if length_kwargs < length_args:
+            absolute_value = (length_args - length_kwargs)
+            extend_values = [list_kwargs[-1]] * absolute_value
+            list_kwargs.extend(extend_values)
+        text_and_color = dict(zip(args, list_kwargs))
+        color_text = []
+        for text, color in text_and_color.items():
+            color_text.append(f'{colors[color]}{colors["bold"]}{text}{colors["end"]}')
+        if len(color_text) <= 1:
+            return color_text[0]
+        else:
+            return color_text
+
+    def print_error(self, programmer_error_message: str, error_message_from_method: Exception) -> None:
+        """ Esté método se diseñó para poder imprimir en la terminal de color rojo lo errores de la aplicación,
+            romper la ejecución del código.
+
+        Args:
+            programmer_error_message (str): Recibe el mensaje que haya dejado el programador para entender,
+             el problema que surja.
             error_message_from_method (Exception):  Recibe el mensaje de error que haya lanzado el método.
         """
         print(f"{self.color_red_console}ERROR: {programmer_error_message}{self.color_end_console}")

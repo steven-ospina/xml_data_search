@@ -17,7 +17,7 @@ class Xml:
         messages (class): Esté atributo se utiliza para poder instancia la clase,
         Messages y poder invocar los métodos.
         BASENAME (class): Esté atributo se utiliza para poder instancia la clase,
-        Config y retornar el archivo que le mandén en la ruta.
+        Config y retornar el archivo que le manden en la ruta.
         CONFIG_XML (class): Esté atributo se utiliza para poder instancia la clase,
         Config y cargar la rutas y etiquetas del archivo configXML.yaml.
 
@@ -199,11 +199,11 @@ class Xml:
                 reader = check_xml.readline()
                 check_format = "\n" in reader
                 if check_format is not True:
-                    with open(xml_file_name) as xmldata:
+                    with open(xml_file_name) as xml_data:
                         print(MESSAGES.print_message_with_blue_and_yellow_colors(
                             message_one="> Formateando el archivo →",
                             message_two=str(BASENAME(path_dir=xml_file_name))))
-                        xml = DOM.parseString(xmldata.read())
+                        xml = DOM.parseString(xml_data.read())
                         xml_pretty_byte = xml.toprettyxml(encoding="utf-8")
                         # Convertir bytes en una cadena y eliminar el extraño problema de la nueva línea
                         xml_pretty_str = os.linesep.join([item for item in xml_pretty_byte.decode("utf-8").splitlines() if item.strip()])
@@ -255,9 +255,9 @@ class Xml:
                 programmer_error_message=f"Al intentar obtener la raíz del archivo → {xml_file}",
                 error_message_from_method=error_in_xml_root))
 
-    def _copy_root_data_from_xml_file_private(self, root_xml_file: list, data_index_xml: list) -> list:
+    def _copy_root_data_from_xml_file_private(self, root_xml_file: ET.Element, data_index_xml: list) -> list:
         """ Este método se diseñó para copiar los datos del archivo XML desde el "root" que tiene el archivo XML,
-            indicandole por medio del índice en que posición están los datos.
+            indicándole por medio del índice en que posición están los datos.
 
             NOTA: Esté método es privado, solo se debe utilizar en esta clase, si sé instancia por fuera de esta clase,
             puede que no trabaje correctamente o lance excepciones.
@@ -306,6 +306,7 @@ class Xml:
             que se indiquen en el directorio de trabajo de la aplicación.
 
         Args:
+            add_path_to_data (): Parámetro para agregar a la información la ruta del archivo XML.
             path_of_archives (str): Recibe el nombre del la ruta completa donde están los archivos XML.
 
         Returns:
@@ -327,7 +328,7 @@ class Xml:
                 print(f"XML → {MESSAGES.print_message_yellow(message=BASENAME(item_xml))}")
                 xml_list = self.get_xml_data_list(xml_file_name=item_xml)
                 print(MESSAGES.print_message_with_blue_and_yellow_colors(
-                    message_one=f"└──>Total datos xml →",
+                    message_one="└──>Total datos xml →",
                     message_two=str(len(xml_list))))
                 obtained_text = self.get_the_text_of_a_tag(xml_file_name=item_xml)
                 data_name = obtained_text.replace(" ", "")
@@ -349,7 +350,7 @@ class Xml:
         except Exception as error_in_exporting_multiple_data:
             print(f"uncaught exception {traceback.format_exc()}")
             print(self.messages.print_error(
-                programmer_error_message=f"Al intentar exportar múltiples datos XML.",
+                programmer_error_message="Al intentar exportar múltiples datos XML.",
                 error_message_from_method=error_in_exporting_multiple_data))
 
     def recursive_filter_by_xml_files(self, path_of_archives: str) -> list:
@@ -394,7 +395,7 @@ class Xml:
             REFERENCE = CONFIG_XML['REFERENCE']
             ID = CONFIG_XML['ID']
             [self.check_and_format_xml(item_xml) for item_xml in list_of_the_file_paths]
-
+            data_structure = {}
             for item in list_of_the_file_paths:
                 root = self.get_the_root_of_the_xml_file(xml_file=item)
                 data_list_xml = self.get_xml_data_list(xml_file_name=item)
@@ -406,14 +407,14 @@ class Xml:
                     copy_data_from_xml_file = self._copy_root_data_from_xml_file_private(
                         root_xml_file=root, data_index_xml=data_index_xml)
                     for value in copy_data_from_xml_file:
-                        data_structure = {
+                        data_structure.update({
                             "NÚMERO": value.find(NUMBER).text,
                             "REFERENCIA": value.find(REFERENCE).text,
                             "PRODUCTO": value.find(PRODUCT).text,
                             "NOMBRE": value.find(NAME).text,
                             "ID": value.find(ID).text,
                             "XML-PATH": item
-                        }
+                        })
                     return data_structure
         except Exception as error_in_filter_data_in_xml_files:
             print(f"uncaught exception {traceback.format_exc()}")
@@ -451,9 +452,9 @@ class Xml:
                             father_dictionary.update({key: [value]})
                         dict_path.update({key: path_xml})
                         break
-            return (father_dictionary, dict_path)
+            return father_dictionary, dict_path
         except Exception as error_when_searching_and_filtering_data:
             print(f"uncaught exception {traceback.format_exc()}")
             print(self.messages.print_error(
-                programmer_error_message=f"Al filtrar los datos del diccionario y la lista",
+                programmer_error_message="Al filtrar los datos del diccionario y la lista",
                 error_message_from_method=error_when_searching_and_filtering_data))

@@ -1,7 +1,7 @@
 # Búsqueda de datos xml
 
 ![dependencies](https://img.shields.io/badge/python-v3.6.9-blue.svg)
-![Current Version](https://img.shields.io/badge/version-1.11.8-green.svg)
+![Current Version](https://img.shields.io/badge/version-1.13.10-green.svg)
 
 Esta aplicación se diseñó para leer archivos XML y CSV, abecés el archivo XML es muy grande y se necesita buscar N cantidad de datos que manual mente como humanos nos podemos demora mucho, con esta aplicación nos ahorramos el tiempo de formatear el archivo y buscar esos datos, además también podemos exportar un dato importante a un archivo csv, para usarlo a la necesidad del usuario.
 
@@ -52,13 +52,17 @@ Para poder correr la aplicación, se necesita los archivos CSV y XML para que la
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<ESTADODECUENTA>
- <OBLIGACION>
-  <ENCABEZADO>
-   <ESTADOCUENTA>12345</ESTADOCUENTA>
-  </ENCABEZADO>
- </OBLIGACION>
-</ESTADODECUENTA>
+<root>
+  <data>
+    <head>
+      <id>12345</id>
+      <number>556677</number>
+      <product>product_1</product>
+      <name>pedro</name>
+      <reference>00001</reference>
+    </head>
+  </data>
+</root>
 ```
 
 >**NOTA:** Por lo general el archivo tiene más etiquetas con más datos, pero dejo de ejemplo la etiqueta principal con la que trabaja la aplicación, para entender como funciona la búsqueda de datos.
@@ -229,7 +233,7 @@ Sabiendo ya la ruta que imprime la terminal, procedemos a copiar toda la ruta en
 PATH_SCRIPT="/home/USER-linux/ruta-donde-clonó-el-repositorio/xml_data_search/main.py"
 ```
 
-> Al final de la ruta debemos poner nombre del archivo `main.py` para que el `script.sh` pueda saber como ejecutar la aplicación
+> Al final de la ruta debemos poner nombre del archivo `main.py` para que él `script.sh` pueda saber como ejecutar la aplicación
 
 Ya con la variable de entorno definida procedemos configurar el `script.sh` para que el sistema lo pueda leer en cualquier parte del sistema.
 
@@ -253,7 +257,7 @@ if [ -f ~/.zsh_aliases ]; then
 fi
 ```
 
-Ya verificando que están estas línea de código podremos agregar la aplicación en el archivo `.bashrc_aliases` o `.zshrc_aliases`, y lo hacemos de la siguiente manera, agregando estas líneas de código:
+Ya verificando que están estás línea de código podremos agregar la aplicación en el archivo `.bashrc_aliases` o `.zshrc_aliases`, y lo hacemos de la siguiente manera, agregando estas líneas de código:
 
 ```zsh
 # Ejecutar la aplicación xml_data_search

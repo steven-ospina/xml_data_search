@@ -37,6 +37,13 @@ position of arguments:
  main.py -export-csv PATH-DIRECTORY
 -------------------------------------------------------+
 -------------------------------------------------------+
+Exportar N cantidad de archivos XML del directorio,
+especificado, y especificando los datos a exportar en el,
+archivo CSV:
+
+ main.py -export-xml PATH-DIRECTORY file-CSV.csv
+-------------------------------------------------------+
+-------------------------------------------------------+
 Exportar un solo archivo CSV con N cantidad de datos,
 de archivos XML del directorio especificado:
 
@@ -72,6 +79,7 @@ opcional arguments:
  -r, delete statements of account
  -rav, select days at random
  -export-csv, export multiple csv files
+ -export-xml, export multiple xml files
  -export-all, export multiple data to csv
  -compare, compares two data lists
  -merge-csv-files, exporting merged data to csv

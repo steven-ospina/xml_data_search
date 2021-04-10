@@ -136,12 +136,7 @@ class Messages:
 
     Methods:
     -------
-        print_message_yellow(message: str) -> str
-        print_message_green(message: str) -> str
-        print_message_blue(message: str) -> str
-        print_message_red(message: str) -> str
-        print_message_magenta(message: str) -> str
-        print_message_with_blue_and_yellow_colors(message_one: str, message_two: str) -> str
+        print_message_colors(*args, **kwargs) -> Union[str, List[str]]
         print_error(programmer_error_message: str, error_message_from_method: Exception) -> None
     """
     def __init__(self) -> None:
@@ -155,75 +150,6 @@ class Messages:
         self.color_end_console: str = '\033[0m'
         self.text_bold_console: str = '\33[1m'
 
-    def print_message_yellow(self, message: str) -> str:
-        """ Esté método se diseñó para poder imprimir en la terminal de color amarillo.
-
-        Args:
-            message (string): Recibe el mensaje que se va a convertir a color amarillo.
-
-        Returns:
-            str: El mensaje que envió el usuario, pero en color amarillo.
-        """
-        return f"{self.color_yellow_console}{self.text_bold_console}{message}{self.color_end_console}"
-
-    def print_message_green(self, message: str) -> str:
-        """ Esté método se diseñó para poder imprimir en la terminal de color verde.
-
-        Args:
-            message (string): Recibe el mensaje que se va a convertir a color verde.
-
-        Returns:
-            str: El mensaje que envió el usuario, pero en color verde.
-        """
-        return f"{self.color_green_console}{self.text_bold_console}{message}{self.color_end_console}"
-
-    def print_message_blue(self, message: str) -> str:
-        """ Esté método se diseñó para poder imprimir en la terminal de color azul.
-
-        Args:
-            message (string): Recibe el mensaje que se va a convertir a color azul.
-
-        Returns:
-            str: El mensaje que envió el usuario, pero en color azul.
-        """
-        return f"{self.color_blue_console}{self.text_bold_console}{message}{self.color_end_console}"
-
-    def print_message_red(self, message: str) -> str:
-        """ Esté método se diseñó para poder imprimir en la terminal de color rojo.
-
-        Args:
-            message (string): Recibe el mensaje que se va a convertir a color rojo.
-
-        Returns:
-            str: El mensaje que envió el usuario, pero en color rojo.
-        """
-        return f"{self.color_red_console}{self.text_bold_console}{message}{self.color_end_console}"
-
-    def print_message_magenta(self, message: str) -> str:
-        """ Esté método se diseñó para poder imprimir en la terminal de color magenta.
-
-        Args:
-            message (string): Recibe el mensaje que se va a convertir a color magenta.
-
-        Returns:
-            str: El mensaje que envió el usuario, pero en color magenta.
-        """
-        return f"{self.color_magenta_console}{self.text_bold_console}{message}{self.color_end_console}"
-
-    def print_message_with_blue_and_yellow_colors(self, message_one: str, message_two: str) -> str:
-        """ Esté método se diseñó para poder imprimir en la terminal de color azul y amarillo.
-
-        Args:
-            message_one (str): Recibe el mensaje que se va a convertir a color azul.
-            message_two (str): Recibe el mensaje que se va a convertir a color amarillo.
-
-        Returns:
-            str: El mensaje que envió el usuario, pero en color azul y amarillo.
-        """
-        message_one = self.print_message_blue(message=message_one)
-        message_two = self.print_message_yellow(message=message_two)
-        return f'{message_one} {message_two}'
-
     def print_messages_in_colors(self, *args, **kwargs) -> Union[str, List[str]]:
         """ Esté método se diseñó para convertir en colores los textos y luego,
             poderlos imprimir en la terminal.
@@ -233,7 +159,7 @@ class Messages:
 
         Args:
             *args (str): Texto que se va a cambiar a color.
-            **kwargs (dict): El color que se le aplicara al texto.
+            **kwargs (Dict[str]): El color que se le aplicara al texto.
         Returns:
             list: Con los textos convertidos en color que le indico el usuario.
         """

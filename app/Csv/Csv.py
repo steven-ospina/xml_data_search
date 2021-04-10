@@ -3,6 +3,8 @@ import random
 from Config import Messages
 import traceback
 
+messages = Messages()
+
 
 class Csv:
     """
@@ -14,8 +16,6 @@ class Csv:
         que se significa read.
         write_method (): Esté atributo se utiliza para guardar la palabra "w",
         que se significa write.
-        messages (class): Esté atributo se utiliza para poder instancia la,
-        clase Messages y poder invocar los métodos.
 
     Methods:
     -------
@@ -30,12 +30,10 @@ class Csv:
         """
         self.read_method: str = 'r'
         self.write_method: str = 'w'
-        self.messages = Messages()
 
-    # Método encargado de leer los datos que están en el archivo csv
     def get_csv_data_list(self, csv_file_name: str) -> list:
-        """ Este método se diseñó para poder leer los archivo csv y poder guadar los número de estados de cuenta,
-            en una lista.
+        """ Este método se diseñó para poder leer los archivo csv y poder guardar,
+            los número de estados de cuenta en una lista.
 
         Args:
             csv_file_name (str): Nombre del archivo csv con el cual se esté trabajando.
@@ -50,14 +48,18 @@ class Csv:
                 return data_list_csv
         except Exception as error_message_when_getting_csv_data:
             print(f"uncaught exception {traceback.format_exc()}")
-            print(self.messages.print_message_yellow(message="Posible error:"))
-            print(self.messages.print_message_yellow(message="* El archivo no esté en el directorio que le especificaste."))
-            print(self.messages.print_message_yellow(message="* El archivo no es el correcto."))
-            print(self.messages.print_error(
+            print_possible_errors = messages.print_messages_in_colors(
+                "Posible error:",
+                "* El archivo no esté en el directorio que le especificaste.",
+                "* El archivo no es el correcto.",
+                color='yellow')
+            print(f"{print_possible_errors[0]}\n"
+                  f"{print_possible_errors[1]}\n"
+                  f"{print_possible_errors[2]}\n")
+            print(messages.print_error(
                 programmer_error_message=f"No se pudo cargar los datos del archivo csv > {csv_file_name}",
                 error_message_from_method=error_message_when_getting_csv_data))
 
-    # Método para exportar los estados de cuenta a un archivo csv
     def export_data_csv(self, data_list_xml: list, csv_file_name: str) -> None:
         """ Este método se diseñó para poder exportar todos números de estados de cuenta que estén en archivo xml.
 
@@ -71,11 +73,12 @@ class Csv:
                 [csv_writer.writerow([data]) for data in data_list_xml]
         except Exception as error_message_when_exporting_csv_data:
             print(f"uncaught exception {traceback.format_exc()}")
-            print(self.messages.print_error(
+            print(messages.print_error(
                 programmer_error_message=f"Error al exportar los datos xml al archivo > {csv_file_name}",
                 error_message_from_method=error_message_when_exporting_csv_data))
 
-    def select_random_item(self, list_data: list) -> list:
+    @staticmethod
+    def select_random_item(list_data: list) -> list:
         """ Este método se diseñó para genera datos aleatorio de una lista que recibe.
 
         Args:
@@ -101,7 +104,6 @@ class Csv:
             while flag:
                 random_value = self.select_random_item(list_data=data_list_csv)
                 split_value = random_value.split(";")
-
                 if int(split_value[1]) > 0:
                     print(f"{split_value[0]} | {split_value[1]}")
                     count += 1
@@ -110,11 +112,12 @@ class Csv:
                     print("\n")
         except TypeError as error_message_select_random_days:
             print(f"uncaught exception {traceback.format_exc()}")
-            print(self.messages.print_error(
-                programmer_error_message=f"Error al intertar seleccionar los días de mora",
+            print(messages.print_error(
+                programmer_error_message=f"Error al intentar seleccionar los días de mora.",
                 error_message_from_method=error_message_select_random_days))
 
-    def compare_lists_of_data(self, master_list: list, data_list_two: list) -> list:
+    @staticmethod
+    def compare_lists_of_data(master_list: list, data_list_two: list) -> list:
         """ Este método se diseñó para comparar dos listas de datos y retornar los datos duplicados.
 
         Args:
@@ -127,7 +130,7 @@ class Csv:
         try:
             search = [value for value in master_list if value in data_list_two]
             return search
-        except Exception as error_comparasion_of_list:
-            print(self.messages.print_error(
+        except Exception as error_in_comparing_lists:
+            print(messages.print_error(
                 programmer_error_message="Al compara la lista de datos",
-                error_message_from_method=error_comparasion_of_list))
+                error_message_from_method=error_in_comparing_lists))

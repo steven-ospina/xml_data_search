@@ -48,6 +48,7 @@ class Menu:
     def menu(self) -> None:
         """ Este método se diseñó para cargar el menú que tiene la aplicación.
         """
+        self.print_message()
         while self._flag:
             print('[1]Cargar datos csv y xml')
             print('[2]Buscar datos en estados de cuenta')
@@ -132,19 +133,22 @@ class Menu:
             arg_list (list): Recibe una lista con los nombres de los archivos CSV y XML,
             que se agregaron por argumentos de la aplicación.
         """
+        csv_file = arg_list[0]
+        xml_file = arg_list[1]
+        new_xml_file = arg_list[2]
         print(messages.print_messages_in_colors('Archivos agregados:', color='blue'))
-        print(f"└──>CSV → {messages.print_messages_in_colors(basename(path_dir=arg_list[1]), color='yellow')}")
-        print(f"└──>XML → {messages.print_messages_in_colors(basename(path_dir=arg_list[2]), color='green')}")
+        print(f"└──>CSV → {messages.print_messages_in_colors(basename(path_dir=csv_file), color='yellow')}")
+        print(f"└──>XML → {messages.print_messages_in_colors(basename(path_dir=xml_file), color='green')}")
         print("└──>Name of the new xml file → "
-              f"{messages.print_messages_in_colors(basename(path_dir=arg_list[3]), color='magenta')}\n")
-        csv_list = csv.get_csv_data_list(csv_file_name=arg_list[1])
+              f"{messages.print_messages_in_colors(basename(path_dir=new_xml_file), color='magenta')}\n")
+        csv_list = csv.get_csv_data_list(csv_file_name=csv_file)
         total_list_csv = len(csv_list)
         print_info_csv = messages.print_messages_in_colors(
             "Total datos en archivo csv:",
             str(total_list_csv), color1='blue', color2='yellow')
         print(print_info_csv[0], print_info_csv[1])
-        xml.check_and_format_xml(xml_file_name=arg_list[2])
-        xml_list = xml.get_xml_data_list(xml_file_name=arg_list[2])
+        xml.check_and_format_xml(xml_file_name=xml_file)
+        xml_list = xml.get_xml_data_list(xml_file_name=xml_file)
         total_list_xml = len(xml_list)
         print_info_xml = messages.print_messages_in_colors(
             "Total datos en archivo xml:",
@@ -159,8 +163,8 @@ class Menu:
             str(total_list_index), color1='blue', color2='yellow')
         print(print_info_index[0], print_info_index[1])
         total_data = xml.build_xml(
-            xml_file_name=arg_list[2],
-            name_of_the_new_xml_file=arg_list[3],
+            xml_file_name=xml_file,
+            name_of_the_new_xml_file=new_xml_file,
             data_index_xml=xml_index)
         print_info_copy = messages.print_messages_in_colors(
             "Total datos copiados:",
@@ -175,9 +179,10 @@ class Menu:
         Args:
             arg_list (list): Recibe una lista con el nombre del archivo xml y poder dar formato.
         """
+        xml_file = arg_list[0]
         print(messages.print_messages_in_colors("Archivo agregado para formatear:", color='blue'))
-        print(f"└──> → {messages.print_messages_in_colors(basename(path_dir=arg_list[2]), color='green')}")
-        xml.check_and_format_xml(xml_file_name=arg_list[2])
+        print(f"└──>XML → {messages.print_messages_in_colors(basename(path_dir=xml_file), color='green')}")
+        xml.check_and_format_xml(xml_file_name=xml_file)
 
     @staticmethod
     def export_data_csv_arguments(arg_list: list) -> None:
@@ -187,16 +192,18 @@ class Menu:
         Args:
             arg_list (list): Recibe una lista con los nombres de los archivos XML y CSV.
         """
+        xml_file = arg_list[0]
+        csv_file = arg_list[1]
         print(messages.print_messages_in_colors("Archivos agregados:", color='blue'))
-        print(f"└──>xml → {messages.print_messages_in_colors(basename(path_dir=arg_list[2]), color='yellow')}")
-        print(f"└──>CSV → {messages.print_messages_in_colors(basename(path_dir=arg_list[3]), color='green')}")
-        xml.check_and_format_xml(xml_file_name=arg_list[2])
-        xml_list = xml.get_xml_data_list(xml_file_name=arg_list[2])
+        print(f"└──>xml → {messages.print_messages_in_colors(basename(path_dir=csv_file), color='yellow')}")
+        print(f"└──>CSV → {messages.print_messages_in_colors(basename(path_dir=xml_file), color='green')}")
+        xml.check_and_format_xml(xml_file_name=xml_file)
+        xml_list = xml.get_xml_data_list(xml_file_name=xml_file)
         print_info_xml = messages.print_messages_in_colors(
             "Total estados de cuenta xml: ",
             str(len(xml_list)), color1='blue', color2='yellow')
         print(print_info_xml[0], print_info_xml[1])
-        csv.export_data_csv(data_list_xml=xml_list, csv_file_name=arg_list[3])
+        csv.export_data_csv(data_list_xml=xml_list, csv_file_name=csv_file)
 
     @staticmethod
     def export_csv_data_united(arg_list: list) -> None:
@@ -207,18 +214,20 @@ class Menu:
         Args:
             arg_list (list): Recibe una lista con ruta del directorio y el nombre del archivo CSV.
         """
+        path_directory = arg_list[0]
+        csv_file = arg_list[1]
         dictionary_with_data = xml.get_data_from_several_xml_files(
-            path_of_archives=arg_list[2])
+            path_of_archives=path_directory)
         if any(dictionary_with_data):
             data_list = []
             for item_xml in dictionary_with_data:
                 key = list(item_xml.keys())[0]
                 data_list.extend(item_xml[key])
 
-            csv.export_data_csv(data_list_xml=data_list, csv_file_name=arg_list[3])
+            csv.export_data_csv(data_list_xml=data_list, csv_file_name=csv_file)
             print_info = messages.print_messages_in_colors(
                 "\nDatos agregados al archivo →",
-                arg_list[3], color1='blue', color2='yellow')
+                csv_file, color1='blue', color2='yellow')
             print(print_info[0], print_info[1])
             print_total = messages.print_messages_in_colors(
                 "Total datos →",
@@ -236,7 +245,8 @@ class Menu:
         Args:
             arg_list (list): Recibe una lista con ruta del directorio.
         """
-        list_of_data = xml.get_data_from_several_xml_files(path_of_archives=arg_list[2])
+        path_directory = arg_list[0]
+        list_of_data = xml.get_data_from_several_xml_files(path_of_archives=path_directory)
         if any(list_of_data):
             for item_xml in list_of_data:
                 key = list(item_xml.keys())[0]
@@ -259,10 +269,12 @@ class Menu:
         Args:
             arg_list (list): Recibe una lista con el directorio y archivo CSV con los datos a buscar.
         """
+        path_directory = arg_list[0]
+        csv_file = arg_list[1]
         dictionary_with_data = xml.get_data_from_several_xml_files(
-            path_of_archives=arg_list[2],
+            path_of_archives=path_directory,
             add_path_to_data=True)
-        lista_csv = csv.get_csv_data_list(csv_file_name=arg_list[3])
+        lista_csv = csv.get_csv_data_list(csv_file_name=csv_file)
         if any(dictionary_with_data):
             print_info_total = messages.print_messages_in_colors(
                 "\nTotal datos del archivo csv a copiar →",
@@ -310,8 +322,10 @@ class Menu:
             arg_list (list): Recibe una lista con ruta del directorio y el nombre del archivo CSV,
             que va a almacenar los datos.
         """
+        path_directory = arg_list[0]
+        csv_file = arg_list[1]
         file_list_in_directory = config.get_the_current_working_directory(
-            path_dir=arg_list[2])
+            path_dir=path_directory)
         csv_file_list = [value for value in file_list_in_directory if value.endswith('.csv')]
         if any(csv_file_list):
             join_data = []
@@ -323,10 +337,10 @@ class Menu:
                 csv_list = csv.get_csv_data_list(csv_file_name=item_csv)
                 join_data.extend(csv_list)
 
-            csv.export_data_csv(data_list_xml=join_data, csv_file_name=arg_list[3])
+            csv.export_data_csv(data_list_xml=join_data, csv_file_name=csv_file)
             print_info = messages.print_messages_in_colors(
                 "Datos agregados al archivo →",
-                str(arg_list[3]), color1='blue', color2='yellow')
+                str(csv_file), color1='blue', color2='yellow')
             print(print_info[0], print_info[1])
             print_info_data = messages.print_messages_in_colors(
                 "Total datos →",
@@ -334,7 +348,7 @@ class Menu:
             print(print_info_data[0], print_info_data[1])
         else:
             print(messages.print_messages_in_colors(
-                f"No hay archivos CSV en el directorio → {arg_list[2]}", color='yellow'))
+                f"No hay archivos CSV en el directorio → {path_directory}", color='yellow'))
 
     @staticmethod
     def search_data_with_parameters(arg_list: list) -> None:
@@ -345,9 +359,11 @@ class Menu:
         Args:
             arg_list (list): Recibe una lista con la ruta del directorio y el dato a buscar.
         """
-        lista_filtrad = xml.recursive_filter_by_xml_files(path_of_archives=arg_list[2])
-        print(messages.print_messages_in_colors(f"Buscando dato: {arg_list[3]}", color='yellow'))
-        search = xml.filter_data_in_xml_files(search=arg_list[3], list_of_the_file_paths=lista_filtrad)
+        path_directory = arg_list[0]
+        search_data = arg_list[1]
+        lista_filtrad = xml.recursive_filter_by_xml_files(path_of_archives=path_directory)
+        print(messages.print_messages_in_colors(f"Buscando dato: {search_data}", color='yellow'))
+        search = xml.filter_data_in_xml_files(search=search_data, list_of_the_file_paths=lista_filtrad)
         if search is not None:
             [print(f'► {value} → {search[value]}') for value in search]
         else:
@@ -363,15 +379,17 @@ class Menu:
             arg_list (list): Recibe dos listas con los datos que se van a comparar y el nombre,
             del archivo que se va a exportar.
         """
+        master_csv_file = arg_list[0]
+        csv_file = arg_list[1]
         print(messages.print_messages_in_colors("Archivos agregados:", color='blue'))
-        print(f"└─>CSV-MASTER → {messages.print_messages_in_colors(basename(arg_list[2]), color='green')}")
-        csv_list_master = csv.get_csv_data_list(csv_file_name=arg_list[3])
+        print(f"└─>CSV-MASTER → {messages.print_messages_in_colors(basename(master_csv_file), color='green')}")
+        csv_list_master = csv.get_csv_data_list(csv_file_name=master_csv_file)
         print_total_master = messages.print_messages_in_colors(
             "└──>Total datos:",
             str(len(csv_list_master)), color1='blue', color2='yellow')
         print(print_total_master[0], print_total_master[1])
-        print(f"└─>CSV-compare → {messages.print_messages_in_colors(basename(arg_list[3]), color='yellow')}")
-        csv_list_two = csv.get_csv_data_list(csv_file_name=arg_list[2])
+        print(f"└─>CSV-compare → {messages.print_messages_in_colors(basename(csv_file), color='yellow')}")
+        csv_list_two = csv.get_csv_data_list(csv_file_name=csv_file)
         print_total_csv = messages.print_messages_in_colors(
             "└──>Total datos:",
             str(len(csv_list_two)), color1='blue', color2='yellow')
@@ -395,17 +413,19 @@ class Menu:
         Args:
             arg_list (list): Recibe una lista con los nombres de los archivos XML y CSV.
         """
+        csv_file = arg_list[0]
+        xml_file = arg_list[1]
         print(messages.print_messages_in_colors("Archivos agregados:", color='blue'))
-        print(f"└──>CSV → {messages.print_messages_in_colors(basename(path_dir=arg_list[2]), color='green')}")
-        print(f"└──>XML → {messages.print_messages_in_colors(basename(path_dir=arg_list[3]), color='yellow')}\n")
-        csv_list = csv.get_csv_data_list(csv_file_name=arg_list[2])
+        print(f"└──>CSV → {messages.print_messages_in_colors(basename(path_dir=csv_file), color='green')}")
+        print(f"└──>XML → {messages.print_messages_in_colors(basename(path_dir=xml_file), color='yellow')}\n")
+        csv_list = csv.get_csv_data_list(csv_file_name=csv_file)
         total_list_csv = len(csv_list)
         print_total_to_delete = messages.print_messages_in_colors(
             "Total datos csv a eliminar:",
             str(total_list_csv), color1='blue', color2='yellow')
         print(print_total_to_delete[0], print_total_to_delete[1])
-        xml.check_and_format_xml(xml_file_name=arg_list[3])
-        xml_list = xml.get_xml_data_list(xml_file_name=arg_list[3])
+        xml.check_and_format_xml(xml_file_name=xml_file)
+        xml_list = xml.get_xml_data_list(xml_file_name=xml_file)
         total_list_xml = len(xml_list)
         print_total_xml = messages.print_messages_in_colors(
             "Total estados de cuenta xml:",
@@ -420,7 +440,7 @@ class Menu:
             str(total_list_index), color1='blue', color2='yellow')
         print(print_total_index[0], print_total_index[1])
         total_data_removed = xml.remove_xml_values(
-            xml_file_name=arg_list[3],
+            xml_file_name=xml_file,
             data_index_xml=xml_index)
         print_total_removed = messages.print_messages_in_colors(
             "Total datos eliminados:",
@@ -436,11 +456,12 @@ class Menu:
             número de días a buscar.
         """
         try:
+            csv_file = arg_list[0]
+            iterations = int(arg_list[1])
             print(messages.print_messages_in_colors("Archivo agregado:", color='blue'))
-            print(f"└──>CSV → {messages.print_messages_in_colors(basename(path_dir=arg_list[2]), color='magenta')}")
-            iterations = int(arg_list[3])
+            print(f"└──>CSV → {messages.print_messages_in_colors(basename(path_dir=csv_file), color='magenta')}")
             print(f"└──>Iterations → {messages.print_messages_in_colors(str(iterations), color='yellow')}\n")
-            csv_list = csv.get_csv_data_list(csv_file_name=arg_list[2])
+            csv_list = csv.get_csv_data_list(csv_file_name=csv_file)
             print_total_csv = messages.print_messages_in_colors(
                 "Total datos en archivo csv:",
                 f'{str(len(csv_list))}\n', color1='blue', color2='yellow')

@@ -41,9 +41,7 @@ class Config:
         Returns:
             list: Una lista con los nombres de los archivos del directorio donde se llame la aplicación.
         """
-        os.chdir(path_dir)
-        cwd = os.getcwd()
-        list_files = os.listdir(cwd)
+        list_files = os.listdir(path_dir)
         return list_files
 
     @classmethod
@@ -58,7 +56,7 @@ class Config:
         try:
             filename_yaml: str = 'configXML.yaml'
             basedir = cls.get_base_dir()
-            file_list_in_directory = os.listdir(basedir)
+            file_list_in_directory = cls.get_the_current_working_directory(basedir)
             search_yaml_file = [value for value in file_list_in_directory if value == filename_yaml]
             path_yaml = os.path.join(basedir, filename_yaml)
             if any(search_yaml_file):

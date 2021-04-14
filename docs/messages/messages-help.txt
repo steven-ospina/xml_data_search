@@ -71,15 +71,3 @@ que le indique
 position of arguments:
  main.py -sd PATH-DIRECTORY DATA-TO_SEARCH
  -------------------------------------------------------+
-
-opcional arguments:
- -h, --help  display this help message
- -f, format xml files
- -e, export account statement numbers to csv
- -r, delete statements of account
- -rav, select days at random
- -export-csv, export multiple csv files
- -export-xml, export multiple xml files
- -export-all, export multiple data to csv
- -compare, compares two data lists
- -merge-csv-files, exporting merged data to csv

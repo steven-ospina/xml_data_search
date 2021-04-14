@@ -1,53 +1,139 @@
+from inspect import signature
+from typing import Optional, List
 from app.Menu.Menu import Menu
-from sys import argv
+import argparse
+
+menu = Menu()
 
 
-def run():
-    """Está función está diseñada y encargada de correr la aplicación.
+class StartApp:
+    """ Clase para iniciar la aplicación.
     """
-    flag_format: str = "-f"
-    flag_export: str = "-e"
-    flag_remove_value_in_xml: str = "-r"
-    flag_random_access_value: str = "-rav"
-    flag_export_csv_files: str = "-export-csv"
-    flag_to_export_a_single: str = "-export-all"
-    flag_export_xml_files: str = "-export-xml"
-    flag_compare_lists: str = "-compare"
-    flag_merge_csv_files: str = "-merge-csv-files"
-    flag_search_data: str = "-sd"
-    arguments_length: int = len(argv)
 
-    menu = Menu()
+    @staticmethod
+    def get_arguments() -> dict:
+        my_parser = argparse.ArgumentParser(
+            description='Aplicación para trabajar con archivos XML y CSV',
+            epilog='Espero que con esta aplicación pueda ahorrarte tiempo.',
+            allow_abbrev=False)
 
-    if arguments_length >= 3:
-        if flag_export in argv:
-            menu.export_data_csv_arguments(arg_list=argv)
-        elif flag_export_csv_files in argv:
-            menu.exporting_multiple_csv_files(arg_list=argv)
-        elif flag_export_xml_files in argv:
-            menu.export_multiple_xml_files(arg_list=argv)
-        elif flag_to_export_a_single in argv:
-            menu.export_csv_data_united(arg_list=argv)
-        elif flag_merge_csv_files in argv:
-            menu.merge_csv_files(arg_list=argv)
-        elif flag_random_access_value in argv:
-            menu.print_random_days(arg_list=argv)
-        elif flag_compare_lists in argv:
-            menu.lists_of_data_to_compare(arg_list=argv)
-        elif flag_remove_value_in_xml in argv:
-            menu.remove_xml_values_with_arguments(arg_list=argv)
-        elif flag_format in argv:
-            menu.format_xml_with_arguments(arg_list=argv)
-        elif flag_search_data in argv:
-            menu.search_data_with_parameters(arg_list=argv)
+        my_parser.version = '1.14.15'
+        my_parser.add_argument('-version', '-v', action='version')
+        my_parser.add_argument(
+            '-clone', '-c',
+            nargs=3,
+            metavar=('CSV-FILE.csv', 'XML-FILE.xml', 'NAME-XML.xml'),
+            help="Buscara los datos que le indiquen en el CSV y lo exportara en uno nuevo archivo XML.",
+            default=False)
+        my_parser.add_argument(
+            '-format', '-f',
+            nargs=1,
+            metavar='XML-FILE.xml',
+            help="Dar formato al archivo XML.",
+            default=False)
+        my_parser.add_argument(
+            '-export', '-e',
+            nargs=2,
+            metavar=('XML-FILE.xml', 'NAME-CSV-FILE.csv'),
+            help="Exportar los datos del XML al archivo CSV que le indiquen.",
+            default=False)
+        my_parser.add_argument(
+            '-remove', '-r',
+            nargs=2,
+            metavar=('CSV-FILE.csv', 'XML-FILE.xml'),
+            help="Eliminar datos del archivo XML indicando los datos en el archivo CSV.",
+            default=False)
+        my_parser.add_argument(
+            '-random-access-value', '-rav',
+            nargs=2,
+            metavar=('CSV-FILE.csv', 'AMOUNT-TO-SELECT <- number'),
+            help="Seleccionar días de mora al azar indicando la cantidad que necesite.",
+            default=False)
+        my_parser.add_argument(
+            '-export-csv', '-ec',
+            nargs=1,
+            metavar='PATH-DIRECTORY',
+            help="Exportar los datos que tengan los archivos XML en el directorio, que le indiquen, y luego los "
+                 "exporta en archivos CSV.",
+            default=False)
+        my_parser.add_argument(
+            '-export-xml', '-ex',
+            nargs=2,
+            metavar=('PATH-DIRECTORY', 'CSV-FILE.csv'),
+            help="Exportar N cantidad de archivos XML del directorio, especificado, y especificando los datos a "
+                 "exportar en el archivo CSV.",
+            default=False)
+        my_parser.add_argument(
+            '-export-all', '-ea',
+            nargs=2,
+            metavar=('PATH-DIRECTORY', 'CSV-FILE.csv'),
+            help="Exportar un solo archivo CSV con N cantidad de datos, de archivos XML del directorio especificado.",
+            default=False)
+        my_parser.add_argument(
+            '-compare', '-C',
+            nargs=2,
+            metavar=('FIRST-CSV-FILE.csv', 'SECOND-CSV-FILE.csv'),
+            help="Comparar dos lista de datos CSV y exporta datos duplicados a archivo CSV.",
+            default=False)
+        my_parser.add_argument(
+            '-merge-csv-files', '-mcf',
+            nargs=2,
+            metavar=('PATH-DIRECTORY', 'CSV-FILE-NAME.csv'),
+            help="Unir N cantidad de archivos CSV del directorio, especificado.",
+            default=False)
+        my_parser.add_argument(
+            '-search-data', '-sd',
+            nargs=2,
+            metavar=('PATH-DIRECTORY', 'DATA-TO_SEARCH'),
+            help="Lee N cantidad de archivos XML y buscar un el dato que le indique.",
+            default=False)
+        my_parser.add_argument(
+            '-manual', '-man',
+            help="Manual que explica las pociones de los argumentos.",
+            action='store_true',
+            default=False)
+        args = my_parser.parse_args()
+        dict_args = vars(args)
+        return dict_args
+
+    @staticmethod
+    def filter_values(dictionary: dict) -> list:
+        convert_to_list = list(dictionary.values())
+        return list(filter(lambda values: values is not False, convert_to_list))
+
+    @staticmethod
+    def get_the_dictionary_key(dictionary: dict, search) -> list:
+        return [key for key, value in dictionary.items() if value == search]
+
+    @staticmethod
+    def menu_method(select_method: str, value: Optional[List[str]]) -> None:
+        choose = {
+            'clone': menu.build_xml_with_arguments,
+            'format': menu.format_xml_with_arguments,
+            'export': menu.export_data_csv_arguments,
+            'remove': menu.remove_xml_values_with_arguments,
+            'random_access_value': menu.print_random_days,
+            'export_csv': menu.exporting_multiple_csv_files,
+            'export_xml': menu.export_multiple_xml_files,
+            'export_all': menu.export_csv_data_united,
+            'compare': menu.lists_of_data_to_compare,
+            'merge_csv_files': menu.merge_csv_files,
+            'search_data': menu.search_data_with_parameters,
+            'manual': menu.print_message_help
+        }
+        select = choose.get(select_method, "Method not found.")
+        method_length = signature(select)
+        if len(method_length.parameters):
+            select(value)
         else:
-            menu.build_xml_with_arguments(arg_list=argv)
-    elif arguments_length > 1:
-        menu.print_message_help()
-    else:
-        menu.print_message()
-        menu.menu()
+            select.__call__()
 
 
 if __name__ == '__main__':
-    run()
+    get_dictionary = StartApp.get_arguments()
+    get_value = StartApp.filter_values(dictionary=get_dictionary)
+    if get_value:
+        get_key = StartApp.get_the_dictionary_key(dictionary=get_dictionary, search=get_value[0])
+        StartApp.menu_method(select_method=get_key[0], value=get_value[0])
+    else:
+        menu.menu()

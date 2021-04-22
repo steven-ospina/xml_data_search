@@ -116,8 +116,8 @@ class Xml:
             print(messages.print_messages_in_colors(
                 "Verifica que el archivo CSV que no tenga datos erróneos o desconocidos.", color='yellow'))
             print(messages.print_error(
-                programmer_error_message="Al buscar el índice en los datos XML," 
-                                         "puede ser que los datos en el CSV tengan un espacio," 
+                programmer_error_message="Al buscar el índice en los datos XML,"
+                                         "puede ser que los datos en el CSV tengan un espacio,"
                                          "o el dato no exista en el XML",
                 error_message_from_method=error_message_for_list_indexes))
 
@@ -135,7 +135,7 @@ class Xml:
             ten_million_bit = 10000000
             if file_size_in_bit > ten_million_bit:
                 print(messages.print_messages_in_colors(
-                    f"> El archivo → {basename(path_dir=xml_file_name)}" 
+                    f"> El archivo → {basename(path_dir=xml_file_name)}"
                     " es un poco pesado, puede demorarse unos segundos en crear el nuevo archivo XML.",
                     color='yellow'))
             tree = self._build_root_xml_private(xml_file_name=name_of_the_new_xml_file)
@@ -222,7 +222,7 @@ class Xml:
 
         Args:
             xml_file_name (str): Nombre del archivo XML con el que se va a trabajar.
-            data_index_xml (list): Lista de los índices de los estados de cuenta que se van a eliminar.
+            data_index_xml (list): Lista de los índices de los datos que se van a eliminar.
 
         Returns:
             int: La cantidad de datos eliminados.

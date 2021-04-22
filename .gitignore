@@ -151,7 +151,7 @@ dmypy.json
 !requirements.txt
 !docs/sample-XML.xml
 !docs/sample-CSV.csv
-!docs/sample-dias-mora.csv
+!docs/sample-key-value.csv
 !docs/messages/messages-help.txt
 datos-xml-final/
 testing-code.py

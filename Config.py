@@ -73,7 +73,8 @@ class Config:
                         'REFERENCE': './head/reference',
                         'NAME': './head/name',
                         'PRODUCT_PATH': './data/head/product',
-                        'TAG_TO_SEARCH': 'id'
+                        'TAG_TO_SEARCH': 'id',
+                        'TITLE_KEY_VALUE': 'KEY | VALUE'
                     },
                     'prod': {
                         'ROOT_XML': '',
@@ -84,7 +85,8 @@ class Config:
                         'REFERENCE': '',
                         'NAME': '',
                         'PRODUCT_PATH': '',
-                        'TAG_TO_SEARCH': ''
+                        'TAG_TO_SEARCH': '',
+                        'TITLE_KEY_VALUE': ''
                     },
                     'run': {
                         'mode': 'dev'

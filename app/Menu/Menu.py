@@ -51,7 +51,7 @@ class Menu:
         self.print_message()
         while self._flag:
             print('[1]Cargar datos csv y xml')
-            print('[2]Buscar datos en estados de cuenta')
+            print('[2]Buscar datos')
             print('[3]Escribir archivo final')
             print('[0]Salir')
             command = str(input('Que deseas hacer \n$:'))
@@ -94,7 +94,7 @@ class Menu:
                 csv_list = csv.get_csv_data_list(csv_file_name=files_name[csv_file])
                 print(f"\nTotal datos csv: {len(csv_list)}\n")
                 xml_list = xml.get_xml_data_list(xml_file_name=files_name[xml_file])
-                print(f"\nTotal estados de cuenta xml: {len(xml_list)}")
+                print(f"\nTotal datos xml: {len(xml_list)}")
 
                 data = {
                     "csv_list": csv_list,
@@ -186,7 +186,7 @@ class Menu:
 
     @staticmethod
     def export_data_csv_arguments(arg_list: list) -> None:
-        """ Este método se diseñó para exportar todos los números de estados de cuenta que están,
+        """ Este método se diseñó para exportar los datos que le indiquen que están en,
             el archivo XML que se esté trabajando y poder exportarlos a un archivo CSV.
 
         Args:
@@ -200,15 +200,15 @@ class Menu:
         xml.check_and_format_xml(xml_file_name=xml_file)
         xml_list = xml.get_xml_data_list(xml_file_name=xml_file)
         print_info_xml = messages.print_messages_in_colors(
-            "Total estados de cuenta xml: ",
+            "Total datos xml: ",
             str(len(xml_list)), color1='blue', color2='yellow')
         print(print_info_xml[0], print_info_xml[1])
         csv.export_data_csv(data_list_xml=xml_list, csv_file_name=csv_file)
 
     @staticmethod
     def export_csv_data_united(arg_list: list) -> None:
-        """ Este método se diseñó para exportar todos los números de estados de cuenta que están,
-            en los archivos XML que se esté en el directorio que se le indique y poder exportar,
+        """ Este método se diseñó para exportar los datos que le indiquen que están en,
+            los archivos XML que se esté en el directorio que se le indique y poder exportar,
             todos estos datos a un archivo CSV.
 
         Args:
@@ -238,9 +238,9 @@ class Menu:
 
     @staticmethod
     def exporting_multiple_csv_files(arg_list: list) -> None:
-        """ Este método se diseñó para exportar todos los números de estados de cuenta que están,
-            en los archivos XML que se esté en el directorio que se le indique y poder exportar,
-            todos estos datos a varios archivos CSV.
+        """ Este método se diseñó para exportar todos los datos que le indiquen que,
+            están en los archivos XML que se esté en el directorio que se le indique,
+            y poder exportar todos estos datos a varios archivos CSV.
 
         Args:
             arg_list (list): Recibe una lista con ruta del directorio.
@@ -379,35 +379,40 @@ class Menu:
             arg_list (list): Recibe dos listas con los datos que se van a comparar y el nombre,
             del archivo que se va a exportar.
         """
-        master_csv_file = arg_list[0]
-        csv_file = arg_list[1]
+        first_csv_file = arg_list[0]
+        second_csv_file = arg_list[1]
         print(messages.print_messages_in_colors("Archivos agregados:", color='blue'))
-        print(f"└─>CSV-MASTER → {messages.print_messages_in_colors(basename(master_csv_file), color='green')}")
-        csv_list_master = csv.get_csv_data_list(csv_file_name=master_csv_file)
+        print(f"└─>First-CSV → {messages.print_messages_in_colors(basename(first_csv_file), color='green')}")
+        csv_list_master = csv.get_csv_data_list(csv_file_name=first_csv_file)
         print_total_master = messages.print_messages_in_colors(
-            "└──>Total datos:",
+            "   └──>Total datos:",
             str(len(csv_list_master)), color1='blue', color2='yellow')
         print(print_total_master[0], print_total_master[1])
-        print(f"└─>CSV-compare → {messages.print_messages_in_colors(basename(csv_file), color='yellow')}")
-        csv_list_two = csv.get_csv_data_list(csv_file_name=csv_file)
+        print(f"└─>Second-CSV → {messages.print_messages_in_colors(basename(second_csv_file), color='magenta')}")
+        csv_list_two = csv.get_csv_data_list(csv_file_name=second_csv_file)
         print_total_csv = messages.print_messages_in_colors(
-            "└──>Total datos:",
+            "   └──>Total datos:",
             str(len(csv_list_two)), color1='blue', color2='yellow')
         print(print_total_csv[0], print_total_csv[1])
         duplicates = csv.compare_lists_of_data(master_list=csv_list_master, data_list_two=csv_list_two)
         if duplicates:
+            file_to_export = 'exporting-duplicates.csv'
             total_list_csv = len(duplicates)
             print_total_data = messages.print_messages_in_colors(
-                "Total datos repetidos:",
+                "\nTotal datos repetidos:",
                 str(total_list_csv), color1='blue', color2='yellow')
             print(print_total_data[0], print_total_data[1])
-            csv.export_data_csv(data_list_xml=duplicates, csv_file_name="exporting-duplicates.csv")
+            csv.export_data_csv(data_list_xml=duplicates, csv_file_name=file_to_export)
+            print_file = messages.print_messages_in_colors(
+                "Los datos duplicados se agregaron al archivo:",
+                file_to_export, color1='blue', color2='green')
+            print(print_file[0], print_file[1])
         else:
-            print(messages.print_messages_in_colors("0 Datos repetidos", color='magenta'))
+            print(messages.print_messages_in_colors("\n0 Datos repetidos", color='magenta'))
 
     @staticmethod
     def remove_xml_values_with_arguments(arg_list: list) -> None:
-        """ Este método se diseñó para poder remover los estados de cuenta que se especifiquen,
+        """ Este método se diseñó para poder remover los datos que se especifiquen,
             en el archivo csv y poder borrarlos del archivo XML.
 
         Args:
@@ -428,7 +433,7 @@ class Menu:
         xml_list = xml.get_xml_data_list(xml_file_name=xml_file)
         total_list_xml = len(xml_list)
         print_total_xml = messages.print_messages_in_colors(
-            "Total estados de cuenta xml:",
+            "Total datos xml:",
             str(total_list_xml), color1='blue', color2='yellow')
         print(print_total_xml[0], print_total_xml[1])
         xml_index = xml.search_the_index_in_the_list(
@@ -449,11 +454,11 @@ class Menu:
 
     @staticmethod
     def print_random_days(arg_list: list) -> None:
-        """ Este método se diseñó para poder seleccionar alzar los días de mora.
+        """ Este método se diseñó para poder seleccionar al azar las llaves y valores.
 
         Args:
             arg_list (list): Recibe una lista con el nombre del archivo CSV y él,
-            número de días a buscar.
+            número de datos a buscar.
         """
         try:
             csv_file = arg_list[0]
@@ -472,7 +477,7 @@ class Menu:
             print(messages.print_messages_in_colors(
                 "Posible error: puede ser que ingreso letras y no un número.", color='yellow'))
             print(messages.print_error(
-                programmer_error_message="Error al intentar imprimir los días al azar.",
+                programmer_error_message="Error al intentar imprimir las llaves y valores al azar.",
                 error_message_from_method=error_message_elect_print_random_days))
 
     @staticmethod

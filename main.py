@@ -22,32 +22,32 @@ class StartApp:
         my_parser.add_argument(
             '-clone', '-c',
             nargs=3,
-            metavar=('CSV-FILE.csv', 'XML-FILE.xml', 'NAME-XML.xml'),
+            metavar=('sample-CSV.csv', 'sample-XML.csv', 'name-of-new-XML-file.xml'),
             help="Buscara los datos que le indiquen en el CSV y lo exportara en uno nuevo archivo XML.",
             default=False)
         my_parser.add_argument(
             '-format', '-f',
             nargs=1,
-            metavar='XML-FILE.xml',
+            metavar='XML-file-to-format.xml',
             help="Dar formato al archivo XML.",
             default=False)
         my_parser.add_argument(
             '-export', '-e',
             nargs=2,
-            metavar=('XML-FILE.xml', 'NAME-CSV-FILE.csv'),
+            metavar=('sample-XML.xml', 'name-of-new-CSV-file.csv'),
             help="Exportar los datos del XML al archivo CSV que le indiquen.",
             default=False)
         my_parser.add_argument(
             '-remove', '-r',
             nargs=2,
-            metavar=('CSV-FILE.csv', 'XML-FILE.xml'),
+            metavar=('sample-CSV.csv', 'sample-XML.xml'),
             help="Eliminar datos del archivo XML indicando los datos en el archivo CSV.",
             default=False)
         my_parser.add_argument(
             '-random-access-value', '-rav',
             nargs=2,
-            metavar=('CSV-FILE.csv', 'AMOUNT-TO-SELECT <- number'),
-            help="Seleccionar días de mora al azar indicando la cantidad que necesite.",
+            metavar=('sample-key-value.csv', 'number <- int'),
+            help="Seleccionar llaves y valores al azar indicando la cantidad que necesite.",
             default=False)
         my_parser.add_argument(
             '-export-csv', '-ec',
@@ -59,26 +59,20 @@ class StartApp:
         my_parser.add_argument(
             '-export-xml', '-ex',
             nargs=2,
-            metavar=('PATH-DIRECTORY', 'CSV-FILE.csv'),
+            metavar=('PATH-DIRECTORY', 'sample-csv.csv'),
             help="Exportar N cantidad de archivos XML del directorio, especificado, y especificando los datos a "
                  "exportar en el archivo CSV.",
             default=False)
         my_parser.add_argument(
             '-export-all', '-ea',
             nargs=2,
-            metavar=('PATH-DIRECTORY', 'CSV-FILE.csv'),
+            metavar=('PATH-DIRECTORY', 'name-of-new-CSV-file.csv'),
             help="Exportar un solo archivo CSV con N cantidad de datos, de archivos XML del directorio especificado.",
-            default=False)
-        my_parser.add_argument(
-            '-compare', '-C',
-            nargs=2,
-            metavar=('FIRST-CSV-FILE.csv', 'SECOND-CSV-FILE.csv'),
-            help="Comparar dos lista de datos CSV y exporta datos duplicados a archivo CSV.",
             default=False)
         my_parser.add_argument(
             '-merge-csv-files', '-mcf',
             nargs=2,
-            metavar=('PATH-DIRECTORY', 'CSV-FILE-NAME.csv'),
+            metavar=('PATH-DIRECTORY', 'name-of-new-CSV-file.csv'),
             help="Unir N cantidad de archivos CSV del directorio, especificado.",
             default=False)
         my_parser.add_argument(
@@ -88,8 +82,14 @@ class StartApp:
             help="Lee N cantidad de archivos XML y buscar un el dato que le indique.",
             default=False)
         my_parser.add_argument(
+            '-compare', '-C',
+            nargs=2,
+            metavar=('FIRST-CSV-FILE.csv', 'SECOND-CSV-FILE.csv'),
+            help="Comparar dos lista de datos CSV y exporta datos duplicados a archivo CSV.",
+            default=False)
+        my_parser.add_argument(
             '-manual', '-man',
-            help="Manual que explica las pociones de los argumentos.",
+            help="Manual que explica las posiciones de los argumentos.",
             action='store_true',
             default=False)
         args = my_parser.parse_args()

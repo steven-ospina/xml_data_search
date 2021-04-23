@@ -1,9 +1,9 @@
 # Búsqueda de datos xml
 
 ![dependencies](https://img.shields.io/badge/python-v3.6.9-blue.svg)
-![Current Version](https://img.shields.io/badge/version-1.14.16-green.svg)
+![Current Version](https://img.shields.io/badge/version-1.14.18-green.svg)
 
-Esta aplicación se diseñó para leer archivos XML y CSV, abecés el archivo XML es muy grande y se necesita buscar N cantidad de datos que manual mente como humanos nos podemos demora mucho, con esta aplicación nos ahorramos el tiempo de formatear el archivo y buscar esos datos, además también podemos exportar un dato importante a un archivo csv, para usarlo a la necesidad del usuario.
+Esta aplicación se diseñó para leer archivos XML y CSV, abecés el archivo XML es muy grande y se necesita buscar N cantidad de datos que manual mente como humanos nos podemos demora mucho, con esta aplicación nos ahorramos el tiempo de formatear el archivo XML y buscar esos datos con el archivo CSV, además también podemos exportar datos a un archivo CSV.
 
 ## Tabla de contenido
 
@@ -13,6 +13,7 @@ Esta aplicación se diseñó para leer archivos XML y CSV, abecés el archivo XM
     - [Guía de como instalar Python 3 en Linux](#guía-de-como-instalar-python-3-en-linux)
   - [Configuración](#configuración)
     - [Archivos necesarios para trabajar con la aplicación](#archivos-necesarios-para-trabajar-con-la-aplicación)
+    - [Guía de como configurar el archivo configXML.yaml](#guía-de-como-configurar-el-archivo-configxmlyaml)
     - [Guía de como correr la aplicación con Bash](#guía-de-como-correr-la-aplicación-con-bash)
     - [Como usar la aplicación](#como-usar-la-aplicación)
     - [Listado de Comandos](#listado-de-comandos)
@@ -27,7 +28,7 @@ Para poder ejecutar el proyecto se necesita instalar **Python 3** y es recomenda
 
 Está guía te indica como instalar **Python 3** en Linux en la distribución `Ubuntu`, si ya tienes instalado **Python 3** `(Recomendable la versión 3.6.9 o superior)`, puedes ignorar esta guía:
 
-[Leer guía de como instalar Python 3 en Ubuntu](docs/guides/install-python-3.md)
+- [Leer guía de como instalar Python 3 en Ubuntu](docs/guides/install-python-3.md)
 
 ## Configuración
 
@@ -41,7 +42,7 @@ git clone https://github.com/steven-ospina/xml_data_search.git
 
 Para poder correr la aplicación, se necesita los archivos CSV y XML para que la aplicación funcione correctamente.
 
-**Estructura que debe tener el archivo XML:**
+**Estructura recomendada que debe tener el archivo XML o para probar la aplicación:**
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
@@ -58,11 +59,15 @@ Para poder correr la aplicación, se necesita los archivos CSV y XML para que la
 </root>
 ```
 
->**NOTA:** Por lo general el archivo tiene más etiquetas con más datos, pero dejo de ejemplo la etiqueta principal con la que trabaja la aplicación, para entender como funciona la búsqueda de datos.
+>**NOTA:** Por lo general el archivo tiene más etiquetas con más datos, pero dejo de ejemplo la etiquetas principales con la que trabaja la aplicación, para entender como funciona la búsqueda de datos, son datos de prueba y no debe afectar cuando va a trabajar con diferentes archivos XML, solo debes [configurar el archivo **configXML.yaml**](docs/guides/configure-configXML-file.md#configurar-el-archivo-configxmlyaml).
 
-La aplicación al momento de trabajar con el archivo XML buscará la etiqueta `<id>`, que tiene el número de estado de cuenta, que es un dato único que no se repite y con este dato podremos copiar toda la información al archivo nuevo.
+**Como se clonaría los datos a un nuevo archivo XML:**
 
-**Estructura que debe tener el archivo CSV:**
+La aplicación al momento de trabajar con el archivo XML buscará la etiqueta `<id>`, que es un dato único que no se repite y con este dato podremos copiar toda la información a un nuevo archivo XML.
+
+> **NOTA:** La etiqueta `<id>` está solo de ejemplo para entender como funciona la aplicación.
+
+**Estructura que debe tener el archivo CSV para poder clonar los datos del archivo XML:**
 
 ID |
 ------|
@@ -71,10 +76,10 @@ ID |
 98765 |
 43210 |
 
->**NOTA:** La aplicación solo lee los id, entonces el archivo CSV no debe tener ningún encabezado, si el archivo tiene encabezado o un dato de tipo string o un dato desconocido la aplicación generar un erro porque estará buscando datos o que no existen en el archivo XML o un dato erróneo.
+>**NOTA:** La aplicación solo lee los ID o datos únicos, entonces el archivo CSV no debe tener ningún encabezado, si el archivo tiene encabezado o un dato de tipo string o un dato desconocido la aplicación generar un erro porque estará buscando datos o que no existen en el archivo XML o un dato erróneo.
 >> Pongo el título **ID** para ilustrar como deben ir los datos en el archivo csv, y los datos están delimitados por un salto de línea `\n` para que la aplicación solo se encargue de leer los números.
 
-La aplicación al momento de trabajar con el archivo CSV, buscar en el archivo los id que serán buscados en el archivo XML.
+La aplicación al momento de trabajar con el archivo CSV con los ID, leerá los ID que el usuario le indico y luego buscara y clonara los datos que estén en el archivo XML.
 
 **Estructura que debe tener el archivo CSV con las llaves y valores:**
 
@@ -90,11 +95,19 @@ Llaves |Valores|
 
  **NOTA:**`En la raíz del proyecto, en la carpeta docs/, habrá archivos CSV, XML y llave-valor de ejemplo para testear la aplicación.`
 
+### Guía de como configurar el archivo configXML.yaml
+
+> **ADVERTENCIA:** Es muy importante leer esta guía, para saber como configurar el archivo `configXML.yaml`, ya que configurando este archivo la aplicación podrá trabajar correctamente y no generar errores, de lo contrario si no configuras este archivo, la aplicación no trabajara correctamente.
+
+Esta guía explica paso a paso para configurar el archivo `configXML.yaml`:
+
+- [Leer guía de como configurar el archivo **configXML.yaml**](docs/guides/configure-configXML-file.md#configurar-el-archivo-configxmlyaml)
+
 ### Guía de como correr la aplicación con Bash
 
 Está guía explica como correr la aplicación con el script de `Bash`:
 
-[Leer guía de como correr la aplicación con Bash](docs/guides/run-application-with-bash.md#correr-aplicación-con-el-archivo-de-bash)
+- [Leer guía de como correr la aplicación con Bash](docs/guides/run-application-with-bash.md)
 
 ### Como usar la aplicación
 
@@ -187,9 +200,9 @@ python3 main.py -C sample-CSV-1.csv sample-CSV-2.csv
 
 ### Guía de como funciona la aplicación
 
-Esta guía te indica a fondo como funciona la aplicación y los comandos disponibles:
+En esta guía te indica a fondo como funciona la aplicación y los comandos disponibles:
 
-[Leer guía de como funciona la aplicación y los comandos](docs/guides/application-working-guide.md#como-funcionan-los-comandos)
+- [Leer guía de como funciona la aplicación y los comandos](docs/guides/application-working-guide.md#como-funcionan-los-comandos)
 
 ## Licencia
 

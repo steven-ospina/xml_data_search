@@ -41,6 +41,14 @@ Estos comandos nos mostrar como se puede utilizar la aplicación y que comandos 
 
 Con el siguiente comando podremos exportar a un archivo XML, los datos que necesitemos del archivo XML más grande, a un XML más pequeño y con los datos que el usuario le indique.
 
+Ejemplo del directorio con el archivo XML y CSV:
+
+```bash
+directorio
+├── sample-XML.xml
+└── sample-CSV.csv
+```
+
 Para exportar los datos ejecutamos el siguiente comando:
 
 ```shell
@@ -58,6 +66,15 @@ python3 main.py -c sample-CSV.csv sample-XML.csv name-of-new-XML-file.xml
 `Posición 3 = sample-XML.csv ⟵ Archivo XML con la información que se va a copiar.`
 
 `Posición 4 = name-of-new-XML-file ⟵ Se ingresa el nombre del nuevo archivo XML.`
+
+Ejemplo de como quedaría los archivos en el directorio:
+
+```bash
+directorio
+├── sample-XML.xml
+├── sample-CSV.csv
+└── name-of-new-XML-file.xml
+```
 
 ### Comando para formatear archivos XML
 
@@ -81,6 +98,13 @@ python3 main.py -f XML-file-to-format.xml
 
 Con el siguiente comando podremos exportar los id a un archivo CSV.
 
+Ejemplo del directorio con el archivo XML:
+
+```bash
+directorio
+└── sample-XML.xml
+```
+
 Si el usuario los desea puede exportar todos los id que estén en el archivo XML a un archivo CSV, para exportarlos ejecutamos el siguiente comando:
 
 ```shell
@@ -96,6 +120,14 @@ python3 main.py -e sample-XML.xml name-of-new-CSV-file.csv
 `Posición 2 = sample-XML.xml ⟵ Archivo XML donde está la información a exportar.`
 
 `Posición 3 = name-of-new-CSV-file.csv ⟵ Se ingresa el nombre que va a tener el archivo CSV donde se va a exportar la información.`
+
+Ejemplo de como quedaría los archivos en el directorio:
+
+```bash
+directorio
+├── sample-XML.xml
+└── name-of-new-CSV-file.csv
+```
 
 ### Comando para eliminar datos del archivo XML
 
@@ -117,9 +149,18 @@ python3 main.py -r sample-CSV.csv sample-XML.csv
 
 `Posición 2 = sample-XML.csv ⟵ Archivo XML donde está la información que se va a eliminar.`
 
+**Cuando termine la aplicación de eliminar los datos verifica que se hayan eliminado los datos que le indicaste en el archivo CSV.**
+
 ### Comando para elegir las llaves y valores al azar
 
 Con el siguiente comando podremos elegir las llaves y valores al azar.
+
+Ejemplo del directorio con el archivo CSV con las llaves y valores:
+
+```bash
+directorio
+└── sample-key-value.csv
+```
 
 Si el usuario desea elegir N llaves y valores al azar, el sistema tomara un número que indique el usuario y el generar esa cantidad de llaves y valores y los imprime en consola, lo pude hacer con el siguiente comando:
 
@@ -136,6 +177,17 @@ python3 main.py -rav sample-key-value.csv number
 `Posición 3 = sample-key-value.csv ⟵ Archivo CSV con las llaves y valores que se van a seleccionar al azar.`
 
 `Posición 2 = number ⟵ Se ingresa el número que desear imprimir ejemplo: 5.`
+
+Ejemplo de como mostrara la aplicación en la terminal las llaves y valores al azar:
+
+```bash
+KEY | VALUE
+43210 | 60
+00034 | 20
+00056 | 10
+98765 | 10
+00123 | 20
+```
 
 ### Comando para exportar múltiples archivos CSV con base en datos en archivos XML
 

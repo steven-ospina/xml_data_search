@@ -23,7 +23,7 @@ class Csv:
         get_csv_data_list(csv_file_name: str) -> list
         export_data_csv(data_list_xml: list, csv_file_name: str) -> None
         select_random_item(list_data: list) -> list
-        select_days(data_list_csv: list, amount: int) -> None
+        select_keys_and_random_values(data_list_csv: list, amount: int) -> None
         compare_lists_of_data(master_list: list, data_list_two: list) -> list:
     """
     def __init__(self):
@@ -91,7 +91,7 @@ class Csv:
         random_index = random.randrange(0, len(list_data))
         return list_data[random_index]
 
-    def select_days(self, data_list_csv: list, amount: int) -> None:
+    def select_keys_and_random_values(self, data_list_csv: list, amount: int) -> None:
         """ Este método se diseñó para seleccionar las llaves y valores al azar.
 
         Args:

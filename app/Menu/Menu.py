@@ -471,7 +471,7 @@ class Menu:
                 "Total datos en archivo csv:",
                 f'{str(len(csv_list))}\n', color1='blue', color2='yellow')
             print(print_total_csv[0], print_total_csv[1])
-            csv.select_days(data_list_csv=csv_list, amount=iterations)
+            csv.select_keys_and_random_values(data_list_csv=csv_list, amount=iterations)
         except Exception as error_message_elect_print_random_days:
             print(f"uncaught exception {traceback.format_exc()}")
             print(messages.print_messages_in_colors(

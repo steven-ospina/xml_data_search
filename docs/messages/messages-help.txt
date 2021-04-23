@@ -1,34 +1,170 @@
 Descripción:
 
-Buscador de datos xml,
-Formateado de xml,
-Exportador a csv,
-Eliminador de datos en el xml
-Seleccionar días de mora al azar
+En esta parte habrá unos ejemplos de como ejecutar los comandos correctamente.
 
-Search data in xml
-position of arguments:
- main.py file-CSV.csv file-XML.xml XML-file-name.xml
+------------------------------------------------------------------------------------------+
+Clonar datos XML:
 
-xml format
-position of arguments:
- main.py -f file-XML.xml
+Posición de los argumentos:
+ main.py -clone sample-CSV.csv sample-XML.csv name-of-new-XML-file.xml
+ o
+ main.py -c sample-CSV.csv sample-XML.csv name-of-new-XML-file.xml
 
-Export xml data to csv
-position of arguments:
- main.py -e file-XML.xml file-CSV.csv
+Posición 0 = main.py ⟵ Archivo con el que se inicia la aplicación.
+Posición 1 = (-clone) o (-c) ⟵ Bandera que indica a la aplicación que se va a,
+             clonar datos a un nuevo archivo XML.
+Posición 2 = sample-CSV.csv ⟵ Archivo CSV con los datos a buscar..
+Posición 3 = sample-XML.csv ⟵ Archivo XML con la información que se va a copiar.
+Posición 4 = name-of-new-XML-file ⟵ Se ingresa el nombre del nuevo archivo XML.
+------------------------------------------------------------------------------------------+
+------------------------------------------------------------------------------------------+
+Dar Formato al archivo XML:
 
-Remove values in xml
-position of arguments:
- main.py -r file-CSV.csv file-XML.xml
+Posición de los argumentos:
+ main.py -format XML-file-to-format.xml
+ o
+ main.py -f XML-file-to-format.xml
 
-Select days at random
-position of arguments:
- main.py -rav file-CSV.csv int->number_day
+Posición 0 = main.py ⟵ Archivo con el que se inicia la aplicación.
+Posición 1 = (-format) o (-f) ⟵ Bandera que indica a la aplicación que se,
+             necesita formatear el archivo xml.
+Posición 2 = XML-file-to-format.xml ⟵ Archivo XML al que se va a formatear.
+------------------------------------------------------------------------------------------+
+------------------------------------------------------------------------------------------+
+Exportar N cantidad de datos al archivo CSV:
 
-opcional arguments:
- -h, --help  display this help message
- -f, format xml files
- -e, export account statement numbers to csv
- -r, delete statements of account
- -rav, select days at random
+Posición de los argumentos:
+ main.py -export sample-XML.xml name-of-new-CSV-file.csv
+ o
+ main.py -e sample-XML.xml name-of-new-CSV-file.csv
+
+Posición 0 = main.py ⟵ Archivo con el que se inicia la aplicación.
+Posición 1 = (-export) o (-e) ⟵ Bandera que indica a la aplicación que se necesita,
+             exportar los datos.
+Posición 2 = sample-XML.xml ⟵ Archivo XML donde está la información a exportar.
+Posición 3 = name-of-new-CSV-file.csv ⟵ Se ingresa el nombre que va a tener el archivo,
+             CSV donde se va a exportar la información.
+------------------------------------------------------------------------------------------+
+------------------------------------------------------------------------------------------+
+Eliminador de datos del archivo XML:
+
+Posición de los argumentos:
+ main.py -remove sample-CSV.csv sample-XML.xml
+ o
+ main.py -r sample-CSV.csv sample-XML.xml
+
+Posición 0 = main.py ⟵ Archivo con el que se inicia la aplicación.
+Posición 1 = (-remove) o (-r) ⟵ Bandera que indica a la aplicación que se necesita,
+             remover datos.
+Posición 3 = CSV-name.csv ⟵ Archivo CSV con los id que se necesitan eliminar.
+Posición 2 = sample-XML.xml ⟵ Archivo XML donde está la información que se va a eliminar.
+------------------------------------------------------------------------------------------+
+------------------------------------------------------------------------------------------+
+Seleccionar llaves y valores al azar:
+
+Posición de los argumentos:
+ main.py -random-access-value sample-key-value.csv (number) <- int
+ o
+ main.py -rav sample-key-value.csv (number) <- int
+
+Posición 0 = main.py ⟵ Archivo con el que se inicia la aplicación.
+Posición 1 = (-random-access-value) (-rav) ⟵ Bandera que indica a la aplicación que,
+             se van a seleccionar llaves y valores al azar.
+Posición 3 = sample-key-value.csv ⟵ Archivo CSV con las llaves y valores que se van a seleccionar,
+             al azar.
+Posición 2 = number ⟵ Se ingresa el número que desear imprimir ejemplo: 5.
+------------------------------------------------------------------------------------------+
+------------------------------------------------------------------------------------------+
+Exportar N cantidad de archivos CSV a directorio que le especifiquen, basado en múltiples,
+archivos XML:
+
+Posición de los argumentos:
+ main.py -export-csv PATH-DIRECTORY
+ o
+ main.py -ec PATH-DIRECTORY
+
+Posición 0 = main.py ⟵ Archivo con el que se inicia la aplicación.
+Posición 1 = (-export-csv) (-ec) ⟵ Bandera que indica a la aplicación que se van a,
+             exportar múltiples archivos CSV.
+Posición 2 = PATH-DIRECTORY ⟵ Se indica el directorio(carpeta) en donde estén los,
+             archivos XML, y en ese mismo directorio se crearan los archivos CSV.
+------------------------------------------------------------------------------------------+
+------------------------------------------------------------------------------------------+
+Exportar N cantidad de archivos XML del directorio especificado, y especificando los datos,
+a exportar en el archivo CSV:
+
+Posición de los argumentos:
+ main.py -export-xml PATH-DIRECTORY sample-csv.csv
+ o
+ main.py -ex PATH-DIRECTORY sample-csv.csv
+
+Posición 0 = main.py ⟵ Archivo con el que se inicia la aplicación.
+Posición 1 = (-export-xml) (-ex) ⟵ Bandera que indica a la aplicación que se van,
+             a exportar múltiples archivos XML.
+Posición 2 = PATH-DIRECTORY ⟵ Se indica el directorio(carpeta) en donde estén los,
+             archivos XML, y en ese mismo directorio se clonaran los otros archivos XML.
+Posición 3 = sample-csv.csv ⟵ Archivo CSV con los datos a buscar.
+------------------------------------------------------------------------------------------+
+------------------------------------------------------------------------------------------+
+Exportar un solo archivo CSV con N cantidad de datos de archivos XML del directorio,
+especificado:
+
+Posición de los argumentos:
+ main.py -export-all PATH-DIRECTORY name-of-new-CSV-file.csv
+ o
+ main.py -ea PATH-DIRECTORY name-of-new-CSV-file.csv
+
+Posición 0 = main.py ⟵ Archivo con el que se inicia la aplicación.
+Posición 1 = (-export-all) (-ea) ⟵ Bandera que indica a la aplicación que se van,
+             a exportar múltiples datos XML al archivo CSV.
+Posición 2 = PATH-DIRECTORY ⟵ Se indica el directorio(carpeta) en donde estén los,
+             archivos XML, y en ese mismo directorio se guardara el archivo CSV.
+Posición 3 = name-of-new-CSV-file.csv ⟵ Se ingresa el nombre que va a tener el archivo,
+             CSV donde se va a exportar la información.
+------------------------------------------------------------------------------------------+
+------------------------------------------------------------------------------------------+
+Unir N cantidad de archivos CSV del directorio especificado:
+
+Posición de los argumentos:
+ main.py -merge-csv-files PATH-DIRECTORY name-of-new-CSV-file.csv
+ o
+ main.py -mcf PATH-DIRECTORY name-of-new-CSV-file.csv
+
+Posición 0 = main.py ⟵ Archivo con el que se inicia la aplicación.
+Posición 1 = (-merge-csv-files) (-mcf) ⟵ Bandera que indica a la aplicación que se van,
+             a unir múltiples datos CSV al un solo archivo CSV.
+Posición 2 = PATH-DIRECTORY ⟵ Se indica el directorio(carpeta) en donde estén,
+             los archivos CSV, y en ese mismo directorio se guardara el archivo CSV.
+Posición 3 = name-of-new-CSV-file.csv ⟵ Se ingresa el nombre que va a tener el archivo,
+             CSV donde se va a exportar la información.
+ ------------------------------------------------------------------------------------------+
+------------------------------------------------------------------------------------------+
+Lee N cantidad de archivos XML y buscará el dato que le indique:
+
+Posición de los argumentos:
+ main.py -search-data PATH-DIRECTORY DATA-TO_SEARCH
+ o
+ main.py -sd PATH-DIRECTORY DATA-TO_SEARCH
+
+Posición 0 = main.py ⟵ Archivo con el que se inicia la aplicación.
+Posición 1 = (-search-data) (-sd) ⟵ Bandera que indica a la aplicación que se van,
+             a buscar entre múltiples archivos XML un dato que el usuario le indique.
+Posición 2 = PATH-DIRECTORY ⟵ Se indica el directorio(carpeta) en donde estén,
+             los archivos XML.
+Posición 3 = DATA-TO_SEARCH ⟵ Se ingresa el dato que se desea buscar el usuario,
+             ejemplo: 123.
+ ------------------------------------------------------------------------------------------+
+------------------------------------------------------------------------------------------+
+Comparar dos lista de datos CSV y exportará los datos duplicados a un archivo CSV:
+
+Posición de los argumentos:
+ python3 main.py -compare sample-CSV-1.csv sample-CSV-2.csv
+ o
+ python3 main.py -C sample-CSV-1.csv sample-CSV-2.csv
+
+Posición 0 = main.py ⟵ Archivo con el que se inicia la aplicación.
+Posición 1 = (-compare) (-C) ⟵ Bandera que indica a la aplicación que se van a comparar,
+             dos archivos CSV, para encontrar los datos duplicados.
+Posición 2 = sample-CSV-1.csv ⟵ Archivo CSV con la lista de datos a comparar.
+Posición 3 = sample-CSV-2.csv ⟵ Archivo CSV con la lista de datos que estén duplicados.
+------------------------------------------------------------------------------------------+

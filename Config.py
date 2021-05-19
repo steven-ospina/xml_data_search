@@ -64,37 +64,29 @@ class Config:
                     yaml_document = yaml.load(file_yaml.read())
             else:
                 yaml_document = {
-                    'dev': {
+                    'DEV': {
                         'ROOT_XML': 'root',
                         'XML_DOM_PATH': './data/head',
-                        'ID': './head/id',
-                        'NUMBER': './head/number',
-                        'PRODUCT': './head/product',
-                        'REFERENCE': './head/reference',
-                        'NAME': './head/name',
+                        'SEARCH_PARAMETERS': ['id', 'number', 'product', 'reference', 'name'],
                         'PRODUCT_PATH': './data/head/product',
                         'TAG_TO_SEARCH': 'id',
                         'TITLE_KEY_VALUE': 'KEY | VALUE'
                     },
-                    'prod': {
+                    'PROD': {
                         'ROOT_XML': '',
                         'XML_DOM_PATH': '',
-                        'ID': '',
-                        'NUMBER': '',
-                        'PRODUCT': '',
-                        'REFERENCE': '',
-                        'NAME': '',
                         'PRODUCT_PATH': '',
+                        'SEARCH_PARAMETERS': [],
                         'TAG_TO_SEARCH': '',
                         'TITLE_KEY_VALUE': ''
                     },
-                    'run': {
-                        'mode': 'dev'
+                    'RUN': {
+                        'MODE': 'DEV'
                     }
                 }
                 with open(path_yaml, 'w') as create_yaml_file:
                     yaml.dump(yaml_document, create_yaml_file, default_flow_style=False)
-            mode = yaml_document['run']['mode']
+            mode = yaml_document['RUN']['MODE']
             data = yaml_document[mode]
             return data
         except Exception as error_in_yaml_configuration:

@@ -1,3 +1,4 @@
+import sys
 import xml.etree.ElementTree as elementTree
 import xml.dom.minidom as dom
 import os
@@ -394,33 +395,38 @@ class Xml:
             dict: Retorna un diccionario con los datos encontrados.
         """
         try:
-            number = config_xml['NUMBER']
-            product = config_xml['PRODUCT']
-            name = config_xml['NAME']
-            reference = config_xml['REFERENCE']
-            user_id = config_xml['ID']
+            search_parameters = config_xml.get('SEARCH_PARAMETERS')
+            xml_dom_path = config_xml.get('XML_DOM_PATH')
             [self.check_and_format_xml(item_xml) for item_xml in list_of_the_file_paths]
             data_structure = {}
             for item in list_of_the_file_paths:
                 root = self.get_the_root_of_the_xml_file(xml_file=item)
                 data_list_xml = self.get_xml_data_list(xml_file_name=item)
-                check = search in data_list_xml
-                if check:
-                    data_index_xml = self.search_the_index_in_the_list(
-                        data_list_csv=[search],
-                        data_list_xml=data_list_xml)
-                    copy_data_from_xml_file = self._copy_root_data_from_xml_file_private(
-                        root_xml_file=root, data_index_xml=data_index_xml)
-                    for value in copy_data_from_xml_file:
-                        data_structure.update({
-                            "NÚMERO": value.find(number).text,
-                            "REFERENCIA": value.find(reference).text,
-                            "PRODUCTO": value.find(product).text,
-                            "NOMBRE": value.find(name).text,
-                            "ID": value.find(user_id).text,
-                            "XML-PATH": item
-                        })
-                    return data_structure
+                check_data = search in data_list_xml
+                if check_data:
+                    list_of_tags = [tags.tag for tags in root.findall(f"{xml_dom_path}/")]
+                    check_tags = [parameter for parameter in search_parameters if parameter not in list_of_tags]
+                    if not check_tags:
+                        data_index_xml = self.search_the_index_in_the_list(
+                            data_list_csv=[search],
+                            data_list_xml=data_list_xml)
+                        copy_data_from_xml_file = self._copy_root_data_from_xml_file_private(
+                            root_xml_file=root, data_index_xml=data_index_xml)
+                        for value in copy_data_from_xml_file:
+                            data_structure.update({key: value.find(f'.//{key}').text for key in search_parameters})
+                            data_structure.update({"XML-PATH": item})
+                        return data_structure
+                    else:
+                        print_messages = messages.print_messages_in_colors(
+                            '* Por favor verificar que la o las etiquetas en el archivo configXML.yaml:',
+                            f' {check_tags}',
+                            f' Sean iguales en el archivo {item}',
+                            color='yellow',
+                            color2='magenta',
+                            color3='yellow'
+                        )
+                        print(f'\n{print_messages[0]}\n{print_messages[1]}\n{print_messages[2]}')
+                        sys.exit()
         except Exception as error_in_filter_data_in_xml_files:
             print(f"uncaught exception {traceback.format_exc()}")
             print(error_in_filter_data_in_xml_files)

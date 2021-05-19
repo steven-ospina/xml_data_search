@@ -51,20 +51,16 @@ class Menu:
         self.print_message()
         while self._flag:
             print('[1]Cargar datos csv y xml')
-            print('[2]Buscar datos')
-            print('[3]Escribir archivo final')
             print('[0]Salir')
             command = str(input('Que deseas hacer \n$:'))
             if command == '1':
                 get_data = self.get_data_csv_and_xml()
-            elif command == '2':
                 data_index_xml = xml.search_the_index_in_the_list(
-                    data_list_csv=get_data['csv_list'], data_list_xml=get_data['xml_list'])
+                    data_list_csv=get_data.get('csv_list'), data_list_xml=get_data.get('xml_list'))
                 print(f"\nTotal indexes encontrados: {len(data_index_xml)}\n")
-            elif command == '3':
                 name_of_the_chosen_xml: str = xml.write_file_xml()
                 total_data = xml.build_xml(
-                    xml_file_name=get_data['chosen_xml_file'],
+                    xml_file_name=get_data.get('chosen_xml_file'),
                     name_of_the_new_xml_file=name_of_the_chosen_xml,
                     data_index_xml=data_index_xml)
                 print(f'Total datos copiados: {total_data}')
@@ -362,7 +358,7 @@ class Menu:
         path_directory = arg_list[0]
         search_data = arg_list[1]
         lista_filtrad = xml.recursive_filter_by_xml_files(path_of_archives=path_directory)
-        print(messages.print_messages_in_colors(f"Buscando dato: {search_data}", color='yellow'))
+        print(messages.print_messages_in_colors(f"Buscar dato: {search_data}", color='yellow'))
         search = xml.filter_data_in_xml_files(search=search_data, list_of_the_file_paths=lista_filtrad)
         if search is not None:
             [print(f'► {value} → {search[value]}') for value in search]

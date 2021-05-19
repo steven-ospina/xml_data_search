@@ -17,7 +17,7 @@ class StartApp:
             epilog='Espero que con esta aplicación pueda ahorrarte tiempo.',
             allow_abbrev=False)
 
-        my_parser.version = '1.14.18'
+        my_parser.version = '1.15.19'
         my_parser.add_argument('-version', '-v', action='version')
         my_parser.add_argument(
             '-clone', '-c',

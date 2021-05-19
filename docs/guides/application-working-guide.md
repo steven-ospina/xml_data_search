@@ -448,11 +448,11 @@ python3 main.py -sd PATH-DIRECTORY DATA-TO_SEARCH
 Ejemplo de como mostrara la aplicación en la terminal si encuentra el dato que le indico el usuario:
 
 ```shell
-► NÚMERO → 556677
-► REFERENCIA → 00001
-► PRODUCTO → product_1
-► NOMBRE → pedro
-► ID → 12345
+► id → 556677
+► number → 00001
+► product → product_1
+► name → pedro
+► reference → 12345
 ► XML-PATH → ./2/sample-XML-3.xml
 ```
 

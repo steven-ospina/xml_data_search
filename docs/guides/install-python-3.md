@@ -82,10 +82,15 @@ Está aplicación utiliza librerías que vienen instaladas por defecto con pytho
 
 ```python
 import os
-import xml.etree.ElementTree
-import xml.dom.minidom
+import xml.etree.ElementTree as elementTree
+import xml.dom.minidom as dom
 import csv
 import random
+import argparse
+import yaml
+import traceback
+import re
+from inspect import signature
 from sys import argv
 from copy import deepcopy
 ```

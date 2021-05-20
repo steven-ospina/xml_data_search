@@ -94,8 +94,6 @@ Ejemplo de como definir las rutas:
 
 ```yaml
 ROOT_XML: root
-# Otra forma de definir la ruta sería con un puto:
-ROOT_XML: .
 ```
 
 ### SEARCH_PARAMETERS

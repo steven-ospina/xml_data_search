@@ -7,6 +7,7 @@ En la raíz del proyecto hay un archivo llamado `script.sh`, con este archivo po
 - [Correr aplicación con el archivo de Bash](#correr-aplicación-con-el-archivo-de-bash)
   - [Tabla de contenido](#tabla-de-contenido)
   - [Configurar las variables de entorno](#configurar-las-variables-de-entorno)
+    - [Agregar permiso de ejecución](#agregar-permiso-de-ejecución)
     - [Configurar .bashrc_aliases o .zshrc_aliases](#configurar-bashrc_aliases-o-zshrc_aliases)
     - [Ejemplos de como utilizar la aplicación con Bash](#ejemplos-de-como-utilizar-la-aplicación-con-bash)
 
@@ -35,6 +36,14 @@ PATH_SCRIPT="/home/USER-linux/ruta-donde-clonó-el-repositorio/xml_data_search/m
 > Al final de la ruta debemos poner nombre del archivo `main.py` para que él `script.sh` pueda saber como ejecutar la aplicación
 
 Ya con la variable de entorno definida procedemos configurar el `script.sh` para que el sistema lo pueda leer en cualquier parte del sistema.
+
+### Agregar permiso de ejecución
+
+Al archivo `script.sh` se le debe agregar el permiso de ejecución, para que se pueda ejecutar, para agregar el permiso ejecutamos el siguiente comando:
+
+```sh
+chmod +x script.sh
+```
 
 ### Configurar .bashrc_aliases o .zshrc_aliases
 

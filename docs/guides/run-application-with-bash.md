@@ -108,9 +108,9 @@ script-search-xml --man
 script-search-xml --manual
 
 # Con este comando podrás clonar los datos XML a uno nuevo:
-script-search-xml -clone sample-CSV.csv sample-XML.csv name-of-new-XML-file.xml
+script-search-xml -clone sample-CSV.csv sample-XML.xml name-of-new-XML-file.xml
 o
-script-search-xml -c sample-CSV.csv sample-XML.csv name-of-new-XML-file.xml
+script-search-xml -c sample-CSV.csv sample-XML.xml name-of-new-XML-file.xml
 
 # Con este comando podrás formatear los archivos XML:
 script-search-xml -format XML-file-to-format.xml

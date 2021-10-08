@@ -6,15 +6,15 @@ En esta parte habrá unos ejemplos de como ejecutar los comandos correctamente.
 Clonar datos XML:
 
 Posición de los argumentos:
- main.py -clone sample-CSV.csv sample-XML.csv name-of-new-XML-file.xml
+ main.py -clone sample-CSV.csv sample-XML.xml name-of-new-XML-file.xml
  o
- main.py -c sample-CSV.csv sample-XML.csv name-of-new-XML-file.xml
+ main.py -c sample-CSV.csv sample-XML.xml name-of-new-XML-file.xml
 
 Posición 0 = main.py ⟵ Archivo con el que se inicia la aplicación.
 Posición 1 = (-clone) o (-c) ⟵ Bandera que indica a la aplicación que se va a,
              clonar datos a un nuevo archivo XML.
 Posición 2 = sample-CSV.csv ⟵ Archivo CSV con los datos a buscar..
-Posición 3 = sample-XML.csv ⟵ Archivo XML con la información que se va a copiar.
+Posición 3 = sample-XML.xml ⟵ Archivo XML con la información que se va a copiar.
 Posición 4 = name-of-new-XML-file ⟵ Se ingresa el nombre del nuevo archivo XML.
 ------------------------------------------------------------------------------------------+
 ------------------------------------------------------------------------------------------+

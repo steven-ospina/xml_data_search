@@ -17,12 +17,12 @@ class StartApp:
             epilog='Espero que con esta aplicación pueda ahorrarte tiempo.',
             allow_abbrev=False)
 
-        my_parser.version = '1.15.19'
+        my_parser.version = '1.15.20'
         my_parser.add_argument('-version', '-v', action='version')
         my_parser.add_argument(
             '-clone', '-c',
             nargs=3,
-            metavar=('sample-CSV.csv', 'sample-XML.csv', 'name-of-new-XML-file.xml'),
+            metavar=('sample-CSV.csv', 'sample-XML.xml', 'name-of-new-XML-file.xml'),
             help="Buscara los datos que le indiquen en el CSV y lo exportara en uno nuevo archivo XML.",
             default=False)
         my_parser.add_argument(

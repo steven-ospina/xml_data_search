@@ -52,9 +52,9 @@ directorio
 Para exportar los datos ejecutamos el siguiente comando:
 
 ```shell
-python3 main.py -clone sample-CSV.csv sample-XML.csv name-of-new-XML-file.xml
+python3 main.py -clone sample-CSV.csv sample-XML.xml name-of-new-XML-file.xml
 
-python3 main.py -c sample-CSV.csv sample-XML.csv name-of-new-XML-file.xml
+python3 main.py -c sample-CSV.csv sample-XML.xml name-of-new-XML-file.xml
 ```
 
 `Posición 0 = main.py ⟵ Archivo con el que se inicia la aplicación.`
@@ -63,7 +63,7 @@ python3 main.py -c sample-CSV.csv sample-XML.csv name-of-new-XML-file.xml
 
 `Posición 2 = sample-CSV.csv ⟵ Archivo CSV con los datos a buscar.`
 
-`Posición 3 = sample-XML.csv ⟵ Archivo XML con la información que se va a copiar.`
+`Posición 3 = sample-XML.xml ⟵ Archivo XML con la información que se va a copiar.`
 
 `Posición 4 = name-of-new-XML-file ⟵ Se ingresa el nombre del nuevo archivo XML.`
 
@@ -147,7 +147,7 @@ python3 main.py -r sample-CSV.csv sample-XML.csv
 
 `Posición 3 = CSV-name.csv ⟵ Archivo CSV con los id que se necesitan eliminar.`
 
-`Posición 2 = sample-XML.csv ⟵ Archivo XML donde está la información que se va a eliminar.`
+`Posición 2 = sample-XML.xml ⟵ Archivo XML donde está la información que se va a eliminar.`
 
 **Cuando termine la aplicación de eliminar los datos verifica que se hayan eliminado los datos que le indicaste en el archivo CSV.**
 

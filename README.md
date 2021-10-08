@@ -131,9 +131,9 @@ python3 main.py --man
 python3 main.py --manual
 
 # Con este comando podrás clonar los datos XML a uno nuevo:
-python3 main.py -clone sample-CSV.csv sample-XML.csv name-of-new-XML-file.xml
+python3 main.py -clone sample-CSV.csv sample-XML.xml name-of-new-XML-file.xml
 o
-python3 main.py -c sample-CSV.csv sample-XML.csv name-of-new-XML-file.xml
+python3 main.py -c sample-CSV.csv sample-XML.xml name-of-new-XML-file.xml
 
 # Con este comando podrás formatear los archivos XML:
 python3 main.py -format XML-file-to-format.xml

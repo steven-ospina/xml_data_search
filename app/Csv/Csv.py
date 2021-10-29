@@ -101,15 +101,19 @@ class Csv:
         try:
             flag = True
             count = 0
+            collection_of_values = []
             print(config['TITLE_KEY_VALUE'])
             while flag:
                 random_value = self.select_random_item(list_data=data_list_csv)
                 split_value = random_value.split(";")
                 if int(split_value[1]) > 0:
                     print(f"{split_value[0]} | {split_value[1]}")
+                    collection_of_values.append(split_value[0])
                     count += 1
                 if count == amount:
                     flag = False
+                    print("\n")
+                    print(', '.join(collection_of_values))
                     print("\n")
         except TypeError as error_message_select_random_days:
             print(f"uncaught exception {traceback.format_exc()}")

@@ -60,7 +60,7 @@ class Config:
             path_yaml = os.path.join(basedir, filename_yaml)
             if any(search_yaml_file):
                 with open(path_yaml) as file_yaml:
-                    yaml_document = yaml.load(file_yaml.read())
+                    yaml_document = yaml.safe_load(file_yaml.read())
             else:
                 yaml_document = {
                     'DEV': {
@@ -85,7 +85,7 @@ class Config:
                 }
                 with open(path_yaml, 'w') as create_yaml_file:
                     yaml.dump(yaml_document, create_yaml_file, default_flow_style=False)
-            mode = yaml_document['RUN']['MODE']
+            mode = yaml_document.get('RUN').get('MODE')
             data = yaml_document[mode]
             return data
         except Exception as error_in_yaml_configuration:

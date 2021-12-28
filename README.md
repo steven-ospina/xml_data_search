@@ -1,7 +1,7 @@
 # Búsqueda de datos xml
 
 ![dependencies](https://img.shields.io/badge/python-v3.6.9-blue.svg)
-![Current Version](https://img.shields.io/badge/version-1.15.19-green.svg)
+![Current Version](https://img.shields.io/badge/version-1.16.21-green.svg)
 
 Esta aplicación se diseñó para leer archivos XML y CSV, abecés el archivo XML es muy grande y se necesita buscar N cantidad de datos que manual mente como humanos nos podemos demora mucho, con esta aplicación nos ahorramos el tiempo de formatear el archivo XML y buscar esos datos con el archivo CSV, además también podemos exportar datos a un archivo CSV.
 
@@ -26,7 +26,7 @@ Para poder ejecutar el proyecto se necesita instalar **Python 3** y es recomenda
 
 ### Guía de como instalar Python 3 en Linux
 
-Está guía te indica como instalar **Python 3** en Linux en la distribución `Ubuntu`, si ya tienes instalado **Python 3** `(Recomendable la versión 3.6.9 o superior)`, puedes ignorar esta guía:
+Esta guía te indica como instalar **Python 3** en Linux en la distribución `Ubuntu`, si ya tienes instalado **Python 3** `(Recomendable la versión 3.6.9 o superior)`, puedes ignorar esta guía:
 
 - [Leer guía de como instalar Python 3 en Ubuntu](docs/guides/install-python-3.md)
 
@@ -194,6 +194,12 @@ python3 main.py -sd PATH-DIRECTORY DATA-TO_SEARCH
 python3 main.py -compare sample-CSV-1.csv sample-CSV-2.csv
 o
 python3 main.py -C sample-CSV-1.csv sample-CSV-2.csv
+
+# Con este comando podrás comparar dos lista de datos CSV,
+# y imprimir en pantalla los polizones:
+python3 main.py -stowaway sample-CSV-1.csv sample-CSV-2.csv
+o
+python3 main.py -s sample-CSV-1.csv sample-CSV-2.csv
 ```
 
 > **NOTA:** en caso de que quieras saber como funciona cada comando, recomiendo [leer la guía de como funciona la aplicación y cada uno de los comandos.](docs/guides/application-working-guide.md#como-funcionan-los-comandos)

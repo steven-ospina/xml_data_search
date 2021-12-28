@@ -171,4 +171,10 @@ script-search-xml -sd PATH-DIRECTORY DATA-TO_SEARCH
 script-search-xml -compare sample-CSV-1.csv sample-CSV-2.csv
 o
 script-search-xml -C sample-CSV-1.csv sample-CSV-2.csv
+
+# Con este comando podrás comparar dos lista de datos CSV,
+# y imprimir en pantalla los polizones:
+script-search-xml -stowaway sample-CSV-1.csv sample-CSV-2.csv
+o
+script-search-xml -s sample-CSV-1.csv sample-CSV-2.csv
 ```

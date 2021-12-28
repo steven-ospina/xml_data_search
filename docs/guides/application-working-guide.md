@@ -35,7 +35,7 @@ o
 python3 main.py -manual
 ```
 
-Estos comandos nos mostrar como se puede utilizar la aplicación y que comandos recibe.
+Estos comandos nos muestra como se puede utilizar la aplicación y que comandos recibe.
 
 ### Comando para clonar datos en archivo XML
 
@@ -252,7 +252,7 @@ directorio
 
 Con el siguiente comando podremos exportar varios archivos XML con datos del archivo CSV que estén en el directorio que le indiquen.
 
-Si el usuario necesita exportar múltiples archivos XML basado en la lista de datos que tenga el archivo CSV, digamos que en el directorio que le indiquen a la aplicación hay varios archivos XML, pero tu tienes una lista de datos en el archivo CSV, pero esto datos están en desorden, la aplicación buscara data por dato y encontrar el archivo que pertenece ese dato y los agrupara si son del mismo producto
+Si el usuario necesita exportar múltiples archivos XML basado en la lista de datos que tenga el archivo CSV, digamos que en el directorio que le indiquen a la aplicación hay varios archivos XML, pero tú tienes una lista de datos en el archivo CSV, pero esto datos están en desorden, la aplicación buscara data por dato y encontrar el archivo que pertenece ese dato y los agrupara si son del mismo producto
 
 Ejemplo del directorio con archivos XML y el archivo CSV:
 
@@ -315,7 +315,7 @@ directorio
 
 Con el siguiente comando podremos exportar múltiples datos que estén en los archivos XML a un solo archivo CSV, que estén en el directorio que le indiquen.
 
-Si el usuario necesita exportar múltiples datos, de varios archivos XML, lo puede hacer con este comando, es similar al [comando de exportar varios archivos CSV](#comando-para-exportar-múltiples-archivos-csv-con-base-en-datos-en-archivos-xml), pero con la excepción que este comando no exporta varios archivos, si no que exporta todos los datos a un solo archivo CSV, el usuario solo le debe indicar el nombre que va a tener el nombre del archivo CSV con todos los datos.
+Si el usuario necesita exportar múltiples datos, de varios archivos XML, lo puede hacer con este comando, es similar al [comando de exportar varios archivos CSV](#comando-para-exportar-múltiples-archivos-csv-con-base-en-datos-en-archivos-xml), pero con la excepción que este comando no exporta varios archivos, sino que exporta todos los datos a un solo archivo CSV, el usuario solo le debe indicar el nombre que va a tener el nombre del archivo CSV con todos los datos.
 
 Ejemplo del directorio con los archivos XML:
 
@@ -406,7 +406,7 @@ directorio
 
 ### Comando para buscar datos entre multiples archivos XML
 
-Con el siguiente comando podremos buscar un dato en especifico que necesitemos y no sabemos en que archivo XML está de los multiples archivos XML estén en el directorio que le especifiquen a la aplicación.
+Con el siguiente comando podremos buscar un dato en específico que necesitemos y no sabemos en qué archivo XML está de los multiples archivos XML estén en el directorio que le especifiquen a la aplicación.
 
 Digamos que tienes el número de `<id>12345</id>`, pero no sabes en cual de los multiples archivos XML está este datos, con el siguiente comando podrás saber en cual de los múltiples archivos XML esta este dato.
 
@@ -480,7 +480,7 @@ Y en el archivo CSV `sample-CSV-2.csv` tenemos los siguientes datos:
 |5|
 |9|
 
-La aplicación va comparar estas dos listas de datos y como ejemplo encontrara que el número `5` se repite en las dos listas, y este número lo guardara en un nuevo archivo CSV, en caso de haber más números similares, también los guardara en el archivo CSV `exporting-duplicates.csv`.
+La aplicación va a comparar estas dos listas de datos y como ejemplo encontrara que el número `5` se repite en las dos listas, y este número lo guardara en un nuevo archivo CSV, en caso de haber más números similares, también los guardara en el archivo CSV `exporting-duplicates.csv`.
 
 Para realizar este proceso ejecuta el siguiente comando:
 
@@ -504,3 +504,28 @@ Ejemplo de como mostrara la aplicación en la terminal si encuentra los datos du
 Total datos repetidos: 1
 Los datos duplicados se agregaron al archivo: exporting-duplicates.csv
 ```
+### Comando para comparar dos archivos CSV con listas de números y en encontrar al polizón
+
+Con el siguiente comando podremos comparar dos listas de datos CSV y encontrar el o los datos que están de polizones
+
+Digamos que el archivo CSV `sample-CSV-1.csv` tenemos los siguientes datos:
+
+| |
+|-|
+|55|
+|90|
+|10|
+|40|
+|1|
+
+Y en el archivo CSV `sample-CSV-2.csv` tenemos los siguientes datos:
+
+| |
+|-|
+|1|
+|55|
+|9|
+|90|
+|10|
+
+La aplicación va a comparar estas dos listas de datos y como ejemplo encontrara que el número `9`, este número lo imprime en pantalla. Un nuevo archivo CSV, en caso de haber más números similares, también los imprime en pantalla.

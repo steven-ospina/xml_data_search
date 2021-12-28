@@ -529,3 +529,26 @@ Y en el archivo CSV `sample-CSV-2.csv` tenemos los siguientes datos:
 |10|
 
 La aplicación va a comparar estas dos listas de datos y como ejemplo encontrara que el número `9`, este número lo imprime en pantalla. Un nuevo archivo CSV, en caso de haber más números similares, también los imprime en pantalla.
+
+Para realizar este proceso ejecuta el siguiente comando:
+
+```shell
+python3 main.py -stowaway sample-CSV-1.csv sample-CSV-2.csv
+o
+python3 main.py -S sample-CSV-1.csv sample-CSV-2.csv
+```
+
+`Posición 0 = main.py ⟵ Archivo con el que se inicia la aplicación.`
+
+`Posición 1 = (-stowaway) (-S) ⟵ Bandera que indica a la aplicación que se van a comparar, dos archivos CSV, para encontrar el polizón.`
+
+`Posición 2 = sample-CSV-1.csv ⟵ Archivo CSV con la lista de datos a comparar.`
+
+`Posición 3 = sample-CSV-2.csv ⟵ Archivo CSV con la lista de datos que tengan el o los polizones.`
+
+Ejemplo de como mostrara la aplicación en la terminal si encuentra los datos duplicados:
+
+```shell
+Datos encontrados:
+9
+```

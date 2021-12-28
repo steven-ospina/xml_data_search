@@ -176,5 +176,5 @@ script-search-xml -C sample-CSV-1.csv sample-CSV-2.csv
 # y imprimir en pantalla los polizones:
 script-search-xml -stowaway sample-CSV-1.csv sample-CSV-2.csv
 o
-script-search-xml -s sample-CSV-1.csv sample-CSV-2.csv
+script-search-xml -S sample-CSV-1.csv sample-CSV-2.csv
 ```

@@ -88,6 +88,12 @@ class StartApp:
             help="Comparar dos lista de datos CSV y exporta datos duplicados a archivo CSV.",
             default=False)
         my_parser.add_argument(
+            '-stowaway', '-S',
+            nargs=2,
+            metavar=('FIRST-CSV-FILE.csv', 'SECOND-CSV-FILE.csv'),
+            help="Comparar dos lista de datos CSV y imprime el o los polizones.",
+            default=False)
+        my_parser.add_argument(
             '-manual', '-man',
             help="Manual que explica las posiciones de los argumentos.",
             action='store_true',
@@ -119,6 +125,7 @@ class StartApp:
             'compare': menu.lists_of_data_to_compare,
             'merge_csv_files': menu.merge_csv_files,
             'search_data': menu.search_data_with_parameters,
+            'stowaway': menu.search_for_stowaway,
             'manual': menu.print_message_help
         }
         select = choose.get(select_method, "Method not found.")

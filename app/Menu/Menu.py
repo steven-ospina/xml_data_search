@@ -1,4 +1,5 @@
 from ..Csv.Csv import Csv
+from ..Csv.filter_stowaway import search_all_stowaways
 from ..Xml.Xml import Xml
 from Config import Messages, Config
 import os
@@ -474,6 +475,29 @@ class Menu:
                 "Posible error: puede ser que ingreso letras y no un número.", color='yellow'))
             print(messages.print_error(
                 programmer_error_message="Error al intentar imprimir las llaves y valores al azar.",
+                error_message_from_method=error_message_elect_print_random_days))
+
+    @staticmethod
+    def search_for_stowaway(arg_list: list) -> None:
+        """ Este método se diseñó para poder buscar un dato polizón que este en multiples datos.
+
+        Args:
+            arg_list (list): Recibe una lista con el nombre del archivo CSV de la BD y él archivo CSV,
+            con los números que tienen el posible polizón.
+        """
+        try:
+            csv_file_bd = arg_list[0]
+            csv_file_compare = arg_list[1]
+            print(messages.print_messages_in_colors("Archivo agregado:", color='blue'))
+            print(f"└──>CSV BD → {messages.print_messages_in_colors(basename(path_dir=csv_file_bd), color='magenta')}")
+            print(f"└──>CSV Compare → {messages.print_messages_in_colors(basename(path_dir=csv_file_compare), color='magenta')}\n")
+            search_all_stowaways(csv_file_bd, csv_file_compare)
+        except Exception as error_message_elect_print_random_days:
+            print(f"uncaught exception {traceback.format_exc()}")
+            print(messages.print_messages_in_colors(
+                "Posible error: en los datos puede haber un letra y el programa solo lee números", color='yellow'))
+            print(messages.print_error(
+                programmer_error_message="Error al intentar buscar el polizón.",
                 error_message_from_method=error_message_elect_print_random_days))
 
     @staticmethod

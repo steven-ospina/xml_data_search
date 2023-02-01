@@ -3,7 +3,7 @@
 ![dependencies](https://img.shields.io/badge/python-v3.6.9-blue.svg)
 ![Current Version](https://img.shields.io/badge/version-1.15.19-green.svg)
 
-Esta aplicación se diseñó para leer archivos XML y CSV, abecés el archivo XML es muy grande y se necesita buscar N cantidad de datos que manual mente como humanos nos podemos demora mucho, con esta aplicación nos ahorramos el tiempo de formatear el archivo XML y buscar esos datos con el archivo CSV, además también podemos exportar datos a un archivo CSV.
+Esta aplicación se diseñó para leer archivos XML y CSV, a veces el archivo XML es muy grande y se necesita buscar N cantidad de datos que manualmente como humanos nos podemos demorar mucho, con esta aplicación nos ahorramos el tiempo de formatear el archivo XML y buscar esos datos con el archivo CSV, además también podemos exportar datos a un archivo CSV.
 
 ## Tabla de contenido
 
